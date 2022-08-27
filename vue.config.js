@@ -10,8 +10,15 @@ module.exports = defineConfig({
   runtimeCompiler: true,
   lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
-    vuetify: {
-      // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
-    },
+    vuetify: {},
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableLegacy: false,
+      runtimeOnly: false,
+      compositionOnly: false,
+      fullInstall: true
+    }
   },
 });

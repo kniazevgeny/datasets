@@ -67,7 +67,7 @@ const storeOptions = {
 export const store = new Vuex.Store<State>(storeOptions)
 
 // Getters
-const getters = store.getters
+const { getters } = store
 
 export const user = () => getters.user as User | undefined
 export const snackbar = () => getters.snackbar as SnackbarState
@@ -76,9 +76,7 @@ export const language = () => getters.language as string
 export const dark = () => getters.dark as boolean
 
 // Mutations
-export const setUser = (user: {
-  language: string
-}) => {
+export const setUser = (user: { language: string }) => {
   store.commit('setUser', user)
 }
 export const setSnackbar = (snackbar: SnackbarState) => {
