@@ -1,12 +1,13 @@
-<template>
-  <img alt="Vue logo" :src="require('./assets/logo.png')">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+<template lang="pug">
+v-app
+  v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
+  HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
- 
+import { Options, Vue } from 'vue-class-component'
+import HelloWorld from './components/HelloWorld.vue'
+
 @Options({
   components: {
     HelloWorld,
