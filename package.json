@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
     "serve": "vue-cli-service serve",
+    "build": "vue-tsc --noEmit && vite build",
     "test:unit": "jest --verbose --silent",
     "lint": "vue-cli-service lint",
+    "dev": "vite",
     "distribute": "vue-cli-service serve --mode development",
     "lint-autofix": "eslint --fix --ext .js,.vue src",
+    "preview": "vite preview",
     "test": "yarn test:unit"
   },
   "dependencies": {
@@ -41,6 +41,7 @@
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-airbnb": "^6.0.0",

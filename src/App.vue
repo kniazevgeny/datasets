@@ -1,18 +1,19 @@
 <template lang="pug">
 v-app
-  v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
-  HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
+  //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
+  //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
+  router-view
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './views/Home.vue'
 
-@Options({
-  components: {
-    HelloWorld,
-  },
-})
+// @Options({
+//   components: {
+//     HelloWorld,
+//   },
+// })
 export default class App extends Vue {}
 </script>
 
