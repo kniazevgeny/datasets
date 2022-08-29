@@ -6,7 +6,7 @@ module.exports = defineConfig({
     port: 8080,
     hot: true,
   },
-  assetsDir: 'static',
+  assetsDir: 'datasets',
   runtimeCompiler: true,
   lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
