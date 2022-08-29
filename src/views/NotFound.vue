@@ -1,7 +1,7 @@
 <template lang="pug">
 .about
   h1 {{ $t('notFound') }}
-  router-link.underline.text-sky-600(class="hover:text-blue-400" to="/") Home page
+  router-link.underline.text-sky-600(class="hover:text-blue-400" to="/datasets") Home page
 </template>
 
 <script lang="ts">
