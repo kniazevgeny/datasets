@@ -3,6 +3,9 @@ import { messages } from '../locales/localization'
 import * as store from './store'
 
 function getNavigatorLanguage() {
+  // Default lang is en, but can it can be changed
+  return 'en'
+  
   if (store.language()) {
     return store.language()
   }
