@@ -1,5 +1,25 @@
 $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 
+
 @use 'vuetify/styles' with (
-  $body-font-family: $body-font-family,
+  $body-font-family: $body-font-family
 );
+
+a:link {
+  color: rgb(58, 124, 206);
+  border-bottom: 1px solid rgba(58, 124, 206,.3);
+  cursor: pointer;
+  -webkit-transition: color .3s ease,border-color .3s ease;
+  transition: color .3s ease,border-color .3s ease;
+}
+
+/* Reference to art.lebedev  */
+a:link:hover, a:visited:hover {
+  color: #f41224;
+  border-color: rgba(244,18,36,.3);
+}
+
+a:visited {
+  color: #b40eb4;
+  border-color: rgba(180,14,180,.3);
+}
