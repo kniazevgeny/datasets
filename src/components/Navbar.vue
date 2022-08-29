@@ -1,9 +1,9 @@
 <template lang="pug">
 v-app-bar()
   v-btn-toggle.mb-0.pb-0(v-model="toggle" selected-class="bg-primary")
-    v-btn(flat rounded @click="$router.push('/datasets/')") a
-    v-btn(flat @click="$router.push('/datasets/browse')") B
-    v-btn(flat @click="$router.push('/datasets/predictors')") c
+    v-btn(flat rounded @click="$router.push('/datasets/')") datasets
+    v-btn(flat @click="$router.push('/datasets/browse')") browse
+    v-btn(flat @click="$router.push('/datasets/predictors')") predictors
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
