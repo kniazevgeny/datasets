@@ -20,6 +20,8 @@
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "roboto-fontface": "*",
+    "sass": "^1.54.5",
+    "sass-loader": "^13.0.2",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-cookie-law": "^1.13.3",

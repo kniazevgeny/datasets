@@ -1,0 +1,5 @@
+$body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+
+@use 'vuetify/styles' with (
+  $body-font-family: $body-font-family,
+);
