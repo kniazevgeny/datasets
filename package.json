@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-cli-service build --mode production",
     "test:unit": "jest --verbose --silent",
     "lint": "vue-cli-service lint",
     "dev": "vite",
