@@ -22,8 +22,7 @@ function getNavigatorLanguage() {
 }
 
 export const i18n = createI18n({
-    legacy: false,
-    locale: getNavigatorLanguage(),
-    messages: messages,
-  })
-  
+  legacy: false,
+  locale: getNavigatorLanguage(),
+  messages,
+})

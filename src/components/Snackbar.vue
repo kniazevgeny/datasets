@@ -11,7 +11,6 @@ import { Vue } from 'vue-class-component'
 import * as store from '../plugins/store'
 
 export default class Snackbar extends Vue {
-  
   get active() {
     return store.snackbar().active
   }
@@ -25,9 +24,9 @@ export default class Snackbar extends Vue {
   }
 
   get text() {
-    console.log("aa")
+    console.log('aa')
     // console.log(typeof i18n)
-    return "abc"
+    return 'abc';
     // const msg = store.snackbar().message
     // if (typeof msg === 'string' && msg === 'Internal Server Error')
     //   return i18n.t('errors.internal')

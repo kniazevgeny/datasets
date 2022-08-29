@@ -10,9 +10,4 @@ import { loadFonts } from './plugins/webfontloader'
 
 loadFonts()
 
-createApp(App)
-  .use(i18n)
-  .use(router)
-  .use(vuetify)
-  .use(store)
-  .mount('#app')
+createApp(App).use(i18n).use(router).use(vuetify).use(store).mount('#app')

@@ -42,6 +42,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/App.vue",
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
