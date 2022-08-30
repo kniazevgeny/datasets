@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+import Datasets from '../views/Datasets.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/datasets',
-    name: 'home',
-    component: Home,
+    name: 'datasets',
+    component: Datasets,
   },
   {
     path: '/datasets/:pathMatch(.*)*',

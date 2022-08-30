@@ -22,7 +22,7 @@ import { Options, Vue } from 'vue-class-component'
 @Options({
   props: {},
 })
-export default class HelloWorld extends Vue {
+export default class Datasets extends Vue {
   
 }
 </script>
