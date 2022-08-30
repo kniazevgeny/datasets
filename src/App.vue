@@ -4,7 +4,7 @@ v-app()
   Navbar
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
-  router-view.mt-12(v-slot="{ Component }")
+  router-view.mt-24(v-slot="{ Component }")
     transition(:name="transitionName" mode="out-in")
       component.child-view(:is="Component")
 </template>
@@ -52,7 +52,7 @@ export default class App extends Vue {
     if (depthFrom < 0) depthFrom = 99
     if (depthTo < 0) depthTo = 99
 
-    console.log(typeof fromPath === 'string' && fromPath === '', toPath, depthFrom, depthTo)
+    // console.log(fromPath, toPath, depthFrom, depthTo)
     this.transitionName = depthTo < depthFrom ? 'slide-right' : 'slide-left'
   }
 }
@@ -65,7 +65,6 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .fade-enter-from,

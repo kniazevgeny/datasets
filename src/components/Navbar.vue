@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar()
+v-app-bar(absolute elevation="1")
   v-btn-toggle.mb-0.pb-0(v-model="toggle" selected-class="bg-primary")
     v-btn(flat rounded @click="$router.push('/datasets/')") datasets
     v-btn(flat @click="$router.push('/datasets/browse')") browse

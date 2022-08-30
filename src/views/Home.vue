@@ -1,68 +1,29 @@
-<template>
-  <div class="hello">
-    <router-link to="/datasets/about" class="primary"><p>aaaa</p> </router-link>
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript"
-          target="_blank"
-          rel="noopener"
-          >typescript</a
-        >
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a>
-      </li>
-    </ul>
-  </div>
+<template lang="pug">
+v-layout
+  v-navigation-drawer(width="420" permanent)
+    //- Filters
+    span.text-h5.font-weight-bold Filters!
+    v-list(two-lines color="transparent")
+      v-list-item(title="Origin" subtitle="Original - compiled from scratch. Processed - processed original dataset.") 
+        v-list-content() smth here
+      v-list-item(title="Size")
+      v-list-item(title="Doubled")
+      v-list-item(title="Source")
+      v-list-item(title="Type")
+      v-list-item(title="Proteins")
+  router-link.underline(to="/datasets/about") aaaa
+  v-spacer
+  h1.float-right abc
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 
 @Options({
-  props: {
-    msg: String,
-  },
+  props: {},
 })
 export default class HelloWorld extends Vue {
-  msg!: string
+  
 }
 </script>
 
