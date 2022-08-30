@@ -1,11 +1,11 @@
 <template lang="pug">
 v-layout
-  v-navigation-drawer(width="420" permanent)
+  v-navigation-drawer(width="420" permanent style="position: sticky" absolute=false)
     //- Filters
     span.text-h5.font-weight-bold Filters!
     v-list(two-lines color="transparent")
       v-list-item(title="Origin" subtitle="Original - compiled from scratch. Processed - processed original dataset.") 
-        v-list-content() smth here
+        p smth here
       v-list-item(title="Size")
       v-list-item(title="Doubled")
       v-list-item(title="Source")

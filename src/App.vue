@@ -40,7 +40,7 @@ export default class App extends Vue {
 
     // Process reload (F5)
     if (fromPath === '') {
-      console.log('empty')
+      // console.log('empty')
       this.transitionName = 'fade'
       return 1
     }

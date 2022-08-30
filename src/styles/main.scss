@@ -23,3 +23,11 @@ a:visited {
   color: #b40eb4;
   border-color: rgba(180,14,180,.3);
 }
+
+.v-list-item--one-line .v-list-item-subtitle {
+  -webkit-line-clamp: 2;
+}
+
+.v-list {
+  text-align: left;
+}
