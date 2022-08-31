@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Datasets from '../views/Datasets.vue'
+import Browse from '../views/Browse.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/datasets',
     name: 'datasets',
     component: Datasets,
+  },
+  {
+    path: '/datasets/browse',
+    name: 'browse',
+    component: Browse,
   },
   {
     path: '/datasets/:pathMatch(.*)*',
