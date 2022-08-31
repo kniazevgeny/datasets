@@ -15,23 +15,20 @@ v-layout
           label="Type dataset name, year, author..."
           single-line
           hide-details)
-    v-table(fixed-header)
-      template(v-slot:default)
-        thead
-          tr
-            th.text-left Name
-            th.text-left Calories
-        tbody
-          tr(v-for="item in desserts", :key="item.name")
-            td {{ item.name }}
-            td {{ item.calories }}
+    v-col
+      DatasetCard.mb-2(v-for='card in datasetCards' :key='card.title' :title='card.title')
+
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
+import DatasetCard from '@/components/DatasetCard.vue'
 
 @Options({
   props: {},
+  components: {
+    DatasetCard
+  }
 })
 export default class Datasets extends Vue {
   filters = [
@@ -64,46 +61,22 @@ export default class Datasets extends Vue {
     },
   ]
   search: String = ''
-  desserts = [
+
+  datasetCards = [
     {
-      name: 'Frozen Yogurt',
-      calories: 159,
+      title: 'Card 1'
     },
     {
-      name: 'Ice cream sandwich',
-      calories: 237,
+      title: 'Card 2'
     },
     {
-      name: 'Eclair',
-      calories: 262,
+      title: 'Card 3'
     },
     {
-      name: 'Cupcake',
-      calories: 305,
+      title: 'Card 4'
     },
     {
-      name: 'Gingerbread',
-      calories: 356,
-    },
-    {
-      name: 'Jelly bean',
-      calories: 375,
-    },
-    {
-      name: 'Lollipop',
-      calories: 392,
-    },
-    {
-      name: 'Honeycomb',
-      calories: 408,
-    },
-    {
-      name: 'Donut',
-      calories: 452,
-    },
-    {
-      name: 'KitKat',
-      calories: 518,
+      title: 'Card 5'
     },
   ]
 }
