@@ -33,7 +33,8 @@ v-layout(style='width: 100%')
       :items='desserts',
       :search='search',
       item-key='name',
-      show-select
+      show-select,
+      checkbox-color='indigo accent-2'
     )
 </template>
 
