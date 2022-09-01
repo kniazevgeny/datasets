@@ -10,13 +10,13 @@ const router = new Router({
   routes: [
     {
       path: '/datasets',
-      name: 'datasets',
-      component: Datasets,
-    },
-    {
-      path: '/datasets/browse',
       name: 'browse',
       component: Browse,
+    },
+    {
+      path: '/datasets/datasets',
+      name: 'datasets',
+      component: Datasets,
     },
     {
       path: '/datasets/*',

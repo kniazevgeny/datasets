@@ -42,7 +42,7 @@ export default class App extends Vue {
   onRouteChange(to, from) {
     let routes: Array<String> = [
       '/datasets',
-      '/datasets/browse',
+      '/datasets/datasets',
       '/datasets/predictors',
     ]
     let toPath = to.path
