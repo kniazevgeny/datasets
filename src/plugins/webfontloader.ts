@@ -6,7 +6,7 @@
 
 export async function loadFonts() {
   /* eslint-disable-next-line */
-  const webFontLoader = await import(/* webpackChunkName: "webfontloader" */'webfontloader')
+  const webFontLoader = require(/* webpackChunkName: "webfontloader" */'webfontloader')
 
   webFontLoader.load({
     google: {

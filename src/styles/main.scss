@@ -1,27 +1,31 @@
 $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 
+// @use 'vuetify/lib/styles' with (
+//   $body-font-family: $body-font-family
+// );
 
-@use 'vuetify/styles' with (
-  $body-font-family: $body-font-family
-);
+#app {
+  font-family: $body-font-family;
+}
 
-a:link {
-  color: rgb(58, 124, 206);
-  border-bottom: 1px solid rgba(58, 124, 206,.3);
+a {
+  color: rgb(58, 124, 206) !important;
+  border-bottom: 1px solid rgba(58, 124, 206, 0.3);
   cursor: pointer;
-  -webkit-transition: color .3s ease,border-color .3s ease;
-  transition: color .3s ease,border-color .3s ease;
+  -webkit-transition: color 0.3s ease, border-color 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Reference to art.lebedev  */
-a:link:hover, a:visited:hover {
-  color: #f41224;
-  border-color: rgba(244,18,36,.3);
+a:hover,
+a:visited:hover {
+  color: #f41224 !important;
+  border-color: rgba(244, 18, 36, 0.3);
 }
 
 a:visited {
-  color: #b40eb4;
-  border-color: rgba(180,14,180,.3);
+  color: #b40eb4 !important;
+  border-color: rgba(180, 14, 180, 0.3);
 }
 
 .v-list-item--one-line .v-list-item-subtitle {

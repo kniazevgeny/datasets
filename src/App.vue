@@ -1,27 +1,41 @@
 <template lang="pug">
 v-app()
-  Snackbar
   Navbar
+  Snackbar
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
-  router-view.mt-24(v-slot="{ Component }")
-    transition(:name="transitionName" mode="out-in")
-      component.child-view(:is="Component")
+  v-main.mt-12
+    transition(:name="transitionName")
+      router-view.view.mt-12
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 import Navbar from './components/Navbar.vue'
 import Snackbar from './components/Snackbar.vue'
 
-@Options({
+import CookieLaw from 'vue-cookie-law'
+import { i18n } from '@/plugins/i18n'
+import { namespace } from 'vuex-class'
+
+const AppStore = namespace('AppStore')
+const SnackbarStore = namespace('SnackbarStore')
+
+
+@Component({
   components: {
     Navbar,
     Snackbar,
   },
 })
 export default class App extends Vue {
+  @AppStore.State dark!: boolean
+  @SnackbarStore.Mutation hideSnackbar!: () => void
+
+  name = "App"
+
   transitionName: String = 'slide-left'
 
   @Watch('$route')
@@ -91,7 +105,7 @@ export default class App extends Vue {
   -webkit-transform: translate(-100px, 0);
   transform: translate(-100px, 0);
 }
-.child-view {
+.view {
   position: absolute;
   transition: all 0.175s cubic-bezier(0.44, 0.05, 0.3, 1);
 }

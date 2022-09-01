@@ -1,36 +1,53 @@
 <template lang="pug">
-v-layout
-  v-navigation-drawer(width="420" permanent style="position: sticky" absolute=false)
+v-layout(style='width: 100%')
+  v-navigation-drawer(
+    width='420',
+    permanent,
+    style='position: sticky',
+    absolute=false
+  )
     //- Filters
     span.text-h5.font-weight-bold Filters!
-    v-list(two-lines color="transparent" v-for='filter in filters' :key='filter.title')
-      v-list-item(:title="filter.title" :subtitle="filter.subtitle") 
-      p -
+    v-list(
+      color='transparent',
+      v-for='filter in filters',
+      :key='filter.title'
+    ).pa-4
+      v-list-item-title.mb-n1 {{filter.title}} 
+      small.grey--text.text--darken-2 {{filter.subtitle}} 
+      v-list-item-content 
       v-divider
-  v-card(width="100%" height="100%")
+  v-card(width='100%', height='100%' flat).ma-6
     v-card-title
       v-text-field(
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Type dataset name, year, author..."
-          single-line
-          hide-details)
+        v-model='search',
+        append-icon='mdi-magnify',
+        label='Type dataset name, year, author...',
+        single-line,
+        hide-details,
+        filled
+      )
     v-col
-      DatasetCard.mb-2(v-for='card in datasetCards' :key='card.title' :title='card.title')
-
+      DatasetCard.mb-2(
+        v-for='card in datasetCards',
+        :key='card.title',
+        :title='card.title'
+      )
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 import DatasetCard from '@/components/DatasetCard.vue'
 
-@Options({
+@Component({
   props: {},
   components: {
     DatasetCard
   }
 })
 export default class Datasets extends Vue {
+
   filters = [
     {
       title: 'Origin',

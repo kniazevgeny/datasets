@@ -1,14 +1,11 @@
-const { defineConfig } = require('@vue/cli-service');
-
-module.exports = defineConfig({
-  transpileDependencies: true,
+module.exports = {
   devServer: {
     port: 8080,
     hot: true,
   },
   assetsDir: 'datasets',
   runtimeCompiler: true,
-  lintOnSave: process.env.NODE_ENV !== 'production',
+  // lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
     vuetify: {},
     i18n: {
@@ -21,4 +18,4 @@ module.exports = defineConfig({
       fullInstall: true
     }
   },
-});
+}

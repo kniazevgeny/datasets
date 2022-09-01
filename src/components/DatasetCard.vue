@@ -5,9 +5,10 @@ v-card
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-@Options({
+@Component({
   props: {
     title: String,
   },

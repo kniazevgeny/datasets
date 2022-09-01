@@ -1,39 +1,145 @@
 <template lang="pug">
-v-layout
-  v-navigation-drawer(width="420" permanent style="position: sticky" absolute=false)
+v-layout(style='width: 100%')
+  v-navigation-drawer(
+    width='420',
+    permanent,
+    style='position: sticky',
+    absolute=false
+  )
     //- Filters
     span.text-h5.font-weight-bold Filters!
-    v-list(two-lines color="transparent" v-for='filter in filters' :key='filter.title')
-      v-list-item(:title="filter.title" :subtitle="filter.subtitle") 
-      p -
+    v-list(
+      color='transparent',
+      v-for='filter in filters',
+      :key='filter.title'
+    ).pa-4
+      v-list-item-title.mb-n1 {{filter.title}} 
+      small.grey--text.text--darken-2 {{filter.subtitle}} 
+      v-list-item-content 
       v-divider
-  v-card(width="100%" height="100%")
+  v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
       v-text-field(
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Type mutation id, protein, variation..."
-          single-line
-          hide-details)
-    v-table(fixed-header)
-      template(v-slot:default)
-        thead
-          tr
-            th.text-left Name
-            th.text-left Calories
-        tbody
-          tr(v-for="item in desserts", :key="item.name")
-            td {{ item.name }}
-            td {{ item.calories }}
+        v-model='search',
+        append-icon='mdi-magnify',
+        label='Type mutation id, protein, variation...',
+        single-line,
+        hide-details
+      )
+    v-data-table.elevation-1(
+      v-model='selected',
+      fixed-header,
+      :headers='headers',
+      :items='desserts',
+      :search='search',
+      item-key='name',
+      show-select
+    )
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-@Options({
-  props: {},
-})
+@Component
 export default class Browse extends Vue {
+  search: String = ''
+  selected = []
+  headers = [
+    {
+      text: 'Dessert (100g serving)',
+      align: 'start',
+      sortable: false,
+      value: 'name',
+    },
+    { text: 'Calories', value: 'calories' },
+    { text: 'Fat (g)', value: 'fat' },
+    { text: 'Carbs (g)', value: 'carbs' },
+    { text: 'Protein (g)', value: 'protein' },
+    { text: 'Iron (%)', value: 'iron' },
+  ]
+  desserts = [
+    {
+      name: 'Frozen Yogurt',
+      calories: 159,
+      fat: 6.0,
+      carbs: 24,
+      protein: 4.0,
+      iron: '1%',
+    },
+    {
+      name: 'Ice cream sandwich',
+      calories: 237,
+      fat: 9.0,
+      carbs: 37,
+      protein: 4.3,
+      iron: '1%',
+    },
+    {
+      name: 'Eclair',
+      calories: 262,
+      fat: 16.0,
+      carbs: 23,
+      protein: 6.0,
+      iron: '7%',
+    },
+    {
+      name: 'Cupcake',
+      calories: 305,
+      fat: 3.7,
+      carbs: 67,
+      protein: 4.3,
+      iron: '8%',
+    },
+    {
+      name: 'Gingerbread',
+      calories: 356,
+      fat: 16.0,
+      carbs: 49,
+      protein: 3.9,
+      iron: '16%',
+    },
+    {
+      name: 'Jelly bean',
+      calories: 375,
+      fat: 0.0,
+      carbs: 94,
+      protein: 0.0,
+      iron: '0%',
+    },
+    {
+      name: 'Lollipop',
+      calories: 392,
+      fat: 0.2,
+      carbs: 98,
+      protein: 0,
+      iron: '2%',
+    },
+    {
+      name: 'Honeycomb',
+      calories: 408,
+      fat: 3.2,
+      carbs: 87,
+      protein: 6.5,
+      iron: '45%',
+    },
+    {
+      name: 'Donut',
+      calories: 452,
+      fat: 25.0,
+      carbs: 51,
+      protein: 4.9,
+      iron: '22%',
+    },
+    {
+      name: 'KitKat',
+      calories: 518,
+      fat: 26.0,
+      carbs: 65,
+      protein: 7,
+      iron: '6%',
+    },
+  ]
   filters = [
     {
       title: 'Variation',
@@ -42,12 +148,12 @@ export default class Browse extends Vue {
     },
     {
       title: 'ddg',
-      subtitle: 'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
+      subtitle:
+        'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
     },
     {
       title: 'Mutation',
-      subtitle:
-        'Mutation context',
+      subtitle: 'Mutation context',
     },
     {
       title: 'T',
@@ -55,58 +161,14 @@ export default class Browse extends Vue {
     },
     {
       title: 'pH',
-      subtitle:
-        'pH of the experiment.',
+      subtitle: 'pH of the experiment.',
     },
     {
       title: 'Method',
-      subtitle: 'Method of measuring the folding free energy change in the experiment.',
+      subtitle:
+        'Method of measuring the folding free energy change in the experiment.',
     },
   ]
-  search: String = ''
-  desserts = [
-    {
-      name: 'Frozen Yogurt',
-      calories: 159,
-    },
-    {
-      name: 'Ice cream sandwich',
-      calories: 237,
-    },
-    {
-      name: 'Eclair',
-      calories: 262,
-    },
-    {
-      name: 'Cupcake',
-      calories: 305,
-    },
-    {
-      name: 'Gingerbread',
-      calories: 356,
-    },
-    {
-      name: 'Jelly bean',
-      calories: 375,
-    },
-    {
-      name: 'Lollipop',
-      calories: 392,
-    },
-    {
-      name: 'Honeycomb',
-      calories: 408,
-    },
-    {
-      name: 'Donut',
-      calories: 452,
-    },
-    {
-      name: 'KitKat',
-      calories: 518,
-    },
-  ]
-
 }
 </script>
 

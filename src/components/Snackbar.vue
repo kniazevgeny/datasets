@@ -1,40 +1,48 @@
 <template lang="pug">
-v-container
-  v-snackbar(app v-model='active' :timeout='4000' top :color='color' flat)
-    span {{text}}
-    v-btn(color='white' text @click='active = false') {{$t('close')}}
-
+div
+  v-snackbar(
+    app,
+    v-model='safeActive',
+    :timeout='4000',
+    top,
+    :color='color',
+    flat
+  )
+    span {{ text }}
+    v-btn(color='white', text, @click='hideSnackbar') {{ $t("close") }}
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component'
-import * as store from '../plugins/store'
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { i18n } from '@/plugins/i18n'
+// import * as api from '@/utils/api'
+import { namespace } from 'vuex-class'
 
+const SnackbarStore = namespace('SnackbarStore')
+
+@Component
 export default class Snackbar extends Vue {
-  get active() {
-    return store.snackbar().active
-  }
+  @SnackbarStore.State active!: boolean
+  @SnackbarStore.State color!: string
+  @SnackbarStore.State message!: string
+  @SnackbarStore.Mutation hideSnackbar!: () => void
+  @SnackbarStore.Mutation setActive!: (active: boolean) => void
 
-  set active(newValue: boolean) {
-    store.hideSnackbar()
+  get safeActive() {
+    return this.active
   }
-
-  get color() {
-    return store.snackbar().color
+  set safeActive(active: boolean) {
+    this.setActive(active)
   }
 
   get text() {
-    console.log('aa')
-    // console.log(typeof i18n)
-    return 'abc';
-    // const msg = store.snackbar().message
-    // if (typeof msg === 'string' && msg === 'Internal Server Error')
-    //   return i18n.t('errors.internal')
-    // if (typeof msg === 'string' && msg === 'Internal Site Error')
-    //   return i18n.t('errors.internalSite')
-    // return typeof msg === 'string'
-    //   ? i18n.t(store.snackbar().message.toString())
-    //   : (msg as any)[i18n.locale]
+    const msg = this.message
+    return typeof msg === 'string'
+      ? msg === 'Internal Server Error'
+        ? i18n.t('errors.internal')
+        : i18n.t(this.message.toString())
+      : (msg as any)[i18n.locale]
   }
 }
 </script>

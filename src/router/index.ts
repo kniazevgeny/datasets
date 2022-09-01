@@ -1,29 +1,30 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Vue from 'vue'
+import Router from 'vue-router'
 import Datasets from '../views/Datasets.vue'
 import Browse from '../views/Browse.vue'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/datasets',
-    name: 'datasets',
-    component: Datasets,
-  },
-  {
-    path: '/datasets/browse',
-    name: 'browse',
-    component: Browse,
-  },
-  {
-    path: '/datasets/:pathMatch(.*)*',
-    name: 'notFound',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
-  },
-]
+Vue.use(Router)
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+const router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/datasets',
+      name: 'datasets',
+      component: Datasets,
+    },
+    {
+      path: '/datasets/browse',
+      name: 'browse',
+      component: Browse,
+    },
+    {
+      path: '/datasets/*',
+      name: 'notFound',
+      component: () =>
+        import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
+    },
+  ],
 })
 
 export default router
