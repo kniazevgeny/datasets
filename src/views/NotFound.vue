@@ -1,7 +1,7 @@
 <template lang="pug">
 .about
   h1 {{ $t('notFound') }}
-  router-link.underline(to="/datasets") Home page
+  router-link(to="/datasets") Home page
 </template>
 
 <script lang="ts">
