@@ -1,4 +1,4 @@
-import { User } from '../../models/User'
+import { User } from './User'
 import { VuexModule, Module, Mutation } from 'vuex-module-decorators'
 
 @Module({ namespaced: true, name: 'AppStore' })
