@@ -13,7 +13,7 @@ $border-radius-root: 15px;
 }
 
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
-  background: var(--v-main)!important;
+  background: var(--v-base)!important;
 }
 
 .v-data-table, .v-data-table__wrapper {
@@ -45,5 +45,13 @@ a:visited {
 }
 
 .v-list {
+  text-align: left;
+}
+
+.v-navigation-drawer__content {
+  height: 100%; /*95%s*/
+}
+
+.v-navigation-drawer__content:first-child {
   text-align: left;
 }

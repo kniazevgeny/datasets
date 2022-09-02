@@ -7,15 +7,26 @@ v-layout(style='width: 100%')
     absolute=false
   )
     //- Filters
-    span.text-h5.font-weight-bold Filters!
-    v-list(
+    .base.pa-5(
+      style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
+    )
+      .text-h5.font-weight-bold Filters!
+    v-list.accent.pa-4(
       color='transparent',
       v-for='filter in filters',
       :key='filter.title'
-    ).pa-4
-      v-list-item-title.mb-n1 {{filter.title}} 
-      small.grey--text.text--darken-2 {{filter.subtitle}} 
-      v-list-item-content 
+    )
+      v-list-item-title.mb-n1 {{ filter.title }}
+      small.grey--text.text--darken-2 {{ filter.subtitle }}
+      v-list-item-content(v-if='filter.type === "range"') 
+        v-range-slider(
+          color='grey darken-1',
+          :min='filter.min',
+          :max='filter.max',
+          v-model='filter.range',
+          persistent-hint,
+          :hint='filter.hint'
+        )
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
@@ -36,13 +47,10 @@ v-layout(style='width: 100%')
       item-key='name',
       show-select,
       checkbox-color='indigo accent-2',
-      multi-sort)
-      template(v-slot:item.mutation="{ item }")
-        v-chip(
-          outlined
-          label
-          color="blue lighten-1"
-          dark).indigo--text.text--accent-2.font-weight-bold {{ item.mutation }}
+      multi-sort
+    )
+      template(v-slot:item.mutation='{ item }')
+        v-chip.indigo--text.text--accent-2.font-weight-bold(outlined, label, color='blue lighten-1', dark) {{ item.mutation }}
 </template>
 
 <script lang="ts">
@@ -52,7 +60,54 @@ import Component from 'vue-class-component'
 @Component
 export default class Browse extends Vue {
   search: String = ''
+
+  filters = [
+    {
+      title: 'Variation',
+      subtitle:
+        'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column.',
+    },
+    {
+      title: 'ddg',
+      subtitle:
+        'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
+      type: 'range',
+      min: -10,
+      max: 10,
+      range: [-10, 10],
+      hint: 'Im a hint',
+    },
+    {
+      title: 'Mutation',
+      subtitle: 'Mutation context',
+    },
+    {
+      title: 'T',
+      subtitle: 'Temperature of the experiment in kelvins.',
+      type: 'range',
+      min: 250,
+      max: 590,
+      range: [250, 590],
+      hint: 'Im a hint',
+    },
+    {
+      title: 'pH',
+      subtitle: 'pH of the experiment.',
+      type: 'range',
+      min: 0,
+      max: 12,
+      range: [0, 12],
+      hint: 'Im a hint',
+    },
+    {
+      title: 'Method',
+      subtitle:
+        'Method of measuring the folding free energy change in the experiment.',
+    },
+  ]
+
   selected = []
+
   headers = [
     {
       text: 'Variation',
@@ -65,7 +120,13 @@ export default class Browse extends Vue {
     { text: 'Chain', value: 'chain', sortable: false, align: 'start' },
     { text: 'Uniprot', value: 'uniprot' },
     { text: 'Mutation', value: 'mutation', sortable: false, align: 'start' },
-    { text: 'Protein Name', value: 'protein', sortable: false, align: 'start', width: '200' },
+    {
+      text: 'Protein Name',
+      value: 'protein',
+      sortable: false,
+      align: 'start',
+      width: '200',
+    },
     { text: 'T', value: 't' },
     { text: 'pH', value: 'ph' },
   ]
@@ -181,42 +242,12 @@ export default class Browse extends Vue {
       ph: 1,
     },
   ]
-  filters = [
-    {
-      title: 'Variation',
-      subtitle:
-        'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column.',
-    },
-    {
-      title: 'ddg',
-      subtitle:
-        'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
-    },
-    {
-      title: 'Mutation',
-      subtitle: 'Mutation context',
-    },
-    {
-      title: 'T',
-      subtitle: 'Temperature of the experiment in kelvins.',
-    },
-    {
-      title: 'pH',
-      subtitle: 'pH of the experiment.',
-    },
-    {
-      title: 'Method',
-      subtitle:
-        'Method of measuring the folding free energy change in the experiment.',
-    },
-  ]
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
-  background-color: "#a5a6f6" !important;
+  background-color: '#a5a6f6' !important;
 }
 </style>

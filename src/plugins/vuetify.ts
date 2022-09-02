@@ -12,21 +12,21 @@ import * as directives from 'vuetify/lib/directives'
 Vue.use(Vuetify, {
   components: components,
   directives: directives,
-  customProperties: true
+  customProperties: true,
 })
 
 export default new Vuetify({
   theme: {
     themes: {
       light: {
-          primary: "#a5a6f6",
-          main: "#D6DDF7",
-          secondary: "#F5F7FD",
-          accent: "#E7EBFA"
+        primary: '#a5a6f6',
+        base: '#D6DDF7',
+        secondary: '#F5F7FD',
+        accent: '#E7EBFA',
+        borderRadius: '15px',
       },
-      dark: {
-      }
-    }
+      dark: {},
+    },
   },
   icons: {
     iconfont: 'mdi',
