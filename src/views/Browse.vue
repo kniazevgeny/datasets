@@ -64,7 +64,7 @@ v-layout(style='width: 100%')
         single-line,
         hide-details,
         filled,
-        color='primary'
+        color='indigo accent-2'
       )
     v-data-table(
       v-model='selected',

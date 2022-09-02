@@ -25,7 +25,8 @@ v-layout(style='width: 100%')
         label='Type dataset name, year, author...',
         single-line,
         hide-details,
-        filled
+        filled,
+        color='indigo accent-2'
       )
     v-col
       DatasetCard.mb-2(
