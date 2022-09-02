@@ -1,11 +1,11 @@
 <template lang="pug">
-v-app()
+v-app(:style='cssProps')
   Navbar
   Snackbar
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
   v-main.mt-12
-    transition(:name="transitionName")
+    transition(:name='transitionName')
       router-view.view.mt-12
 </template>
 
@@ -23,7 +23,6 @@ import { namespace } from 'vuex-class'
 const AppStore = namespace('AppStore')
 const SnackbarStore = namespace('SnackbarStore')
 
-
 @Component({
   components: {
     Navbar,
@@ -34,9 +33,17 @@ export default class App extends Vue {
   @AppStore.State dark!: boolean
   @SnackbarStore.Mutation hideSnackbar!: () => void
 
-  name = "App"
+  name = 'App'
 
   transitionName: String = 'slide-left'
+
+  get cssProps() {
+    var themeColors = {}
+    Object.keys(this.$vuetify.theme.themes.light).forEach((color) => {
+      themeColors[`--v-${color}`] = this.$vuetify.theme.themes.light[color]
+    })
+    return themeColors
+  }
 
   @Watch('$route')
   onRouteChange(to, from) {

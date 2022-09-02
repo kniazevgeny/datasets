@@ -24,18 +24,25 @@ v-layout(style='width: 100%')
         append-icon='mdi-magnify',
         label='Type mutation id, protein, variation...',
         single-line,
-        hide-details
+        hide-details,
+        color='primary'
       )
-    v-data-table.elevation-1(
+    v-data-table(
       v-model='selected',
       fixed-header,
       :headers='headers',
-      :items='desserts',
+      :items='data',
       :search='search',
       item-key='name',
       show-select,
-      checkbox-color='indigo accent-2'
-    )
+      checkbox-color='indigo accent-2',
+      multi-sort)
+      template(v-slot:item.mutation="{ item }")
+        v-chip(
+          outlined
+          label
+          color="blue lighten-1"
+          dark).indigo--text.text--accent-2.font-weight-bold {{ item.mutation }}
 </template>
 
 <script lang="ts">
@@ -54,15 +61,15 @@ export default class Browse extends Vue {
       value: 'name',
     },
     { text: 'ddg', value: 'ddg' },
-    { text: 'pdb', value: 'pdb', sortabe: false },
-    { text: 'Chain', value: 'chain', sortabe: false },
+    { text: 'pdb', value: 'pdb', sortable: false, align: 'start' },
+    { text: 'Chain', value: 'chain', sortable: false, align: 'start' },
     { text: 'Uniprot', value: 'uniprot' },
-    { text: 'Mutation', value: 'mutation', sortabe: false },
-    { text: 'Protein Name', value: 'protein', sortabe: false },
+    { text: 'Mutation', value: 'mutation', sortable: false, align: 'start' },
+    { text: 'Protein Name', value: 'protein', sortable: false, align: 'start', width: '200' },
     { text: 'T', value: 't' },
     { text: 'pH', value: 'ph' },
   ]
-  desserts = [
+  data = [
     {
       name: 'Q104H',
       ddg: -0.24,
@@ -208,15 +215,8 @@ export default class Browse extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.theme--light.v-data-table.v-data-table--fixed-header thead th {
+  background-color: "#a5a6f6" !important;
 }
 </style>

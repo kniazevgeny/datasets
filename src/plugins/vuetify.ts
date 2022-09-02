@@ -12,13 +12,15 @@ import * as directives from 'vuetify/lib/directives'
 Vue.use(Vuetify, {
   components: components,
   directives: directives,
+  customProperties: true
 })
 
 export default new Vuetify({
   theme: {
     themes: {
       light: {
-          primary: "#a5a6f6", // D6DDF7
+          primary: "#a5a6f6",
+          main: "#D6DDF7",
           secondary: "#F5F7FD",
           accent: "#E7EBFA"
       },
