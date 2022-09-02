@@ -19,14 +19,35 @@ v-layout(style='width: 100%')
       v-list-item-title.mb-n1 {{ filter.title }}
       small.grey--text.text--darken-2 {{ filter.subtitle }}
       v-list-item-content(v-if='filter.type === "range"') 
-        v-range-slider(
-          color='grey darken-1',
+        //- span {{ filter.min }} {{ filter.max }}{{ filter.step }}
+        HistogramSlider(
+          :width='200',
+          :bar-height='100',
+          :data='tickLabels(filter.min, filter.max, 1)',
+          :prettify='prettify',
+          :drag-interval='true',
+          :force-edges='true',
+          :colors='["#4566f6", "#7149ee"]',
+          :step='filter.step',
           :min='filter.min',
           :max='filter.max',
-          v-model='filter.range',
-          persistent-hint,
-          :hint='filter.hint'
+          @change='sliderChange',
+          primaryColor='DarkGray',
+          labelColor='DimGray',
+          holderColor='DarkGray',
+          :keyboard='false'
         )
+          //- v-range-slider(
+        //-   color='grey darken-1',
+        //-   :min='filter.min',
+        //-   :max='filter.max',
+        //-   v-model='filter.range',
+        //-   persistent-hint,
+        //-   :hint='filter.hint',
+        //-   ticks="always"
+        //- )
+        //- template(v-slot:thumb-label="props")
+        //-   span {{ props.value }}  
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
@@ -50,16 +71,64 @@ v-layout(style='width: 100%')
       multi-sort
     )
       template(v-slot:item.mutation='{ item }')
-        v-chip.indigo--text.text--accent-2.font-weight-bold(outlined, label, color='blue lighten-1', dark) {{ item.mutation }}
+        v-chip.indigo--text.text--accent-2.font-weight-bold(
+          outlined,
+          label,
+          color='blue lighten-1',
+          dark
+        ) {{ item.mutation }}
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-@Component
+import HistogramSlider from 'vue-histogram-slider'
+//https://www.vuescript.com/beautiful-histogram-range-slider/
+import 'vue-histogram-slider/dist/histogram-slider.css'
+
+@Component({
+  components: {
+    HistogramSlider,
+  },
+})
 export default class Browse extends Vue {
   search: String = ''
+
+  prettify(n) {
+    return Math.round(n * 10) / 10
+  }
+
+  randn_bm(min, max, skew) {
+    let u = 0,
+      v = 0
+    while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
+    while (v === 0) v = Math.random()
+    let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
+
+    num = num / 10.0 + 0.5 // Translate to 0 -> 1
+    if (num > 1 || num < 0) num = this.randn_bm(min, max, skew)
+    // resample between 0 and 1 if out of range
+    else {
+      num = Math.pow(num, skew) // Skew
+      num *= max - min // Stretch to fill range
+      num += min // offset to min
+    }
+    return num
+  }
+  tickLabels(start: number, end: number, step: number) {
+    let result: Array<number> = []
+    for(let i = 0; i< 200; i++) result.push(this.randn_bm(start, end, 1)); 
+    return result
+  }
+  
+  sliderChange(e) {
+    // console.log(e, e.from, e.to)
+  }
+
+  mounted() {
+    
+  }
 
   filters = [
     {
@@ -74,6 +143,7 @@ export default class Browse extends Vue {
       type: 'range',
       min: -10,
       max: 10,
+      step: 0.5,
       range: [-10, 10],
       hint: 'Im a hint',
     },
@@ -87,6 +157,7 @@ export default class Browse extends Vue {
       type: 'range',
       min: 250,
       max: 590,
+      step: 10,
       range: [250, 590],
       hint: 'Im a hint',
     },
@@ -96,6 +167,7 @@ export default class Browse extends Vue {
       type: 'range',
       min: 0,
       max: 12,
+      step: 0.5,
       range: [0, 12],
       hint: 'Im a hint',
     },
