@@ -23,6 +23,8 @@ export default new Vuetify({
         base: '#D6DDF7',
         secondary: '#F5F7FD',
         accent: '#E7EBFA',
+        indigoA2: '#536DFE',
+        indigoA3: '#3D5AFE',
         borderRadius: '15px',
       },
       dark: {},

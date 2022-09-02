@@ -56,7 +56,9 @@ a:visited {
   text-align: left;
 }
 
-/* historgam slider */
-span.irs-from {
-  visibility: hidden;
+.v-slider--horizontal {
+  min-height: 68px; 
+}
+.v-slider--horizontal:hover {
+  cursor: pointer;
 }

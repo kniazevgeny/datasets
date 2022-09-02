@@ -19,35 +19,41 @@ v-layout(style='width: 100%')
       v-list-item-title.mb-n1 {{ filter.title }}
       small.grey--text.text--darken-2 {{ filter.subtitle }}
       v-list-item-content(v-if='filter.type === "range"') 
-        //- span {{ filter.min }} {{ filter.max }}{{ filter.step }}
-        HistogramSlider(
-          :width='200',
-          :bar-height='100',
-          :data='tickLabels(filter.min, filter.max, 1)',
-          :prettify='prettify',
-          :drag-interval='true',
-          :force-edges='true',
-          :colors='["#4566f6", "#7149ee"]',
-          :step='filter.step',
-          :min='filter.min',
-          :max='filter.max',
-          @change='sliderChange',
-          primaryColor='DarkGray',
-          labelColor='DimGray',
-          holderColor='DarkGray',
-          :keyboard='false'
+        v-sparkline(
+          :fill='true',
+          :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
+          gradient-direction='left',
+          :line-width='2',
+          :padding='8',
+          :smooth=25,
+          :value='filter.tickLabels'
         )
-          //- v-range-slider(
-        //-   color='grey darken-1',
-        //-   :min='filter.min',
-        //-   :max='filter.max',
-        //-   v-model='filter.range',
-        //-   persistent-hint,
-        //-   :hint='filter.hint',
-        //-   ticks="always"
-        //- )
-        //- template(v-slot:thumb-label="props")
-        //-   span {{ props.value }}  
+        v-range-slider.mt-n11(
+          v-model='filter.range',
+          :step='filter.step',
+          :max='filter.max',
+          :min='filter.min',
+          track-color='DimGray'
+          track-fill-color='indigoA2',
+          color='indigoA2'
+        )
+        v-layout.mt-n12
+          v-text-field.pa-2(
+            v-model='filter.range[0]',
+            hide-details,
+            filled,
+            dense,
+            label='min',
+            color='indigo accent-2'
+          )
+          v-text-field.pa-2(
+            v-model='filter.range[1]',
+            hide-details,
+            filled,
+            dense,
+            label='max',
+            color='indigo accent-2'
+          )
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
@@ -57,6 +63,7 @@ v-layout(style='width: 100%')
         label='Type mutation id, protein, variation...',
         single-line,
         hide-details,
+        filled,
         color='primary'
       )
     v-data-table(
@@ -83,21 +90,9 @@ v-layout(style='width: 100%')
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import HistogramSlider from 'vue-histogram-slider'
-//https://www.vuescript.com/beautiful-histogram-range-slider/
-import 'vue-histogram-slider/dist/histogram-slider.css'
-
-@Component({
-  components: {
-    HistogramSlider,
-  },
-})
+@Component({})
 export default class Browse extends Vue {
   search: String = ''
-
-  prettify(n) {
-    return Math.round(n * 10) / 10
-  }
 
   randn_bm(min, max, skew) {
     let u = 0,
@@ -116,19 +111,37 @@ export default class Browse extends Vue {
     }
     return num
   }
+
   tickLabels(start: number, end: number, step: number) {
-    let result: Array<number> = []
-    for(let i = 0; i< 200; i++) result.push(this.randn_bm(start, end, 1)); 
-    return result
-  }
-  
-  sliderChange(e) {
-    // console.log(e, e.from, e.to)
+    // That shuold be pre-computed on backend
+    let rand: Array<number> = []
+    for (let i = 0; i < step * 1000; i++)
+      rand.push(Math.round(this.randn_bm(start, end, 1) * step * 2) / step / 2)
+    rand = rand.sort(function (a, b) {
+      return a - b
+    })
+    let randReduced: Map<number, Map<number, number>> = rand.reduce(
+      (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+      new Map()
+    )
+    return [...randReduced.values()]
   }
 
-  mounted() {
-    
+  getGradient(min, max, range, step) {
+    let color = this.$vuetify.theme.themes.light['indigoA2']
+    let colorDisabled = 'DimGray'
+
+    let gradient: Array<String> = []
+    for (let i = min; i < max; i += step) {
+      if (i < range[0]) gradient.push(colorDisabled)
+      if (i > range[0] && i < range[1]) gradient.push(color as String)
+      if (i > range[1]) gradient.push(colorDisabled)
+    }
+
+    return gradient
   }
+
+  mounted() {}
 
   filters = [
     {
@@ -145,6 +158,7 @@ export default class Browse extends Vue {
       max: 10,
       step: 0.5,
       range: [-10, 10],
+      tickLabels: this.tickLabels(-10, 10, 0.5), 
       hint: 'Im a hint',
     },
     {
@@ -158,6 +172,7 @@ export default class Browse extends Vue {
       min: 250,
       max: 590,
       step: 10,
+      tickLabels: this.tickLabels(250, 590, 20), 
       range: [250, 590],
       hint: 'Im a hint',
     },
@@ -169,7 +184,9 @@ export default class Browse extends Vue {
       max: 12,
       step: 0.5,
       range: [0, 12],
+      tickLabels: this.tickLabels(0, 12, 0.5), 
       hint: 'Im a hint',
+
     },
     {
       title: 'Method',
