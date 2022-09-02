@@ -4,7 +4,7 @@ div
     app,
     v-model='safeActive',
     :timeout='4000',
-    top,
+    bottom,
     :color='color',
     flat
   )
