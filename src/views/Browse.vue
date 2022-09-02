@@ -28,7 +28,7 @@ v-layout(style='width: 100%')
           :smooth=25,
           :value='filter.tickLabels'
         )
-        v-range-slider.mt-n6(
+        v-range-slider.mt-n11(
           v-model='filter.range',
           :step='filter.step',
           :max='filter.max',
@@ -37,7 +37,7 @@ v-layout(style='width: 100%')
           track-fill-color='indigoA2',
           color='indigoA2'
         )
-        v-layout.mt-n6
+        v-layout.mt-n11
           v-text-field.pa-2(
             v-model='filter.range[0]',
             hide-details,
