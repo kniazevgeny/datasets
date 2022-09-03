@@ -30,7 +30,7 @@ v-layout(style='width: 100%')
         )
         v-range-slider.mt-n11(
           v-model='filter.range',
-          :step='filter.step',
+          :step='filter.step / 100',
           :max='filter.max',
           :min='filter.min',
           track-color='DimGray'
@@ -44,6 +44,7 @@ v-layout(style='width: 100%')
             filled,
             dense,
             label='min',
+            type="number",
             color='indigo accent-2'
           )
           v-text-field.pa-2(
@@ -130,6 +131,8 @@ export default class Browse extends Vue {
   getGradient(min, max, range, step) {
     let color = this.$vuetify.theme.themes.light['indigoA2']
     let colorDisabled = 'DimGray'
+    if (isNaN(range[0]) || typeof(range[0]) === 'string') return [colorDisabled]
+    // if (min == -10) console.log(range)
 
     let gradient: Array<String> = []
     for (let i = min; i < max; i += step) {
