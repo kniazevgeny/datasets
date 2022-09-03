@@ -30,7 +30,7 @@ v-layout(style='width: 100%')
         )
         v-range-slider.mt-n11(
           v-model='filter.range',
-          :step='filter.step / 100',
+          :step='filter.step',
           :max='filter.max',
           :min='filter.min',
           track-color='DimGray'
@@ -159,7 +159,7 @@ export default class Browse extends Vue {
       type: 'range',
       min: -10,
       max: 10,
-      step: 0.5,
+      step: 0.1,
       range: [-10, 10],
       tickLabels: this.tickLabels(-10, 10, 0.5), 
       hint: 'Im a hint',
@@ -174,7 +174,7 @@ export default class Browse extends Vue {
       type: 'range',
       min: 250,
       max: 590,
-      step: 10,
+      step: 1,
       tickLabels: this.tickLabels(250, 590, 20), 
       range: [250, 590],
       hint: 'Im a hint',
