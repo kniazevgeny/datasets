@@ -28,6 +28,8 @@ v-layout(style='width: 100%')
           :smooth=25,
           :value='filter.tickLabels'
         )
+        //- TODO: make filters less reactive (or take 0.1s to updage results)
+        //- instant changes are unnecessary but they kill performance
         v-range-slider.mt-n11(
           v-model='filter.range',
           :step='filter.step',
@@ -69,6 +71,7 @@ v-layout(style='width: 100%')
         color='indigo accent-2',
         @input='updateSearchReal'
       )
+    //- TODO: duplicate active filters on top of the table
     v-data-table(
       v-model='selected',
       fixed-header,
