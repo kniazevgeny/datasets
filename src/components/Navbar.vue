@@ -14,6 +14,10 @@ import { Watch } from 'vue-property-decorator'
 export default class Navbar extends Vue {
   toggle = 0
 
+  mounted() {
+    this.onRouteChange({}, {})
+  }
+
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
