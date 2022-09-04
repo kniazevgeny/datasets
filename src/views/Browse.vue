@@ -60,20 +60,21 @@ v-layout(style='width: 100%')
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
       v-text-field(
-        v-model='search',
+        v-model='searchVisible',
         append-icon='mdi-magnify',
         label='Type mutation id, protein, variation...',
         single-line,
         hide-details,
         filled,
-        color='indigo accent-2'
+        color='indigo accent-2',
+        @input='updateSearchReal'
       )
     v-data-table(
       v-model='selected',
       fixed-header,
       :headers='headers',
       :items='data',
-      :search='search',
+      :search='searchReal',
       item-key='name',
       show-select,
       checkbox-color='indigo accent-2',
@@ -95,7 +96,13 @@ import Component from 'vue-class-component'
 
 @Component({})
 export default class Browse extends Vue {
-  search: String = ''
+  searchVisible: String = ''
+  searchReal: String = '-1'
+
+  updateSearchReal() {
+    if (this.searchVisible != '') this.searchReal = this.searchVisible
+    else this.searchReal = '-1'
+  }
 
   randn_bm(min, max, skew) {
     let u = 0,
@@ -155,9 +162,11 @@ export default class Browse extends Vue {
     let result = false
 
     if (typeof search === 'string')
-      result = Object.values(item).some((el) =>
-        el.toString().toLowerCase().includes(search.toLowerCase())
-      )
+      if (search == '-1') result = true
+      else
+          result = Object.values(item).some((el) =>
+          el.toString().toLowerCase().includes(search.toLowerCase())
+        )
 
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
