@@ -33,7 +33,7 @@ v-layout(style='width: 100%')
           :step='filter.step',
           :max='filter.max',
           :min='filter.min',
-          track-color='DimGray'
+          track-color='DimGray',
           track-fill-color='indigoA2',
           color='indigoA2'
         )
@@ -44,7 +44,7 @@ v-layout(style='width: 100%')
             filled,
             dense,
             label='min',
-            type="number",
+            type='number',
             color='indigo accent-2'
           )
           v-text-field.pa-2(
@@ -53,6 +53,7 @@ v-layout(style='width: 100%')
             filled,
             dense,
             label='max',
+            type='number',
             color='indigo accent-2'
           )
       v-divider
@@ -76,7 +77,8 @@ v-layout(style='width: 100%')
       item-key='name',
       show-select,
       checkbox-color='indigo accent-2',
-      multi-sort
+      multi-sort,
+      :customFilter='customFilter'
     )
       template(v-slot:item.mutation='{ item }')
         v-chip.indigo--text.text--accent-2.font-weight-bold(
@@ -131,7 +133,7 @@ export default class Browse extends Vue {
   getGradient(min, max, range, step) {
     let color = this.$vuetify.theme.themes.light['indigoA2']
     let colorDisabled = 'DimGray'
-    if (isNaN(range[0]) || typeof(range[0]) === 'string') return [colorDisabled]
+    if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     // if (min == -10) console.log(range)
 
     let gradient: Array<String> = []
@@ -146,6 +148,33 @@ export default class Browse extends Vue {
 
   mounted() {}
 
+  customFilter(value: any, search: string | null, item: object) {
+    // in vue 2.6.9 works only if search string is provided
+    // So, we need some magic for user to ignore that bug
+
+    let result = false
+
+    if (typeof search === 'string')
+      result = Object.values(item).some((el) =>
+        el.toString().toLowerCase().includes(search.toLowerCase())
+      )
+
+    return Object.keys(item).reduce((prev, current) => {
+      if (prev === false) return false
+
+      // get suitable filter object
+      let currentFilter = this.filters.filter((f) => f.vaule === current)
+      if (currentFilter.length == 0) return true
+      if (currentFilter[0].type === 'range')
+        if (
+          item[current] < currentFilter[0].range[0] ||
+          item[current] > currentFilter[0].range[1]
+        )
+          return false
+      return true
+    }, result)
+  }
+
   filters = [
     {
       title: 'Variation',
@@ -154,6 +183,7 @@ export default class Browse extends Vue {
     },
     {
       title: 'ddg',
+      vaule: 'ddg',
       subtitle:
         'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
       type: 'range',
@@ -161,35 +191,37 @@ export default class Browse extends Vue {
       max: 10,
       step: 0.1,
       range: [-10, 10],
-      tickLabels: this.tickLabels(-10, 10, 0.5), 
+      tickLabels: this.tickLabels(-10, 10, 0.5),
       hint: 'Im a hint',
     },
     {
       title: 'Mutation',
+      vaule: 'mutation',
       subtitle: 'Mutation context',
     },
     {
       title: 'T',
+      vaule: 'temperature',
       subtitle: 'Temperature of the experiment in kelvins.',
       type: 'range',
       min: 250,
       max: 590,
       step: 1,
-      tickLabels: this.tickLabels(250, 590, 20), 
+      tickLabels: this.tickLabels(250, 590, 20),
       range: [250, 590],
       hint: 'Im a hint',
     },
     {
       title: 'pH',
+      vaule: 'ph',
       subtitle: 'pH of the experiment.',
       type: 'range',
       min: 0,
       max: 12,
       step: 0.5,
       range: [0, 12],
-      tickLabels: this.tickLabels(0, 12, 0.5), 
+      tickLabels: this.tickLabels(0, 12, 0.5),
       hint: 'Im a hint',
-
     },
     {
       title: 'Method',
@@ -219,7 +251,7 @@ export default class Browse extends Vue {
       align: 'start',
       width: '200',
     },
-    { text: 'T', value: 't' },
+    { text: 'T', value: 'temperature' },
     { text: 'pH', value: 'ph' },
   ]
   data = [
@@ -231,8 +263,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 275,
+      ph: 2,
     },
     {
       name: 'Q104P',
@@ -242,7 +274,7 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
+      temperature: 250,
       ph: 1,
     },
     {
@@ -253,8 +285,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 275,
+      ph: 2,
     },
     {
       name: 'A129D',
@@ -264,8 +296,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 300,
+      ph: 3,
     },
     {
       name: 'A129E',
@@ -275,8 +307,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 325,
+      ph: 4,
     },
     {
       name: 'A129S',
@@ -286,8 +318,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 350,
+      ph: 5,
     },
     {
       name: 'M133L',
@@ -297,8 +329,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 375,
+      ph: 6,
     },
     {
       name: 'F134L',
@@ -308,8 +340,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 400,
+      ph: 7,
     },
     {
       name: 'V143A',
@@ -319,8 +351,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 425,
+      ph: 8,
     },
     {
       name: 'L145Q',
@@ -330,8 +362,8 @@ export default class Browse extends Vue {
       uniprot: 'P04637',
       mutation: 'wt',
       protein: 'DNA-binding domain of human p53',
-      t: 198,
-      ph: 1,
+      temperature: 450,
+      ph: 9,
     },
   ]
 }
