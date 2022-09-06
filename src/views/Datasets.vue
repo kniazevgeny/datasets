@@ -69,22 +69,17 @@ v-layout(style='width: 100%')
           color='indigo accent-2',
           @input='updateSearchReal'
         )
+        //- TODO: mirror filters in v-chips
+        //- TODO: temoprarily sort only by one field
         v-card.mt-3(flat, width='250').float-right
           v-select(
             v-model='select',
-            multiple,
-            chips,
-            small-chips,
-            deletable-chips,
             clearable,
             outlined,
             label='Sort by',
-            :items='headers.filter((item) => item.sortable != false)'
+            :items='headers.filter((item) => item.sortable != false)',
+            @input='sortItems'
           )
-            template(v-slot:selection='{ item, index }')
-              v-chip(v-if='index === 0')
-                span {{ item.text }}
-              span.grey--text.text-caption(v-if='index === 1') (+{{ select.length - 1 }} others)
     //- v-data-table(
     //-   v-model='selected',
     //-   fixed-header,
@@ -214,6 +209,10 @@ export default class Datasets extends Vue {
     }, result)
   }
 
+  sortItems(value) {
+    this.data.sort((a, b) => b[value] - a[value])
+  }
+
   // TODO: hide subtitles inside tooltips
   filters = [
     {
@@ -303,7 +302,7 @@ export default class Datasets extends Vue {
     },
     { text: 'Origin', value: 'isOriginal', sortable: false, align: 'start' },
     { text: 'Size', value: 'size' },
-    { text: 'Doubled', value: 'doubled' },
+    { text: 'Doubled', value: 'doubled', sortable: false },
     { text: 'Source', value: 'source', sortable: false, align: 'start' },
     {
       text: 'Type',
