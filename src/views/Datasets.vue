@@ -93,6 +93,8 @@ v-layout(style='width: 100%')
             :items='headers.filter((item) => item.sortable != false)',
             @input='sortItems'
           )
+            template(v-slot:prepend)
+              v-icon(@click='flipSortOrder()' v-if='select' color='DarkGray') {{ isSortDescending ? "mdi-arrow-down" : "mdi-arrow-up" }}
     v-col
       DatasetCard.mb-2(
         v-for='card in dataVisible',
@@ -125,6 +127,8 @@ export default class Datasets extends Vue {
   searchReal: String = '-1'
 
   select = 0
+
+  isSortDescending = true
   
   get dataVisible() {    
     // Apply filters
@@ -220,7 +224,13 @@ export default class Datasets extends Vue {
   }
 
   sortItems(value) {
-    this.data.sort((a, b) => b[value] - a[value])
+    let factor = this.isSortDescending ? 1 : -1
+    this.data.sort((a, b) => factor * (b[value] - a[value]))
+  }
+
+  flipSortOrder() {
+    this.isSortDescending = !this.isSortDescending
+    if (this.select) this.sortItems(this.select)
   }
 
   get filterChips() {
