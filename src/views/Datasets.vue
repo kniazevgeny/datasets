@@ -95,7 +95,7 @@ v-layout(style='width: 100%')
           )
     v-col
       DatasetCard.mb-2(
-        v-for='card in data',
+        v-for='card in dataVisible',
         :key='card.name',
         :title='card.name',
         :originalPredictor='card.originalPredictor',
@@ -125,6 +125,15 @@ export default class Datasets extends Vue {
   searchReal: String = '-1'
 
   select = 0
+  
+  get dataVisible() {    
+    // Apply filters
+    let result = this.data.filter((item) => this.customFilter('', '-1', item))
+
+    // Values are already sorted in this.sortItems
+    // With datasets > 10 000 that approach may affect performance
+    return result
+  }
 
   updateSearchReal() {
     if (this.searchVisible != '') this.searchReal = this.searchVisible
@@ -199,6 +208,7 @@ export default class Datasets extends Vue {
       // get suitable filter object
       let currentFilter = this.filters.filter((f) => f.vaule === current)
       if (currentFilter.length == 0) return true
+      // check each type
       if (currentFilter[0].type === 'range')
         if (
           item[current] < currentFilter[0].range[0] ||
