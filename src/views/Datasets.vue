@@ -35,7 +35,7 @@ v-layout(style='width: 100%')
           :min='filter.min',
           track-color='DimGray',
           track-fill-color='indigoA2',
-          color='indigoA2'
+          color='indigoA2',
         )
         v-layout.mt-n11
           v-text-field.pa-2(
@@ -45,7 +45,7 @@ v-layout(style='width: 100%')
             dense,
             label='min',
             type='number',
-            color='indigo accent-2'
+            color='indigo accent-2',
           )
           v-text-field.pa-2(
             v-model='filter.range[1]',
@@ -53,7 +53,8 @@ v-layout(style='width: 100%')
             filled,
             dense,
             label='max',
-            color='indigo accent-2'
+            type='number',
+            color='indigo accent-2',
           )
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
@@ -69,9 +70,21 @@ v-layout(style='width: 100%')
           color='indigo accent-2',
           @input='updateSearchReal'
         )
-        //- TODO: mirror filters in v-chips
-        //- TODO: temoprarily sort only by one field
-        v-card.mt-3(flat, width='250').float-right
+        //- Mirror filters in v-chips
+        v-card.mt-3.float-left(flat)
+          v-chip-group
+            v-chip(
+              color='warning',
+              v-for='(filter, i) in filterChips',
+              :key='filter.vaule',
+              clearable,
+              @click='resetFilterByChipId(i)',
+              @click:close='resetFilterByChipId(i)',
+              close
+            ) 
+              span.font-weight-light {{ filter.title + ': ' }}
+              span.pl-1 {{ getFilterDescription(filter) }}
+        v-card.mt-3.float-right(flat, width='250')
           v-select(
             v-model='select',
             clearable,
@@ -80,19 +93,6 @@ v-layout(style='width: 100%')
             :items='headers.filter((item) => item.sortable != false)',
             @input='sortItems'
           )
-    //- v-data-table(
-    //-   v-model='selected',
-    //-   fixed-header,
-    //-   :headers='headers',
-    //-   :items='data',
-    //-   :search='searchReal',
-    //-   item-key='name',
-    //-   show-select,
-    //-   checkbox-color='indigo accent-2',
-    //-   multi-sort,
-    //-   :customFilter='customFilter'
-    //- )
-      //- template(v-slot:item='{ item }')
     v-col
       DatasetCard.mb-2(
         v-for='card in data',
@@ -213,6 +213,40 @@ export default class Datasets extends Vue {
     this.data.sort((a, b) => b[value] - a[value])
   }
 
+  get filterChips() {
+    return this.filters.filter((item) => {
+      if (item.type === 'range') {
+        if (item.min < item.range[0]) return true
+        if (item.range[1] < item.max) return true
+      }
+      // TBD
+      return false
+    })
+  }
+
+  resetFilterByChipId(chipId) {
+    console.log(this.filterChips[chipId])
+    let originalIndex = this.filters.indexOf(this.filterChips[chipId])
+    if (this.filters[originalIndex].type === 'range') {
+      this.resetRangeSlider(originalIndex)
+    }
+  }
+
+  resetRangeSlider(i) {
+    // solves reactivity problem
+    Vue.set(this.filters[i].range, 0, this.filters[i].min)
+    Vue.set(this.filters[i].range, 1, this.filters[i].max)
+  }
+
+  getFilterDescription(filter: typeof this.filters[2]) {
+    if (filter.type === 'range')
+      return (
+        (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
+        '→' +
+        (filter.range[1] == filter.max ? 'max' : filter.range[1])
+      )
+  }
+
   // TODO: hide subtitles inside tooltips
   filters = [
     {
@@ -311,6 +345,7 @@ export default class Datasets extends Vue {
       align: 'start',
     },
     { text: 'Proteins', value: 'proteins' },
+    { text: 'Year', value: 'year' },
     { text: 'doi', value: 'doi', sortable: false, align: 'start', width: '10' },
   ]
 

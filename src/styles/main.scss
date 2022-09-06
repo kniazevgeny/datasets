@@ -4,6 +4,8 @@ $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 // $accent: #E7EBFA;
 $border-radius-root: 15px;
 
+$chip-padding: 18px 12px;
+
 // @use 'vuetify/lib/styles' with (
 //   $body-font-family: $body-font-family
 // );
@@ -61,4 +63,8 @@ a:visited {
 }
 .v-slider--horizontal:hover {
   cursor: pointer;
+}
+
+.v-chip {
+  padding: $chip-padding !important;
 }

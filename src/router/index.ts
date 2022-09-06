@@ -18,6 +18,12 @@ const router = new Router({
       name: 'datasets',
       component: Datasets,
     },
+    // TODO: add page for each dataset (with graphs, stats etc)
+    // {
+    //   path: '/datasets/datasets/:id',
+    //   name: 'dataset overview',
+    //   component: DatasetView,
+    // },
     {
       path: '/datasets/*',
       name: 'notFound',
