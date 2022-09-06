@@ -57,35 +57,60 @@ v-layout(style='width: 100%')
           )
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
-    v-card-title
-      v-text-field(
-        v-model='searchVisible',
-        append-icon='mdi-magnify',
-        label='Type dataset name, year, author...',
-        single-line,
-        hide-details,
-        filled,
-        color='indigo accent-2',
-        @input='updateSearchReal'
-      )
-    v-data-table(
-      v-model='selected',
-      fixed-header,
-      :headers='headers',
-      :items='data',
-      :search='searchReal',
-      item-key='name',
-      show-select,
-      checkbox-color='indigo accent-2',
-      multi-sort,
-      :customFilter='customFilter'
-    )
+    v-card-title.pb-2
+      v-col.pb-0
+        v-text-field(
+          v-model='searchVisible',
+          append-icon='mdi-magnify',
+          label='Type dataset name, year, author...',
+          single-line,
+          hide-details,
+          filled,
+          color='indigo accent-2',
+          @input='updateSearchReal'
+        )
+        v-card.mt-3(flat, width='250').float-right
+          v-select(
+            v-model='select',
+            multiple,
+            chips,
+            small-chips,
+            deletable-chips,
+            clearable,
+            outlined,
+            label='Sort by',
+            :items='headers.filter((item) => item.sortable != false)'
+          )
+            template(v-slot:selection='{ item, index }')
+              v-chip(v-if='index === 0')
+                span {{ item.text }}
+              span.grey--text.text-caption(v-if='index === 1') (+{{ select.length - 1 }} others)
+    //- v-data-table(
+    //-   v-model='selected',
+    //-   fixed-header,
+    //-   :headers='headers',
+    //-   :items='data',
+    //-   :search='searchReal',
+    //-   item-key='name',
+    //-   show-select,
+    //-   checkbox-color='indigo accent-2',
+    //-   multi-sort,
+    //-   :customFilter='customFilter'
+    //- )
       //- template(v-slot:item='{ item }')
-    //- v-col
+    v-col
       DatasetCard.mb-2(
-        v-for='card in datasetCards',
-        :key='card.title',
-        :title='card.title'
+        v-for='card in data',
+        :key='card.name',
+        :title='card.name',
+        :originalPredictor='card.originalPredictor',
+        :isOriginal='card.isOriginal',
+        :size='card.size',
+        :doubled='card.doubled',
+        :source='card.source',
+        :type='card.type',
+        :proteins='card.proteins',
+        :doi='card.doi'
       )
 </template>
 
@@ -103,6 +128,8 @@ import DatasetCard from '@/components/DatasetCard.vue'
 export default class Datasets extends Vue {
   searchVisible: String = ''
   searchReal: String = '-1'
+
+  select = 0
 
   updateSearchReal() {
     if (this.searchVisible != '') this.searchReal = this.searchVisible
@@ -268,7 +295,12 @@ export default class Datasets extends Vue {
       sortable: false,
       value: 'name',
     },
-    { text: 'Original predictor', value: 'originalPredictor', sortable: false, align: 'start' },
+    {
+      text: 'Original predictor',
+      value: 'originalPredictor',
+      sortable: false,
+      align: 'start',
+    },
     { text: 'Origin', value: 'isOriginal', sortable: false, align: 'start' },
     { text: 'Size', value: 'size' },
     { text: 'Doubled', value: 'doubled' },
