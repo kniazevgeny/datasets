@@ -71,19 +71,21 @@ v-layout(style='width: 100%')
           @input='updateSearchReal'
         )
         //- Mirror filters in v-chips
-        v-card.mt-3.float-left(flat)
-          v-chip-group
-            v-chip(
-              color='warning',
-              v-for='(filter, i) in filterChips',
-              :key='filter.vaule',
-              clearable,
-              @click='resetFilterByChipId(i)',
-              @click:close='resetFilterByChipId(i)',
-              close
-            ) 
-              span.font-weight-light {{ filter.title + ': ' }}
-              span.pl-1 {{ getFilterDescription(filter) }}
+        v-expand-transition
+          v-card.mx-auto.mt-3.float-left(flat)
+            v-chip-group(column)
+              TransitionGroup(name='scale-w' mode='in-out' tag='div')
+                v-chip(
+                  color='warning',
+                  v-for='(filter, i) in filterChips',
+                  :key='filter.vaule',
+                  clearable,
+                  @click='resetFilterByChipId(i)',
+                  @click:close='resetFilterByChipId(i)',
+                  close
+                ) 
+                  span(v-if='filter').font-weight-light {{ filter.title + ': ' }}
+                  span.pl-1 {{ getFilterDescription(filter) }}
         v-card.mt-3.float-right(flat, width='250')
           v-select(
             v-model='select',
@@ -437,5 +439,17 @@ ul {
 li {
   display: inline-block;
   margin: 0 10px;
+}
+
+.scale-w-enter, .scale-w-enter-from, .scale-w-leave, .scale-w-leave-to {
+  transform: scaleX(0.5);
+  /* -webkit-transform: translate(-100px, 0); */
+  /* transform: translate(-100px, 0); */
+}
+.scale-w-enter-active, .scale-w-leave-active, .scale-w-move {
+  transition: all .2s ease
+}
+.scale-w-leave-active {
+  position: absolute;
 }
 </style>

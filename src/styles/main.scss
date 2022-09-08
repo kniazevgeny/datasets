@@ -67,4 +67,9 @@ a:visited {
 
 .v-chip {
   padding: $chip-padding !important;
+  transition: 0.2s ease-in;
+}
+.v-chip.warning:hover {
+  background-color: #fc4708 !important;
+  transition: 0.2s ease-in;
 }
