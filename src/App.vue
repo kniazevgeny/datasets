@@ -19,6 +19,7 @@ import Snackbar from './components/Snackbar.vue'
 import CookieLaw from 'vue-cookie-law'
 import { i18n } from '@/plugins/i18n'
 import { namespace } from 'vuex-class'
+import { User } from './store/modules/User'
 
 const AppStore = namespace('AppStore')
 const SnackbarStore = namespace('SnackbarStore')
@@ -31,9 +32,9 @@ const SnackbarStore = namespace('SnackbarStore')
 })
 export default class App extends Vue {
   @AppStore.State dark!: boolean
+  @AppStore.State user!: User | undefined
+  @AppStore.Mutation setUser!: (user: User) => void
   @SnackbarStore.Mutation hideSnackbar!: () => void
-
-  name = 'App'
 
   transitionName: String = 'slide-left'
 
@@ -43,6 +44,24 @@ export default class App extends Vue {
       themeColors[`--v-${color}`] = this.$vuetify.theme.themes.light[color]
     })
     return themeColors
+  }
+  
+  get newUid() {
+    // first 8 chars represent date
+    return Date.now().toString(36) + Math.random().toString(36).substr(2)
+  }
+
+  setOrGetUid() {
+    if (typeof this.user == "undefined") {
+      const uid: string = this.newUid
+      this.setUser({_id: uid})
+      // console.log(`set user with id ${this.user._id}`)
+    }
+    // else console.log(`identified user with id ${this.user._id}`)
+  }
+
+  mounted() {
+    this.setOrGetUid()
   }
 
   @Watch('$route')
