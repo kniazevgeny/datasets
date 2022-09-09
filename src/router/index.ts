@@ -21,7 +21,7 @@ const router = new Router({
     // TODO: add page for each dataset (with graphs, stats etc)
     // {
     //   path: '/datasets/datasets/:id',
-    //   name: 'dataset overview',
+    //   name: 'dataset-overview',
     //   component: DatasetView,
     // },
     {
