@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Datasets from '../views/Datasets.vue'
+import DatasetOverview from '../views/DatasetOverview.vue'
 import Browse from '../views/Browse.vue'
 
 Vue.use(Router)
@@ -19,11 +20,11 @@ const router = new Router({
       component: Datasets,
     },
     // TODO: add page for each dataset (with graphs, stats etc)
-    // {
-    //   path: '/datasets/datasets/:id',
-    //   name: 'dataset-overview',
-    //   component: DatasetView,
-    // },
+    {
+      path: '/datasets/datasets/:id',
+      name: 'dataset-overview',
+      component: DatasetOverview,
+    },
     {
       path: '/datasets/*',
       name: 'notFound',

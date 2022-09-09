@@ -1,6 +1,6 @@
 <template lang="pug">
-v-card
-  v-card-title {{ title }}
+v-card(flat outlined)
+  v-card-title(@click='$router.push(`/datasets/datasets/${_id}`)').link {{ title }}
   v-card-subtitle(v-if='typeof source == "string"').text-left Source: {{ source }}
   v-card-text
     v-col
@@ -18,7 +18,6 @@ v-card
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
         a.pr-2(v-if='typeof doi == "string"' :href="doi") doi
-  //- TODO: introduce a DatasetCard using texts from interviews
 </template>
 
 <script lang="ts">
@@ -28,6 +27,8 @@ import Component from 'vue-class-component'
 @Component({
   props: {
     title: String,
+    _id: String,
+    externalLink: String,
     originalPredictor: String,
     isOriginal: Boolean,
     size: Number,
@@ -40,6 +41,8 @@ import Component from 'vue-class-component'
 })
 export default class Datasets extends Vue {
   title!: String
+  _id!: String
+  externalLink?: String
   originalPredictor?: String
   isOriginal?: Boolean
   size?: Number

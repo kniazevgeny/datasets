@@ -22,7 +22,7 @@ $chip-padding: 18px 12px;
   border-radius: $border-radius-root !important;
 }
 
-a {
+a, .link {
   color: rgb(58, 124, 206) !important;
   border-color: 1px solid rgba(58, 124, 206, 0.3);
   cursor: pointer;
@@ -32,12 +32,13 @@ a {
 
 /* Reference to art.lebedev  */
 a:hover,
-a:visited:hover {
+a:visited:hover,
+.link:hover, .link:visited:hover {
   color: #f41224 !important;
   border-color: rgba(244, 18, 36, 0.3);
 }
 
-a:visited {
+a:visited, .link:visited {
   color: #b40eb4 !important;
   border-color: rgba(180, 14, 180, 0.3);
 }

@@ -59,7 +59,7 @@ v-layout(style='width: 100%')
       v-divider
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
-      v-col.pb-0
+      v-col.pb-2
         v-text-field(
           v-model='searchVisible',
           append-icon='mdi-magnify',
@@ -97,20 +97,23 @@ v-layout(style='width: 100%')
           )
             template(v-slot:prepend)
               v-icon(@click='flipSortOrder()' v-if='select' color='DarkGray') {{ isSortDescending ? "mdi-arrow-down" : "mdi-arrow-up" }}
-    v-col
-      DatasetCard.mb-2(
-        v-for='card in dataVisible',
-        :key='card.name',
-        :title='card.name',
-        :originalPredictor='card.originalPredictor',
-        :isOriginal='card.isOriginal',
-        :size='card.size',
-        :doubled='card.doubled',
-        :source='card.source',
-        :type='card.type',
-        :proteins='card.proteins',
-        :doi='card.doi'
-      )
+    v-card-text.pb-2
+      v-col
+        DatasetCard.mb-2(
+          v-for='card in dataVisible',
+          :key='card.name',
+          :title='card.name',
+          :_id='card._id',
+          :externalLink='card.externalLink',
+          :originalPredictor='card.originalPredictor',
+          :isOriginal='card.isOriginal',
+          :size='card.size',
+          :doubled='card.doubled',
+          :source='card.source',
+          :type='card.type',
+          :proteins='card.proteins',
+          :doi='card.doi'
+        )
 </template>
 
 <script lang="ts">
@@ -384,6 +387,7 @@ export default class Datasets extends Vue {
   data: Dataset[] = [
     {
       name: 'Q3488',
+      _id: 'Q3488',
       originalPredictor: 'ThermoNet',
       isOriginal: false,
       size: 1744,
@@ -395,6 +399,7 @@ export default class Datasets extends Vue {
     },
     {
       name: 'p53',
+      _id: 'p53',
       originalPredictor: 'CSM',
       isOriginal: true,
       size: 42,
@@ -405,6 +410,7 @@ export default class Datasets extends Vue {
     },
     {
       name: 'Card 3',
+      _id: 'card3',
       originalPredictor: 'originalPredictor',
       isOriginal: true,
       size: 0,
@@ -415,6 +421,7 @@ export default class Datasets extends Vue {
     },
     {
       name: 'Card 4',
+      _id: 'card4',
       originalPredictor: 'originalPredictor',
       isOriginal: true,
       size: 0,
@@ -425,6 +432,7 @@ export default class Datasets extends Vue {
     },
     {
       name: 'Card 5',
+      _id: 'card5',
       originalPredictor: 'originalPredictor',
       isOriginal: true,
       size: 0,
