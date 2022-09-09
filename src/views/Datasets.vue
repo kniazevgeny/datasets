@@ -118,6 +118,9 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import DatasetCard from '@/components/DatasetCard.vue'
 
+import { getDatasets } from '@/utils/api'
+import { Dataset } from '@/models/Dataset'
+
 @Component({
   props: {},
   components: {
@@ -269,6 +272,13 @@ export default class Datasets extends Vue {
       )
   }
 
+  mounted() {
+    // getDatasets().then(response => {
+    //   this.data = response
+    //   console.log(response)
+    // })
+  }
+
   // TODO: hide subtitles inside tooltips
   filters = [
     {
@@ -371,7 +381,7 @@ export default class Datasets extends Vue {
     { text: 'doi', value: 'doi', sortable: false, align: 'start', width: '10' },
   ]
 
-  data = [
+  data: Dataset[] = [
     {
       name: 'Q3488',
       originalPredictor: 'ThermoNet',

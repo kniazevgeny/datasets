@@ -19,7 +19,7 @@ import Snackbar from './components/Snackbar.vue'
 import CookieLaw from 'vue-cookie-law'
 import { i18n } from '@/plugins/i18n'
 import { namespace } from 'vuex-class'
-import { User } from './store/modules/User'
+import { User } from '@/models/User'
 
 const AppStore = namespace('AppStore')
 const SnackbarStore = namespace('SnackbarStore')
