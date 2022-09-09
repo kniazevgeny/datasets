@@ -1,6 +1,9 @@
 <template lang="pug">
 v-card(flat outlined)
-  v-card-title(@click='$router.push(`/datasets/datasets/${_id}`)').link {{ title }}
+  v-card-title(v-if='typeof externalLink == "undefined"' @click='$router.push(`/datasets/datasets/${_id}`)').link {{ title }}
+  v-card-title(v-else)
+    a(:href='externalLink').external-link {{ title }}
+    v-icon(small) mdi-open-in-new
   v-card-subtitle(v-if='typeof source == "string"').text-left Source: {{ source }}
   v-card-text
     v-col

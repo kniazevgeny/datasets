@@ -411,6 +411,7 @@ export default class Datasets extends Vue {
     {
       name: 'Card 3',
       _id: 'card3',
+      externalLink: 'https://google.com',
       originalPredictor: 'originalPredictor',
       isOriginal: true,
       size: 0,
@@ -432,6 +433,7 @@ export default class Datasets extends Vue {
     },
     {
       name: 'Card 5',
+      externalLink: 'https://google.com/a',
       _id: 'card5',
       originalPredictor: 'originalPredictor',
       isOriginal: true,
