@@ -6,7 +6,7 @@ v-layout
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-icon.float-left mdi-download-outline
-    v-row.ma-4
+    v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table(
           fixed-header,
           :headers='data_sample.headers',
@@ -22,8 +22,14 @@ import router from '@/router'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-@Component({})
+@Component({
+  props: {
+    id: String
+  }
+})
 export default class Datasets extends Vue {
+  id?: String
+
   overview_sample = {
     fileName: `${this.datasetId}-dataset-file-name.csv`,
     doiDescription:
@@ -531,6 +537,7 @@ export default class Datasets extends Vue {
   }
 
   get datasetId() {
+    if (typeof this.id != 'undefined') return this.id
     return router.currentRoute.path.split('/').pop()
   }
 

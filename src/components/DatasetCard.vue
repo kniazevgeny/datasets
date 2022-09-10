@@ -1,10 +1,22 @@
 <template lang="pug">
-v-card(flat outlined)
-  v-card-title(v-if='typeof externalLink == "undefined"' @click='$router.push(`/datasets/datasets/${_id}`)').link {{ title }}
+v-card(flat, outlined)
+  v-dialog(
+    v-model='dialog',
+    width='500',
+    v-if='typeof externalLink == "undefined"'
+  )
+    template(v-slot:activator='{ on, attrs }')
+      v-card-title.mb-0.link(
+        v-bind='attrs',
+        v-on='on',
+        @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
+      ) {{ title }}
+    v-card.white
+      DatasetOverview(:id='_id')
   v-card-title(v-else)
-    a(:href='externalLink').external-link {{ title }}
+    a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
-  v-card-subtitle(v-if='typeof source == "string"').text-left Source: {{ source }}
+  v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
   v-card-text
     v-col
       v-row
@@ -20,12 +32,13 @@ v-card(flat outlined)
         span.pr-2 -
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
-        a.pr-2(v-if='typeof doi == "string"' :href="doi") doi
+        a.pr-2(v-if='typeof doi == "string"', :href='doi') doi
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import DatasetOverview from '../views/DatasetOverview.vue'
 
 @Component({
   props: {
@@ -41,6 +54,8 @@ import Component from 'vue-class-component'
     proteins: Number,
     doi: String,
   },
+components: {
+  DatasetOverview
 })
 export default class Datasets extends Vue {
   title!: String
@@ -54,6 +69,8 @@ export default class Datasets extends Vue {
   type?: String
   proteins?: Number
   doi?: String
+
+  dialog = false
 }
 </script>
 
