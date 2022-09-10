@@ -6,6 +6,10 @@ v-layout
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-icon.float-left mdi-download-outline
+    v-row.ma-4 
+      //- Charts here
+      //- vue-chart-js for ddg perpesentation
+      //- v-simple-table with reactive color set-up
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table(
           fixed-header,
@@ -34,7 +38,7 @@ export default class Datasets extends Vue {
     fileName: `${this.datasetId}-dataset-file-name.csv`,
     doiDescription:
       'Pires, D. E. V., Ascher, D. B., & Blundell, T. L. (2013). mCSM: predicting the effects of mutations in proteins using graph-based signatures. Bioinformatics, 30(3), 335–342',
-    doiLink: 'https://10.1093/bioinformatics/btt691',
+    doiLink: 'https://doi.org/10.1093/bioinformatics/btt691',
     originalPredictor: {
       title: 'CSM',
       path: '',

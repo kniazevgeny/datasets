@@ -54,8 +54,9 @@ import DatasetOverview from '../views/DatasetOverview.vue'
     proteins: Number,
     doi: String,
   },
-components: {
-  DatasetOverview
+  components: {
+    DatasetOverview
+  }
 })
 export default class Datasets extends Vue {
   title!: String
