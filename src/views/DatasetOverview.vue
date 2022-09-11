@@ -1,23 +1,39 @@
 <template lang="pug">
-v-layout
+v-layout(style='width: 100%')
   v-col
-    v-row.ma-4
+    v-row.ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
-      v-icon.float-left mdi-download-outline
+      v-btn(outlined large text @click='$router.push(`/datasets/datasets/${datasetId}`)').ml-2
+        v-icon mdi-fullscreen
+      v-btn(outlined large text).ml-2
+        v-icon mdi-download-outline
+      v-spacer
+      v-btn(outlined large text color='warning')
+        v-icon mdi-close
     v-row.ma-4 
+      v-simple-table(dense)
+        template(v-slot:default)
+          thead
+            tr
+              th
+              th.text-left(v-for='title in mutations_headers', :key='title') {{ title }}
+          tbody
+            tr(v-for='(items, i) in mutations_sample', :key='i')
+              td {{mutations_headers[i]}}
+              td.font-weight-bold(v-for='(item, j) in items', :key='j', :style='getMuationColor(item)') {{ item == -1 ? '' : item }}
       //- Charts here
       //- vue-chart-js for ddg perpesentation
       //- v-simple-table with reactive color set-up
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table(
-          fixed-header,
-          :headers='data_sample.headers',
-          :items='data_sample.data',
-          item-key='name',
-          checkbox-color='indigo accent-2',
-          multi-sort,
+        fixed-header,
+        :headers='data_sample.headers',
+        :items='data_sample.data',
+        item-key='name',
+        checkbox-color='indigo accent-2',
+        multi-sort
       )
 </template>
 
@@ -28,8 +44,8 @@ import Component from 'vue-class-component'
 
 @Component({
   props: {
-    id: String
-  }
+    id: String,
+  },
 })
 export default class Datasets extends Vue {
   id?: String
@@ -52,6 +68,47 @@ export default class Datasets extends Vue {
     proteins: 1,
     fileSize: '52.4 kB',
     overview: {},
+  }
+
+  mutations_headers = [
+    'A',
+    'R',
+    'N',
+    'D',
+    'C',
+    'E',
+    'Q',
+    'G',
+    'H',
+    'I',
+    'L',
+    'K',
+    'M',
+    'F',
+    'P',
+    'S',
+    'T',
+    'W',
+    'Y',
+    'V',
+  ]
+
+  mutations_sample: number[][] = []
+
+  getMuationColor(n: number) {
+    return `background: hsl(231deg 100% 66% / ${n/165*100}%)`
+  }
+
+  geterateMutationsSample() {
+    for (let i = 0; i < 20; i++) {
+      let arr: number[] = []
+      const anchor = Math.round(Math.random() * 155) + 10
+      for (let j = 0; j < 20; j++) {
+        if (i == j) arr.push(-1)
+        else arr.push(Math.round(Math.random() * 20 - 10 + anchor))
+      }
+      this.mutations_sample.push(arr)
+    }
   }
 
   data_sample = {
@@ -552,6 +609,7 @@ export default class Datasets extends Vue {
 
   mounted() {
     console.log(this.datasetId)
+    this.geterateMutationsSample()
   }
 }
 </script>

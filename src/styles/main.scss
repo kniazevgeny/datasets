@@ -87,3 +87,8 @@ a:visited, .link:visited, .external-link:visited {
   background-color: #fc4708 !important;
   transition: 0.2s ease-in;
 }
+
+.v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+  padding: 0 6px !important;
+}

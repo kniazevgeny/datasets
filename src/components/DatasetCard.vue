@@ -2,7 +2,7 @@
 v-card(flat, outlined)
   v-dialog(
     v-model='dialog',
-    width='500',
+    width='1000',
     v-if='typeof externalLink == "undefined"'
   )
     template(v-slot:activator='{ on, attrs }')
@@ -11,7 +11,7 @@ v-card(flat, outlined)
         v-on='on',
         @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
       ) {{ title }}
-    v-card.white
+    v-card.white()
       DatasetOverview(:id='_id')
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ title }}
