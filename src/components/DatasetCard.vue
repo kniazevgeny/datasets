@@ -12,7 +12,7 @@ v-card(flat, outlined)
         @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
       ) {{ title }}
     v-card.white()
-      DatasetOverview(:id='_id')
+      DatasetOverview(:id='_id' @closeDialog='closeDialog')
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
@@ -72,6 +72,10 @@ export default class Datasets extends Vue {
   doi?: String
 
   dialog = false
+
+  closeDialog() {
+    this.dialog = false
+  }
 }
 </script>
 

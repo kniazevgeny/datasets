@@ -1,7 +1,7 @@
 <template lang="pug">
 v-layout(style='width: 100%')
   v-col
-    v-row.ma-4.d-flex.align-center
+    v-row(v-if='typeof id == "string"').ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
@@ -10,8 +10,15 @@ v-layout(style='width: 100%')
       v-btn(outlined large text).ml-2
         v-icon mdi-download-outline
       v-spacer
-      v-btn(outlined large text color='warning')
+      v-btn(outlined large text @click='$emit("closeDialog")')
         v-icon mdi-close
+    v-row(v-else).ma-4.d-flex.align-center
+      span.heading-1.float-left
+        span.font-weight-bold {{ overview_sample.fileName }}
+        span ({{ overview_sample.fileSize }})
+      v-spacer
+      v-btn(outlined large text).ml-2
+        v-icon mdi-download-outline
     v-row.ma-4 
       v-simple-table(dense)
         template(v-slot:default)
@@ -48,7 +55,7 @@ import Component from 'vue-class-component'
   },
 })
 export default class Datasets extends Vue {
-  id?: String
+  id?: String | undefined
 
   overview_sample = {
     fileName: `${this.datasetId}-dataset-file-name.csv`,
