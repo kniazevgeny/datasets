@@ -1,9 +1,9 @@
 <template lang="pug">
 v-app-bar(absolute, elevation='1')
   v-btn-toggle.mb-0.pb-0(ref='navToggle', v-model='toggle', active-class='bg-primary')
-    v-btn(text, rounded, @click='$router.push("/datasets/")') browse
-    v-btn(text, @click='$router.push("/datasets/datasets")') datasets
-    v-btn(text, @click='$router.push("/datasets/predictors")') predictors
+    v-btn(text, x-large, rounded, @click='$router.push("/datasets/browse")') browse
+    v-btn(text, x-large, @click='$router.push("/datasets/datasets")') datasets
+    v-btn(text, x-large, @click='$router.push("/datasets/predictors")') predictors
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -21,7 +21,7 @@ export default class Navbar extends Vue {
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
-      '/datasets',
+      '/datasets/browse',
       '/datasets/datasets',
       '/datasets/predictors',
     ]

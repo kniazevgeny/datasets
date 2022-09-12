@@ -6,7 +6,9 @@ v-app(:style='cssProps')
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
   v-main.mt-12
     transition(:name='transitionName')
-      router-view.view.mt-12
+      router-view.view.mt-12(fluid)
+  //- TODO: adjust .v-main__wrap to fill-height
+  //- CustomFooter
 </template>
 
 <script lang="ts">
@@ -15,6 +17,7 @@ import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 import Navbar from './components/Navbar.vue'
 import Snackbar from './components/Snackbar.vue'
+import CustomFooter from './components/CustomFooter.vue'
 
 import CookieLaw from 'vue-cookie-law'
 import { i18n } from '@/plugins/i18n'
@@ -28,6 +31,7 @@ const SnackbarStore = namespace('SnackbarStore')
   components: {
     Navbar,
     Snackbar,
+    CustomFooter
   },
 })
 export default class App extends Vue {
@@ -67,7 +71,8 @@ export default class App extends Vue {
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
-      '/datasets',
+      '/datasets', // for animation to work correctly
+      '/datasets/browse',
       '/datasets/datasets',
       '/datasets/predictors',
     ]
@@ -105,16 +110,17 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.175s ease-out;
 }
 
 .slide-left-enter,

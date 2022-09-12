@@ -1,8 +1,12 @@
 $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+$accent-font-family: 'Alegreya Sans', Inter, Avenir, Helvetica, Arial,
+  sans-serif;
+
 // $primary: #a5a6f6;
 // $secondary: #F5F7FD;
 // $accent: #E7EBFA;
 $border-radius-root: 15px;
+$btn-toggle-border-radius: 8px;
 
 $chip-padding: 18px 12px;
 
@@ -15,14 +19,16 @@ $chip-padding: 18px 12px;
 }
 
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
-  background: var(--v-base)!important;
+  background: var(--v-base) !important;
 }
 
-.v-data-table, .v-data-table__wrapper {
+.v-data-table,
+.v-data-table__wrapper {
   border-radius: $border-radius-root !important;
 }
 
-a, .link {
+a,
+.link {
   color: rgb(58, 124, 206) !important;
   border-color: 1px solid rgba(58, 124, 206, 0.3) !important;
   cursor: pointer;
@@ -38,20 +44,25 @@ a, .link {
 //   transition: color 0.3s ease, border-color 0.3s ease;
 // }
 
-.link, .external-link {
+.link,
+.external-link {
   text-decoration: underline;
 }
 
 /* Reference to art.lebedev  */
 a:hover,
 a:visited:hover,
-.link:hover, .link:visited:hover,
-.external-link:hover, .external-link:visited:hover {
+.link:hover,
+.link:visited:hover,
+.external-link:hover,
+.external-link:visited:hover {
   color: #f41224 !important;
   border-color: rgba(244, 18, 36, 0.3);
 }
 
-a:visited, .link:visited, .external-link:visited {
+a:visited,
+.link:visited,
+.external-link:visited {
   color: #b40eb4 !important;
   border-color: rgba(180, 14, 180, 0.3);
 }
@@ -73,7 +84,7 @@ a:visited, .link:visited, .external-link:visited {
 }
 
 .v-slider--horizontal {
-  min-height: 68px !important; 
+  min-height: 68px !important;
 }
 .v-slider--horizontal:hover {
   cursor: pointer;
@@ -91,4 +102,21 @@ a:visited, .link:visited, .external-link:visited {
 .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   padding: 0 6px !important;
+}
+
+.v-btn-toggle {
+  border-radius: $btn-toggle-border-radius !important;
+}
+
+.v-btn {
+  border-radius: 4px;
+}
+
+.v-btn__content {
+  font-family: $accent-font-family;
+  font-weight: 800;
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  letter-spacing: 0px;
+  // color: rgba(0, 0, 0, 0.8) !important;
 }

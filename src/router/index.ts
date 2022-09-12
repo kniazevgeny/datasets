@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Datasets from '../views/Datasets.vue'
 import DatasetOverview from '../views/DatasetOverview.vue'
 import Browse from '../views/Browse.vue'
+import Home from '@/views/Home.vue'
 
 Vue.use(Router)
 
@@ -11,6 +12,11 @@ const router = new Router({
   routes: [
     {
       path: '/datasets',
+      name: 'home',
+      component: Home,
+    },
+    {
+      path: '/datasets/browse',
       name: 'browse',
       component: Browse,
     },
