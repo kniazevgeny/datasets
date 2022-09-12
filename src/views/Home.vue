@@ -1,8 +1,8 @@
 <template lang="pug">
 v-layout(column style='width: 100vw')
   v-layout.justify-center.align-center(style='height: 70vh')
-    v-flex(xs0, sm2)
-    v-flex.mt-12(xs12, sm8)
+    v-flex(xs1, sm2)
+    v-flex.mt-12(xs10, sm8)
       transition(name='fade', appear, appear-active-class="fade-enter-active")
         v-col(style="flex-wrap: nowrap")
           span.text-h3.indigoA3--text Datasets project&nbsp;
@@ -27,7 +27,7 @@ v-layout(column style='width: 100vw')
             @click='$router.push("/datasets/browse")'
           ) Get Started
         v-flex(xs0 sm2)
-    v-flex(xs0, sm2)
+    v-flex(xs1, sm2)
   //- v-layout.justify-center.align-center(style='height: 70vh')
   //-   v-flex(xs0, sm2)
   //-   v-flex.mt-12(xs12, sm8)
