@@ -1,14 +1,13 @@
 <template lang="pug">
-v-app(:style='cssProps')
+v-app(:style='cssProps' style='height: 100%')
   Navbar
   Snackbar
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
-  v-main.mt-12
-    transition(:name='transitionName')
-      router-view.view.mt-12(fluid)
+  transition(:name='transitionName' el='div')
+    router-view.view.mt-12(fluid)
+  CustomFooter
   //- TODO: adjust .v-main__wrap to fill-height
-  //- CustomFooter
 </template>
 
 <script lang="ts">
@@ -138,7 +137,6 @@ export default class App extends Vue {
   transform: translate(-100px, 0);
 }
 .view {
-  position: absolute;
   transition: all 0.175s cubic-bezier(0.44, 0.05, 0.3, 1);
 }
 </style>
