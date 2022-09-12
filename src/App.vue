@@ -4,8 +4,8 @@ v-app(:style='cssProps' style='height: 100%')
   Snackbar
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
-  transition(:name='transitionName' el='div')
-    router-view.view.mt-12(fluid)
+  transition(:name='transitionName')
+    router-view.view.mt-12.pt-12(fluid)
   CustomFooter
   //- TODO: adjust .v-main__wrap to fill-height
 </template>

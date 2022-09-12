@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout(column style='width: 100vw')
+v-layout(column style='width: 100vw; min-height: 90vh')
   v-layout.justify-center.align-center(style='height: 70vh')
     v-flex(xs1, sm2)
     v-flex.mt-12(xs10, sm8)
