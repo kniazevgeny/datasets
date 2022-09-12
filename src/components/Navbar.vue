@@ -1,6 +1,6 @@
 <template lang="pug">
-v-app-bar(absolute, elevation='1')
-  v-btn-toggle.mb-0.pb-0(ref='navToggle', v-model='toggle', active-class='bg-primary')
+v-app-bar(absolute, color='iris60', flat, height=60)
+  v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle', background-color='#ddd' active-class='bg-primary')
     v-btn(text, x-large, rounded, @click='$router.push("/datasets/browse")') browse
     v-btn(text, x-large, @click='$router.push("/datasets/datasets")') datasets
     v-btn(text, x-large, @click='$router.push("/datasets/predictors")') predictors

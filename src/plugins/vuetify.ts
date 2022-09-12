@@ -25,6 +25,7 @@ export default new Vuetify({
         accent: '#E7EBFA',
         indigoA2: '#536DFE',
         indigoA3: '#3D5AFE',
+        iris60: '#a5a6f6',
         warning: '#FF7E36',
         externalLink: '#2dd65c',
         borderRadius: '15px',
