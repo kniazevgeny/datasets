@@ -105,7 +105,10 @@ a:visited,
 }
 
 .v-btn-toggle {
-  border-radius: $btn-toggle-border-radius !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: $btn-toggle-border-radius !important;
+  border-top-left-radius: $btn-toggle-border-radius !important;
 }
 
 .v-btn {
@@ -132,4 +135,20 @@ button.v-btn {
 .bg-primary {
   background: white;
   color: black !important;
+}
+
+button.indigoA3:hover:not([disabled]) {
+  filter: brightness(110%);
+  transition: all 250ms ease 0s;
+  box-shadow: 0px 5px hsl(261deg 99% 42%);
+  padding-bottom: 6px;
+  margin-bottom: 1px;
+  padding-top: 7px; 
+}
+
+
+button.indigoA3:active{
+  transform: translateY(4px); 
+  box-shadow: 0px 0px !important; 
+  transition: all 120ms ease 0s;
 }
