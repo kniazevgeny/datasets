@@ -276,10 +276,10 @@ export default class Datasets extends Vue {
   }
 
   mounted() {
-    // getDatasets().then(response => {
-    //   this.data = response
-    //   console.log(response)
-    // })
+    getDatasets().then(response => {
+      this.data = response
+      console.log(response)
+    })
   }
 
   // TODO: hide subtitles inside tooltips

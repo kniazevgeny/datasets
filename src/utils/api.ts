@@ -4,7 +4,7 @@ import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
-const base = 'http://192.168.31.242:1337'
+const base = 'http://85.143.173.6:1337'
 
 function logUserAction() {}
 
