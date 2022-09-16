@@ -99,11 +99,12 @@ v-layout(style='width: 100%')
               v-icon(@click='flipSortOrder()' v-if='select' color='DarkGray') {{ isSortDescending ? "mdi-arrow-down" : "mdi-arrow-up" }}
     v-card-text.pb-2
       v-col
+        //- id should be id, not name
         DatasetCard.mb-2(
           v-for='card in dataVisible',
           :key='card.name',
           :title='card.name',
-          :_id='card._id',
+          :_id='card.name',
           :externalLink='card.externalLink',
           :originalPredictor='card.originalPredictor',
           :isOriginal='card.isOriginal',
