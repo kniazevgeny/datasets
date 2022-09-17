@@ -60,7 +60,7 @@ v-layout(style='width: 100%')
           )
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
-    v-card-title
+    v-card-title.pl-0.pr-0
       v-text-field(
         v-model='searchVisible',
         append-icon='mdi-magnify',
