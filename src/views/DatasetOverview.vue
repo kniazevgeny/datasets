@@ -39,7 +39,7 @@ v-layout(style='width: 100%')
         :headers='data_sample.headers',
         :items='data_sample.data',
         item-key='name',
-        checkbox-color='indigo accent-2',
+        checkbox-color='primary',
         multi-sort
       )
 </template>

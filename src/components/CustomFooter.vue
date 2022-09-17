@@ -1,6 +1,6 @@
 <template lang="pug">
 v-footer(dark bottom padless).mt-12
-  v-card.lighten-1.white--text.text-center(flat, tile, indigo, style='width: 100vw')
+  v-card.lighten-1.white--text.text-center(flat, tile, style='width: 100vw')
     v-card-text
       a(href="https://t.me/kniazevgeny")
         v-btn.mx-4.white--text(@click='')
