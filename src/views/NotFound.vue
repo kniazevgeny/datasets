@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(column).justify-center.align-center(style='min-height: 90vh')
-  h1 {{ $t('notFound') }}
+  h1.font-accent {{ $t('notFound') }}
   router-link(to="/datasets") Home page
 </template>
 

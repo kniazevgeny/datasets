@@ -1,5 +1,5 @@
 $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-$accent-font-family: 'Alegreya Sans', Inter, Avenir, Helvetica, Arial,
+$accent-font-family: Alegreya Sans, Inter, Avenir, Helvetica, Arial,
   sans-serif;
 
 // $primary: #a5a6f6;
@@ -19,7 +19,8 @@ $chip-padding: 18px 12px;
 }
 
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
-  background: var(--v-base) !important;
+  background: var(--v-secondary) !important;
+  // color: #fff !important;
 }
 
 .v-data-table,
@@ -29,7 +30,7 @@ $chip-padding: 18px 12px;
 
 a,
 .link {
-  color: rgb(58, 124, 206) !important;
+  color: var(--v-primary) !important;
   border-color: 1px solid rgba(58, 124, 206, 0.3) !important;
   cursor: pointer;
   -webkit-transition: color 0.3s ease, border-color 0.3s ease;
@@ -104,15 +105,18 @@ a:visited,
   padding: 0 6px !important;
 }
 
-.v-btn-toggle {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  border-top-right-radius: $btn-toggle-border-radius !important;
-  border-top-left-radius: $btn-toggle-border-radius !important;
-}
 
 .v-btn {
   border-radius: 4px;
+  transform: none;
+}
+
+.v-btn:hover {
+  transform: scale(1.1);
+}
+
+.v-btn-toggle > .v-btn:hover {
+  transform: none;
 }
 
 .v-btn__content {
@@ -124,20 +128,15 @@ a:visited,
   // color: rgba(0, 0, 0, 0.8) !important;
 }
 
-.theme--light.v-btn--active::before {
-  opacity: 0 !important;
+.v-btn-toggle > .v-btn--active::before {
+  display: none;
 }
 
 button.v-btn {
-  border: none !important;
+  border: 4px #fff !important;
 }
 
-.bg-primary {
-  background: white;
-  color: black !important;
-}
-
-button.indigoA3:hover:not([disabled]) {
+button.primary:hover:not([disabled]) {
   filter: brightness(110%);
   transition: all 250ms ease 0s;
   box-shadow: 0px 5px hsl(261deg 99% 42%);
@@ -147,8 +146,28 @@ button.indigoA3:hover:not([disabled]) {
 }
 
 
-button.indigoA3:active{
+button.primary:active{
   transform: translateY(4px); 
   box-shadow: 0px 0px !important; 
   transition: all 120ms ease 0s;
+}
+
+.font-accent {
+  font-family: $accent-font-family !important;
+}
+
+.text-h5 {
+  font-size: 1.5rem !important;
+  font-weight: 400;
+  line-height: 2rem;
+  font-family: $accent-font-family !important;
+}
+
+
+.v-application {
+  .text-h5 {
+    color: #1e1e1e;
+    font-family: $accent-font-family, sans-serif !important;
+  }
+  font-family: $body-font-family, sans-serif !important;
 }

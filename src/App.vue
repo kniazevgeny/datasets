@@ -7,7 +7,6 @@ v-app(:style='cssProps' style='height: 100%')
   transition(:name='transitionName')
     router-view.view.mt-12.pt-12(fluid)
   CustomFooter
-  //- TODO: adjust .v-main__wrap to fill-height
 </template>
 
 <script lang="ts">

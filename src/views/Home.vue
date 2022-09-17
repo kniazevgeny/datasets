@@ -5,17 +5,17 @@ v-layout(column style='width: 100vw; min-height: 90vh')
     v-flex.mt-12(xs10, sm8)
       transition(name='fade', appear, appear-active-class="fade-enter-active")
         v-col(style="flex-wrap: nowrap")
-          span.text-h3.indigoA3--text Datasets project&nbsp;
+          span.text-h3.primary--text Datasets project&nbsp;
           span.text-h3.black--text – browse mutations and analyze datasets
       v-row.justify-center.pt-3
         p.mt-0.mb-0(style='width: 100%')
-          span.font-weight-bold.indigoA3--text Analyze&nbsp;
+          span.font-weight-bold.primary--text Analyze&nbsp;
           span datasets before downloading them, 
         p.mt-0.mb-0(style='width: 100%')
-          span.font-weight-bold.indigoA3--text Filter&nbsp;
+          span.font-weight-bold.primary--text Filter&nbsp;
           span and merge data from different sources,
         p(style='width: 100%') 
-          span.font-weight-bold.indigoA3--text Explore&nbsp;
+          span.font-weight-bold.primary--text Explore&nbsp;
           span state-of-the-art predictors and get datasets for the ranking task 
       v-row.justify-center.pt-12
         v-flex(xs0 sm2)
@@ -23,7 +23,7 @@ v-layout(column style='width: 100vw; min-height: 90vh')
           v-btn.white--text(
             x-large,
             block,
-            color='indigoA3',
+            color='primary',
             @click='$router.push("/datasets/browse")'
           ) Get Started
         v-flex(xs0 sm2)

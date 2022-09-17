@@ -7,11 +7,11 @@ v-layout(style='width: 100%')
     absolute=false
   )
     //- Filters
-    .base.pa-5(
+    .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold Filters!
-    v-list.accent.pa-4(
+      .text-h5.font-weight-bold Filters
+    v-list.pa-4(
       color='transparent',
       v-for='filter in filters',
       :key='filter.title'
@@ -58,7 +58,7 @@ v-layout(style='width: 100%')
             type='number',
             color='indigo accent-2'
           )
-      v-divider
+      v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title
       v-text-field(

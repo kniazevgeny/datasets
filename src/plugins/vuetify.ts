@@ -19,13 +19,10 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: '#a5a6f6',
-        base: '#D6DDF7',
-        secondary: '#F5F7FD',
-        accent: '#E7EBFA',
-        indigoA2: '#536DFE',
-        indigoA3: '#3D5AFE',
-        iris60: '#a5a6f6',
+        primary: '#3D5AFE',
+        darken: '#1E1E1E',
+        secondary: '#e5ebff',
+        accent: '#f41224',
         warning: '#FF7E36',
         externalLink: '#2dd65c',
         borderRadius: '15px',

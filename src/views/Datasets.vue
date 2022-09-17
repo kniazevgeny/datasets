@@ -7,11 +7,11 @@ v-layout(style='width: 100%')
     absolute=false
   )
     //- Filters
-    .base.pa-5(
+    .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold Filters!
-    v-list.accent.pa-4(
+      .text-h5.font-weight-bold.font-accent Filters
+    v-list.pa-4(
       color='transparent',
       v-for='filter in filters',
       :key='filter.title'
@@ -34,8 +34,8 @@ v-layout(style='width: 100%')
           :max='filter.max',
           :min='filter.min',
           track-color='DimGray',
-          track-fill-color='indigoA2',
-          color='indigoA2',
+          track-fill-color='primary',
+          color='primary',
         )
         v-layout.mt-n11
           v-text-field.pa-2(
@@ -45,7 +45,7 @@ v-layout(style='width: 100%')
             dense,
             label='min',
             type='number',
-            color='indigo accent-2',
+            color='primary',
           )
           v-text-field.pa-2(
             v-model='filter.range[1]',
@@ -54,9 +54,9 @@ v-layout(style='width: 100%')
             dense,
             label='max',
             type='number',
-            color='indigo accent-2',
+            color='primary',
           )
-      v-divider
+      v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2
@@ -67,7 +67,7 @@ v-layout(style='width: 100%')
           single-line,
           hide-details,
           filled,
-          color='indigo accent-2',
+          color='primary',
           @input='updateSearchReal'
         )
         //- Mirror filters in v-chips
@@ -187,7 +187,7 @@ export default class Datasets extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    let color = this.$vuetify.theme.themes.light['indigoA2']
+    let color = this.$vuetify.theme.themes.light['primary']
     let colorDisabled = 'DimGray'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     // if (min == -10) console.log(range)
