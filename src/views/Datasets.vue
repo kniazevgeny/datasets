@@ -16,7 +16,7 @@ v-layout(style='width: 100%')
       v-for='filter in filters',
       :key='filter.title'
     )
-      v-list-item-title.mb-n1 {{ filter.title }}
+      v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
       small.grey--text.text--darken-2 {{ filter.subtitle }}
       v-list-item-content(v-if='filter.type === "range"') 
         v-sparkline(
