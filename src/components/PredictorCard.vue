@@ -9,10 +9,9 @@ v-card(flat, outlined)
       v-card-title.mb-0.link(
         v-bind='attrs',
         v-on='on',
-        @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
       ) {{ title }}
     v-card.white()
-      DatasetOverview(:id='_id' @closeDialog='closeDialog')
+      //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
@@ -38,7 +37,6 @@ v-card(flat, outlined)
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import DatasetOverview from '../views/DatasetOverview.vue'
 
 @Component({
   props: {
@@ -55,10 +53,9 @@ import DatasetOverview from '../views/DatasetOverview.vue'
     doi: String,
   },
   components: {
-    DatasetOverview
   }
 })
-export default class DatasetCard extends Vue {
+export default class PredictorCard extends Vue {
   title!: String
   _id!: String
   externalLink?: String

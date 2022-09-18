@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Datasets from '../views/Datasets.vue'
 import DatasetOverview from '../views/DatasetOverview.vue'
 import Browse from '../views/Browse.vue'
+import Predictors from '../views/Predictors.vue'
 import Home from '@/views/Home.vue'
 import store from '@/store'
 
@@ -30,6 +31,11 @@ const router = new Router({
       path: '/datasets/datasets/:id',
       name: 'dataset-overview',
       component: DatasetOverview,
+    },
+    {
+      path: '/datasets/predictors',
+      name: 'predictors',
+      component: Predictors,
     },
     {
       path: '/datasets/*',
