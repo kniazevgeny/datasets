@@ -2,8 +2,8 @@
 v-app-bar(absolute, color='#fff', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
     v-btn(text, x-large, :disabled='toggle == 0', rounded, @click='$router.push("/datasets/browse")') browse
-    v-btn(text, x-large, :disabled='toggle == 1', @click='$router.push("/datasets/datasets")') datasets
-    v-btn(text, x-large, :disabled='toggle == 2', @click='$router.push("/datasets/predictors")') predictors
+    v-btn.ml-2(text, x-large, :disabled='toggle == 1', @click='$router.push("/datasets/datasets")') datasets
+    v-btn.ml-2(text, x-large, :disabled='toggle == 2', @click='$router.push("/datasets/predictors")') predictors
 </template>
 <script lang="ts">
 import Vue from 'vue'
