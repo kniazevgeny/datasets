@@ -6,5 +6,7 @@ export const messages = {
   en: {
     title: 'title',
     notFound: 'Page not found',
+    cookieMessage: 'We are using cookies',
+    cookieButton: 'Fine👌',
   },
 }

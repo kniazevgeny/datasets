@@ -1,7 +1,17 @@
 <template lang="pug">
-v-app(:style='cssProps' style='height: 100%')
+v-app(:style='cssProps', style='height: 100%')
   Navbar
   Snackbar
+  v-layout.Cookie.Cookie--bottom()
+    v-flex(xs1 sm2 md4)
+    v-flex(xs10 sm8 md4)
+      CookieLaw(
+        :buttonText='$t("cookieButton")',
+        :message='$t("cookieMessage")',
+        style='position: relative',
+        buttonClass='v-btn v-btn__content v-btn--outlined theme--dark elevation-2 v-btn--block'
+      ).pa-3.pl-5.pr-5
+    v-flex(xs1 sm2 md4)
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
   transition(:name='transitionName')
@@ -29,7 +39,8 @@ const SnackbarStore = namespace('SnackbarStore')
   components: {
     Navbar,
     Snackbar,
-    CustomFooter
+    CustomFooter,
+    CookieLaw,
   },
 })
 export default class App extends Vue {
@@ -47,16 +58,16 @@ export default class App extends Vue {
     })
     return themeColors
   }
-  
+
   get newUid() {
     // first 8 chars represent date
     return Date.now().toString(36) + Math.random().toString(36).substr(2)
   }
 
   setOrGetUid() {
-    if (typeof this.user == "undefined") {
+    if (typeof this.user == 'undefined') {
       const uid: string = this.newUid
-      this.setUser({_id: uid})
+      this.setUser({ _id: uid })
       // console.log(`set user with id ${this.user._id}`)
     }
     // else console.log(`identified user with id ${this.user._id}`)
@@ -108,7 +119,7 @@ export default class App extends Vue {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100%
+  height: 100%;
 }
 
 .fade-enter-active,
