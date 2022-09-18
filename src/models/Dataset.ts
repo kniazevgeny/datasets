@@ -9,5 +9,6 @@ export interface Dataset {
   source?: string
   type: string
   proteins: number
+  year: number
   doi?: string
 }

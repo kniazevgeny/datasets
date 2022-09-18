@@ -78,7 +78,7 @@ v-layout(style='width: 100%')
                 v-chip(
                   color='warning',
                   v-for='(filter, i) in filterChips',
-                  :key='filter.vaule',
+                  :key='i',
                   clearable,
                   @click='resetFilterByChipId(i)',
                   @click:close='resetFilterByChipId(i)',
@@ -141,7 +141,7 @@ export default class Datasets extends Vue {
   
   get dataVisible() {    
     // Apply filters
-    let result = this.data.filter((item) => this.customFilter('', '-1', item))
+    let result = this.data.filter((item) => this.customFilter('', this.searchReal, item))
 
     // Values are already sorted in this.sortItems
     // With datasets > 10 000 that approach may affect performance
@@ -186,6 +186,21 @@ export default class Datasets extends Vue {
     return [...randReduced.values()]
   }
 
+  tickLabelsByData(param: string) {
+    const values = this.data.map(el => el[param])
+    // Group near values or data-augmentation
+    let valuesProcessed
+    if (param == 'size') {
+      valuesProcessed = values.map(el => Math.round(el / 50) * 50)
+    }
+    else valuesProcessed = values
+    const valuesReduced: Map<number, Map<number, number>> = valuesProcessed.reduce(
+      (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+      new Map()
+      )
+    return [...valuesReduced.values()]
+  }
+
   getGradient(min, max, range, step) {
     let color = this.$vuetify.theme.themes.light['primary']
     let colorDisabled = 'DimGray'
@@ -202,7 +217,7 @@ export default class Datasets extends Vue {
     return gradient
   }
 
-  customFilter(value: any, search: string | null, item: object) {
+  customFilter(value: any, search: String | null, item: object) {
     // in vue 2.6.9 works only if search string is provided
     // So, we need some magic for user to ignore that bug
 
@@ -214,13 +229,12 @@ export default class Datasets extends Vue {
         result = Object.values(item).some((el) =>
           el.toString().toLowerCase().includes(search.toLowerCase())
         )
-
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
-
       // get suitable filter object
-      let currentFilter = this.filters.filter((f) => f.vaule === current)
+      let currentFilter = this.filters.filter((f) => f.value === current)
       if (currentFilter.length == 0) return true
+      console.log(currentFilter[0].title, current)
       // check each type
       if (currentFilter[0].type === 'range')
         if (
@@ -248,13 +262,13 @@ export default class Datasets extends Vue {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
-      // TBD
+      // TBD for other filter types
       return false
     })
   }
 
   resetFilterByChipId(chipId) {
-    console.log(this.filterChips[chipId])
+    // console.log(this.filterChips[chipId])
     let originalIndex = this.filters.indexOf(this.filterChips[chipId])
     if (this.filters[originalIndex].type === 'range') {
       this.resetRangeSlider(originalIndex)
@@ -279,7 +293,10 @@ export default class Datasets extends Vue {
   mounted() {
     getDatasets().then(response => {
       this.data = response
-      console.log(response)
+      this.filters[2].tickLabels = this.tickLabelsByData('size')
+      console.log(this.filters[2].tickLabels)
+      // this.filters[6].tickLabels = this.tickLabelsByData('proteins')
+      this.filters[8].tickLabels = this.tickLabelsByData('year')
     })
   }
 
@@ -299,7 +316,7 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Size',
-      vaule: 'size',
+      value: 'size',
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
       min: 0,
@@ -328,7 +345,7 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Proteins',
-      vaule: 'proteins',
+      value: 'proteins',
       subtitle: 'Number of proteins in a dataset.',
       type: 'range',
       min: 0,
@@ -345,6 +362,7 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Year',
+      value: 'year',
       subtitle: '',
       type: 'range',
       min: 2000,
@@ -396,6 +414,7 @@ export default class Datasets extends Vue {
       source: 'Q3421',
       type: 'single',
       proteins: 43,
+      year: 2000,
       doi: 'https://dx.doi.org/10.1371/journal.pcbi.1008291',
     },
     {
@@ -407,6 +426,7 @@ export default class Datasets extends Vue {
       doubled: false,
       type: 'single',
       proteins: 41,
+      year: 2000,
       doi: 'https://dx.doi.org/10.1093/bioinformatics/btt691',
     },
     {
@@ -419,6 +439,7 @@ export default class Datasets extends Vue {
       doubled: false,
       type: 'type',
       proteins: 0,
+      year: 2000,
       doi: 'https://dx.doi.org/',
     },
     {
@@ -429,6 +450,7 @@ export default class Datasets extends Vue {
       size: 0,
       doubled: false,
       type: 'type',
+      year: 2000,
       proteins: 0,
       doi: 'https://dx.doi.org/',
     },
@@ -440,6 +462,7 @@ export default class Datasets extends Vue {
       isOriginal: true,
       size: 0,
       doubled: false,
+      year: 2000,
       type: 'type',
       proteins: 0,
       doi: 'https://dx.doi.org/',
