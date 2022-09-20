@@ -13,6 +13,11 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      name: 'home',
+      component: Home,
+    },
+    {
       path: '/datasets',
       name: 'home',
       component: Home,
