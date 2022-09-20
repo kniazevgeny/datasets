@@ -4,8 +4,8 @@ import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
-// const base = 'http://85.143.173.6:1337'
-const base = 'http://192.168.43.32:1337'
+const base = 'https://api.ivankovlab.ru/'
+// const base = 'http://192.168.31.242:1337'
 
 function getHeaders(token?: string) {
     return { uid: token != undefined ? token : (store.state.AppStore.user as User)._id }
@@ -25,6 +25,18 @@ function setSnackbar(err) {
   //   active: true
   // });
 }
+
+export async function putActions() { 
+  await axios
+    .put(`${base}/actions/${(store.state.AppStore.user as User)._id}`, {
+      actions: store.state.ActionStore._actions
+    })
+    .then((response) => {
+      // TODO: reset _actions, because it's additive at backend
+      console.log(response)
+    })
+}
+
 
 export async function getDatasets() {
   // if (checkInternetConnection()) throw "error";
