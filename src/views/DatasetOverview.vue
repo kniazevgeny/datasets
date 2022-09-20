@@ -7,7 +7,7 @@ v-layout(style='width: 100%')
         span ({{ overview_sample.fileSize }})
       v-btn(outlined large text @click='$router.push(`/datasets/datasets/${datasetId}`)').ml-2
         v-icon mdi-fullscreen
-      v-btn(outlined large text).ml-2
+      v-btn(outlined large text @click='download()').ml-2
         v-icon mdi-download-outline
       v-spacer
       v-btn(outlined large text @click='$emit("closeDialog")')
@@ -17,7 +17,7 @@ v-layout(style='width: 100%')
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-spacer
-      v-btn(outlined large text).ml-2
+      v-btn(outlined large text @click='download()').ml-2
         v-icon mdi-download-outline
     v-row.ma-4 
       v-simple-table(dense)
@@ -48,6 +48,7 @@ v-layout(style='width: 100%')
 import router from '@/router'
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { putActions } from '@/utils/api'
 
 @Component({
   props: {
@@ -116,6 +117,10 @@ export default class Datasets extends Vue {
       }
       this.mutations_sample.push(arr)
     }
+  }
+  
+  download() {
+    putActions()
   }
 
   data_sample = {
