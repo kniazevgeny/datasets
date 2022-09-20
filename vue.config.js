@@ -3,7 +3,7 @@ module.exports = {
     port: 8080,
     hot: true,
   },
-  assetsDir: 'datasets',
+  assetsDir: '',
   runtimeCompiler: true,
   // lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
