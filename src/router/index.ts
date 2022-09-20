@@ -6,6 +6,7 @@ import Browse from '../views/Browse.vue'
 import Predictors from '../views/Predictors.vue'
 import Home from '@/views/Home.vue'
 import store from '@/store'
+import Root from '@/views/Root.vue'
 
 Vue.use(Router)
 
@@ -14,8 +15,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'root',
+      component: Root,
     },
     {
       path: '/datasets',
