@@ -11,7 +11,6 @@ module.exports = {
   // lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
     vuetify: {
-      defaultAssets: false
     },
     i18n: {
       locale: 'en',
