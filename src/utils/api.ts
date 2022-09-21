@@ -4,8 +4,7 @@ import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
-// const base = 'https://api.ivankovlab.ru'
-const base = 'http://192.168.31.242:1337'
+const base = process.env.VUE_APP_MODE !== 'dev' ? 'https://api.ivankovlab.ru' : 'http://192.168.31.242:1337'
 
 function getHeaders(token?: string) {
     return { uid: token != undefined ? token : (store.state.AppStore.user as User)._id }
