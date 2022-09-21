@@ -20,7 +20,7 @@ v-layout(style='width: 100%')
       v-btn(outlined large text @click='download()').ml-2
         v-icon mdi-download-outline
     v-row.ma-4 
-      v-simple-table(dense)
+      v-simple-table(dense).unavailable
         template(v-slot:default)
           thead
             tr
@@ -41,7 +41,7 @@ v-layout(style='width: 100%')
         item-key='name',
         checkbox-color='primary',
         multi-sort
-      )
+      ).unavailable
 </template>
 
 <script lang="ts">

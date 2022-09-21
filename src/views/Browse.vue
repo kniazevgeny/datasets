@@ -83,7 +83,7 @@ v-layout(style='width: 100%')
       checkbox-color='primary',
       multi-sort,
       :customFilter='customFilter'
-    )
+    ).unavailable
       template(v-slot:item.mutation='{ item }')
         v-chip.primary--text.text--accent-2.font-weight-bold(
           outlined,

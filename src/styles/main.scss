@@ -1,6 +1,5 @@
 $body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-$accent-font-family: Alegreya Sans, Inter, Avenir, Helvetica, Arial,
-  sans-serif;
+$accent-font-family: Alegreya Sans, Inter, Avenir, Helvetica, Arial, sans-serif;
 
 // $primary: #a5a6f6;
 // $secondary: #F5F7FD;
@@ -31,12 +30,13 @@ $chip-padding: 18px 12px;
   border-radius: $border-radius-root;
 }
 
-.Cookie.Cookie--bottom.Cookie--base{
+.Cookie.Cookie--bottom.Cookie--base {
   background: var(--v-primary);
   color: #fff;
 }
 
-.Cookie__content, .Cookie__buttons {
+.Cookie__content,
+.Cookie__buttons {
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 }
@@ -53,7 +53,6 @@ $chip-padding: 18px 12px;
     justify-content: center;
   }
 }
-
 
 .v-data-table,
 .v-data-table__wrapper {
@@ -137,7 +136,6 @@ a:visited,
   padding: 0 6px !important;
 }
 
-
 .v-btn {
   border-radius: 4px;
   transform: none;
@@ -174,13 +172,12 @@ button.primary:hover:not([disabled]) {
   box-shadow: 0px 5px hsl(261deg 99% 42%);
   padding-bottom: 6px;
   margin-bottom: 1px;
-  padding-top: 7px; 
+  padding-top: 7px;
 }
 
-
-button.primary:active{
-  transform: translateY(4px); 
-  box-shadow: 0px 0px !important; 
+button.primary:active {
+  transform: translateY(4px);
+  box-shadow: 0px 0px !important;
   transition: all 120ms ease 0s;
 }
 
@@ -195,11 +192,36 @@ button.primary:active{
   font-family: $accent-font-family !important;
 }
 
-
 .v-application {
   .text-h5 {
     color: #1e1e1e;
     font-family: $accent-font-family, sans-serif !important;
   }
   font-family: $body-font-family, sans-serif !important;
+}
+
+.unavailable > div {
+  filter: grayscale(1) brightness(1.1);
+}
+.unavailable {
+  position: relative;
+}
+
+.unavailable::before {
+  filter: none !important;
+  font-family: $accent-font-family;
+  font-weight: bold;
+  font-size: 1.5rem;
+  content: 'Coming soon\A\A join our channel to be notified\A when we launch new features';
+  white-space: pre;
+  color: #fff;
+  background-color: #f41224;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  max-height: 70vh;
+  transform: translate(-50%, -50%) rotate(35deg);
 }
