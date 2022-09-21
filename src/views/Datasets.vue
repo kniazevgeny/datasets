@@ -234,7 +234,6 @@ export default class Datasets extends Vue {
       // get suitable filter object
       let currentFilter = this.filters.filter((f) => f.value === current)
       if (currentFilter.length == 0) return true
-      console.log(currentFilter[0].title, current)
       // check each type
       if (currentFilter[0].type === 'range')
         if (
