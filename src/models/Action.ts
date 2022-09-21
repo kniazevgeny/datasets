@@ -4,4 +4,5 @@ export interface Action {
     btn_id?: string
     intersect_id?: string
     timestamp: number
+    startingTimestamp: number
 }

@@ -14,6 +14,7 @@ export default class AppStore extends VuexModule {
         page_href: action.page_href,
         btn_id: action.btn_id,
         timestamp: action.timestamp - this.startingTimestamp,
+        startingTimestamp: this.startingTimestamp
       })
     } else if (action.type === 'intersect') {
       this._actions.push({
@@ -21,7 +22,11 @@ export default class AppStore extends VuexModule {
         page_href: action.page_href,
         intersect_id: action.intersect_id,
         timestamp: action.timestamp - this.startingTimestamp,
+        startingTimestamp: this.startingTimestamp
       })
     }
+  }
+  clearActions() {
+    this._actions = []
   }
 }

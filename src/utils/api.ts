@@ -4,7 +4,8 @@ import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
-const base = process.env.VUE_APP_MODE !== 'dev' ? 'https://api.ivankovlab.ru' : 'http://192.168.31.242:1337'
+let base = 'https://api.ivankovlab.ru'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
 
 function getHeaders(token?: string) {
     return { uid: token != undefined ? token : (store.state.AppStore.user as User)._id }
@@ -31,8 +32,9 @@ export async function putActions() {
       actions: store.state.ActionStore._actions
     })
     .then((response) => {
-      // TODO: reset _actions, because it's additive at backend
       console.log(response)
+      // Reset _actions, because it's additive at backend
+      if (response.status == 200 || response.status == 204) store.state.AppStore.clearActions()
     })
 }
 
