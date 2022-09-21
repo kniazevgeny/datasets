@@ -10,7 +10,9 @@ module.exports = {
   runtimeCompiler: true,
   // lintOnSave: process.env.NODE_ENV !== 'production',
   pluginOptions: {
-    vuetify: {},
+    vuetify: {
+      defaultAssets: false
+    },
     i18n: {
       locale: 'en',
       fallbackLocale: 'en',
