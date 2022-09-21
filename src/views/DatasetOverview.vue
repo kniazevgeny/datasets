@@ -5,8 +5,9 @@ v-layout(style='width: 100%')
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
-      v-btn(outlined large text @click='$router.push(`/datasets/datasets/${datasetId}`)').ml-2
-        v-icon mdi-open-in-new 
+      a(:href='`/datasets/datasets/${datasetId}`' target="_blank")
+        v-btn(outlined large text).ml-2
+          v-icon mdi-open-in-new 
       v-btn(outlined large text @click='download()').ml-2
         v-icon mdi-download-outline
       v-spacer
