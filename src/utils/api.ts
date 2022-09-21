@@ -4,8 +4,8 @@ import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
-const base = 'https://api.ivankovlab.ru'
-// const base = 'http://192.168.31.242:1337'
+// const base = 'https://api.ivankovlab.ru'
+const base = 'http://192.168.31.242:1337'
 
 function getHeaders(token?: string) {
     return { uid: token != undefined ? token : (store.state.AppStore.user as User)._id }
@@ -51,7 +51,7 @@ export async function getDatasets() {
         setSnackbar(err)
         return err
       })
-  ).data.data as Dataset[]
+  ).data as Dataset[]
   // c.logserv('api.balance', response)
   // response.balance = removeBackZeroes(response.balance)
   return response
