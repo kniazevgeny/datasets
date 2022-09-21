@@ -10,11 +10,11 @@ v-card(flat, outlined)
         v-bind='attrs',
         v-on='on',
         @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
-      ) {{ title }}
+      ) {{ name }}
     v-card.white()
-      DatasetOverview(:id='_id' @closeDialog='closeDialog')
+      DatasetOverview(:id='_id' :name='name' @closeDialog='closeDialog')
   v-card-title(v-else)
-    a.external-link(:href='externalLink') {{ title }}
+    a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
   v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
   v-card-text
@@ -42,7 +42,7 @@ import DatasetOverview from '../views/DatasetOverview.vue'
 
 @Component({
   props: {
-    title: String,
+    name: String,
     _id: String,
     externalLink: String,
     originalPredictor: String,
@@ -59,7 +59,7 @@ import DatasetOverview from '../views/DatasetOverview.vue'
   }
 })
 export default class DatasetCard extends Vue {
-  title!: String
+  name!: String
   _id!: String
   externalLink?: String
   originalPredictor?: String

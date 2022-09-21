@@ -6,7 +6,7 @@ v-layout(style='width: 100%')
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-btn(outlined large text @click='$router.push(`/datasets/datasets/${datasetId}`)').ml-2
-        v-icon mdi-fullscreen
+        v-icon mdi-open-in-new 
       v-btn(outlined large text @click='download()').ml-2
         v-icon mdi-download-outline
       v-spacer
@@ -53,13 +53,15 @@ import { putActions } from '@/utils/api'
 @Component({
   props: {
     id: String,
+    name: String,
   },
 })
 export default class Datasets extends Vue {
   id?: String | undefined
+  name!: String
 
   overview_sample = {
-    fileName: `${this.datasetId}-dataset-file-name.csv`,
+    fileName: `${this.name}-dataset-file-name.csv`,
     doiDescription:
       'Pires, D. E. V., Ascher, D. B., & Blundell, T. L. (2013). mCSM: predicting the effects of mutations in proteins using graph-based signatures. Bioinformatics, 30(3), 335–342',
     doiLink: 'https://doi.org/10.1093/bioinformatics/btt691',

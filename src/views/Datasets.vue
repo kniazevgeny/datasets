@@ -102,9 +102,9 @@ v-layout(style='width: 100%')
         //- id should be id, not name
         DatasetCard.mb-2(
           v-for='card in dataVisible',
-          :key='card.name',
-          :title='card.name',
-          :_id='card.name',
+          :key='card._id',
+          :name='card.name',
+          :_id='card._id',
           :externalLink='card.externalLink',
           :originalPredictor='card.originalPredictor',
           :isOriginal='card.isOriginal',
