@@ -27,7 +27,7 @@ v-layout(column, style='width: 100vw; min-height: 90vh')
             x-large,
             block,
             color='primary',
-            @click='$router.push(`/datasets/browse?type=click&btn_id=greeting_btn&timestamp=${Date.now()}`)'
+            @click='$router.push(`/datasets/datasets?type=click&btn_id=greeting_btn&timestamp=${Date.now()}`)'
           ) Get Started
         v-flex(xs0, sm2)
     v-flex(xs1, sm2)

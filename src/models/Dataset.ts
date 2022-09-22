@@ -1,6 +1,7 @@
 export interface Dataset {
   name: string
   _id: string
+  fileName: string
   externalLink?: string
   originalPredictor?: string
   isOriginal: boolean

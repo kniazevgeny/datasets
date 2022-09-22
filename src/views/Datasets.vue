@@ -105,6 +105,7 @@ v-layout(style='width: 100%')
           :key='card._id',
           :name='card.name',
           :_id='card._id',
+          :fileName='card.fileName',
           :externalLink='card.externalLink',
           :originalPredictor='card.originalPredictor',
           :isOriginal='card.isOriginal',

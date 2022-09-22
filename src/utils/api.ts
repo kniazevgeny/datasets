@@ -3,12 +3,15 @@ import store from '@/store'
 import { User } from '@/models/User'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
+import router from '@/router'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
 
 function getHeaders(token?: string) {
-    return { uid: token != undefined ? token : (store.state.AppStore.user as User)._id }
+  return {
+    uid: token != undefined ? token : (store.state.AppStore.user as User)._id,
+  }
 }
 
 function setSnackbar(err) {
@@ -26,18 +29,22 @@ function setSnackbar(err) {
   // });
 }
 
-export async function putActions() { 
+export async function putActions() {
   await axios
-    .put(`${base}/actions/${(store.state.AppStore.user as User)._id}`, {
-      actions: store.state.ActionStore._actions
-    })
+    .put(
+      `${base}/actions/${(store.state.AppStore.user as User)._id}`,
+      {
+        actions: store.state.ActionStore._actions,
+      },
+      { headers: getHeaders() }
+    )
     .then((response) => {
       console.log(response)
       // Reset _actions, because it's additive at backend
-      if (response.status == 200 || response.status == 204) store.state.AppStore.clearActions()
+      if (response.status == 200 || response.status == 204)
+        store.dispatch('ActionStore/clearActions', null, {root: true})
     })
 }
-
 
 export async function getDatasets() {
   // if (checkInternetConnection()) throw "error";
@@ -56,4 +63,19 @@ export async function getDatasets() {
   // c.logserv('api.balance', response)
   // response.balance = removeBackZeroes(response.balance)
   return response
+}
+
+export async function downloadDataset(id: string) {
+  // if (checkInternetConnection()) throw "error";
+  window.open(`${base}/download/${id}`, '_blank')
+  store.commit(
+    'ActionStore/pushAction',
+    {
+      type: 'download',
+      timestamp: Number(Date.now()),
+      btn_id: '#download',
+      page_href: router.currentRoute.path,
+    },
+    { root: true }
+  )
 }

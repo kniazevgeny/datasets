@@ -10,9 +10,10 @@ v-card(flat, outlined)
         v-bind='attrs',
         v-on='on',
         @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
+        :class='fileName ? "" : "v-btn--disabled disabled"'
       ) {{ name }}
     v-card.white()
-      DatasetOverview(:id='_id' :name='name' @closeDialog='closeDialog')
+      DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
@@ -44,6 +45,7 @@ import DatasetOverview from '../views/DatasetOverview.vue'
   props: {
     name: String,
     _id: String,
+    fileName: String,
     externalLink: String,
     originalPredictor: String,
     isOriginal: Boolean,
@@ -61,6 +63,7 @@ import DatasetOverview from '../views/DatasetOverview.vue'
 export default class DatasetCard extends Vue {
   name!: String
   _id!: String
+  fileName?: String
   externalLink?: String
   originalPredictor?: String
   isOriginal?: Boolean
@@ -79,4 +82,8 @@ export default class DatasetCard extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .disabled {
+    filter: grayscale(1)
+  }
+</style>

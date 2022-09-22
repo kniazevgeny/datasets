@@ -26,6 +26,8 @@ export default class AppStore extends VuexModule {
       })
     }
   }
+
+  @Mutation
   clearActions() {
     this._actions = []
   }
