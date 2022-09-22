@@ -8,25 +8,33 @@ import router from '@/router'
 let base = 'https://api.ivankovlab.ru'
 if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
 
-function getHeaders(token?: string) {
+function getHeaders() {
+  if (store.state.AppStore.user == undefined) return {}
   return {
-    uid: token != undefined ? token : (store.state.AppStore.user as User)._id,
+    uid: (store.state.AppStore.user as User)._id,
   }
 }
 
 function setSnackbar(err) {
-  let message = err.response.data.message
+  let message
+  if (err.response != undefined)
+  message = err.response.data.message
+  else message = 'Internal Server Error'
   // @ts-ignore
   if (
     process.env.VUE_APP_MODE == 'beta' ||
     process.env.VUE_APP_MODE == 'release'
   )
     message = 'Internal Server Error' // will be replaced at Snackbar
-  // store.setSnackbar({
-  //   message: message,
-  //   color: 'error',
-  //   active: true
-  // });
+  store.commit(
+    'SnackbarStore/setSnackbar',
+    {
+      message: message,
+      color: 'error',
+      active: true,
+    },
+    { root: true }
+  )
 }
 
 export async function putActions() {
@@ -42,7 +50,7 @@ export async function putActions() {
       console.log(response)
       // Reset _actions, because it's additive at backend
       if (response.status == 200 || response.status == 204)
-        store.dispatch('ActionStore/clearActions', null, {root: true})
+        store.dispatch('ActionStore/clearActions', null, { root: true })
     })
 }
 
