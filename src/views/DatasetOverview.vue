@@ -8,7 +8,7 @@ v-layout(style='width: 100%')
       a(:href='`/datasets/datasets/${datasetId}`' target="_blank")
         v-btn(outlined large text).ml-2
           v-icon mdi-open-in-new 
-      v-btn(outlined large text @click='download()').ml-2
+      v-btn(outlined large text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
         v-icon mdi-download-outline
       v-spacer
       v-btn(outlined large text @click='$emit("closeDialog")')
@@ -49,16 +49,18 @@ v-layout(style='width: 100%')
 import router from '@/router'
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { putActions } from '@/utils/api'
+import { downloadDataset, putActions } from '@/utils/api'
 
 @Component({
   props: {
     id: String,
+    fileName: String,
     name: String,
   },
 })
 export default class Datasets extends Vue {
   id?: String | undefined
+  fileName?: String | undefined
   name!: String
 
   overview_sample = {
@@ -123,6 +125,8 @@ export default class Datasets extends Vue {
   }
   
   download() {
+    
+    downloadDataset(this.id as string)
     putActions()
   }
 
@@ -623,7 +627,7 @@ export default class Datasets extends Vue {
   }
 
   mounted() {
-    console.log(this.datasetId)
+    // console.log(this.datasetId)
     this.geterateMutationsSample()
   }
 }
