@@ -98,7 +98,7 @@ v-layout(style='width: 100%')
             template(v-slot:prepend)
               v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
     v-card-text.pb-2
-      v-col
+      v-col.unavailable
         //- id should be id, not name
         PredictorCard.mb-2(
           v-for='card in dataVisible',
