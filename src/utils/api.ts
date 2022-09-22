@@ -6,7 +6,7 @@ import { namespace } from 'vuex-class'
 import router from '@/router'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
 
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}
@@ -17,8 +17,7 @@ function getHeaders() {
 
 function setSnackbar(err) {
   let message
-  if (err.response != undefined)
-  message = err.response.data.message
+  if (err.response != undefined) message = err.response.data.message
   else message = 'Internal Server Error'
   // @ts-ignore
   if (
@@ -50,7 +49,9 @@ export async function putActions() {
       console.log(response)
       // Reset _actions, because it's additive at backend
       if (response.status == 200 || response.status == 204)
+      {
         store.dispatch('ActionStore/clearActions', null, { root: true })
+      }
     })
 }
 

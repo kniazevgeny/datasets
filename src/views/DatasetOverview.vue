@@ -8,8 +8,9 @@ v-layout(style='width: 100%')
       a(:href='`/datasets/datasets/${datasetId}`' target="_blank")
         v-btn(outlined large text).ml-2
           v-icon mdi-open-in-new 
-      v-btn(outlined large text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
-        v-icon mdi-download-outline
+      a(:href='`https://api.ivankovlab.ru/download/${datasetId}`')
+        v-btn(outlined large text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
+          v-icon mdi-download-outline
       v-spacer
       v-btn(outlined large text @click='$emit("closeDialog")')
         v-icon mdi-close
@@ -18,8 +19,9 @@ v-layout(style='width: 100%')
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-spacer
-      v-btn(outlined large text @click='download()').ml-2
-        v-icon mdi-download-outline
+      a(:href='`https://api.ivankovlab.ru/download/${datasetId}`')
+       v-btn(outlined large text @click='download()').ml-2
+          v-icon mdi-download-outline
     v-row.ma-4 
       v-simple-table(dense).unavailable
         template(v-slot:default)
@@ -50,6 +52,10 @@ import router from '@/router'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { downloadDataset, putActions } from '@/utils/api'
+import { namespace } from 'vuex-class'
+
+const ActionStore = namespace('ActionStore')
+
 
 @Component({
   props: {
@@ -59,6 +65,8 @@ import { downloadDataset, putActions } from '@/utils/api'
   },
 })
 export default class Datasets extends Vue {
+  @ActionStore.Mutation pushAction!: (action: object) => void
+  
   id?: String | undefined
   fileName?: String | undefined
   name!: String
@@ -125,8 +133,13 @@ export default class Datasets extends Vue {
   }
   
   download() {
-    
-    downloadDataset(this.id as string)
+    this.pushAction({
+      type: 'download',
+      timestamp: Number(Date.now()),
+      btn_id: '#download',
+      page_href: router.currentRoute.path,
+    })
+    // downloadDataset(this.id as string)
     putActions()
   }
 

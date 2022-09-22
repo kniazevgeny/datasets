@@ -47,7 +47,7 @@ const ActionStore = namespace('ActionStore')
 
 @Component
 export default class Home extends Vue {
-  @ActionStore.Mutation pushAction!: (action: Action) => void
+  @ActionStore.Mutation pushAction!: (action: object) => void
 
   loaded = false
 
