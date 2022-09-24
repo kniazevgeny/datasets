@@ -5,7 +5,7 @@ v-layout(style='width: 100%')
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         //- span ({{ overview_sample.fileSize }})
-      v-btn(outlined large :href='`/datasets/datasets/${datasetId}`' target="_blank" text).ml-2
+      v-btn(outlined large :href='`/datasets/datasets/${datasetId}`' @click='expandDataset()' target="_blank" text).ml-2
         span Expand
         v-icon mdi-open-in-new 
       v-btn(outlined large :href='`https://api.ivankovlab.ru/files/${fileName}`' text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
@@ -48,7 +48,6 @@ v-layout(style='width: 100%')
 </template>
 
 <script lang="ts">
-import router from '@/router'
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { downloadDataset, putActions } from '@/utils/api'
@@ -131,13 +130,22 @@ export default class Datasets extends Vue {
       this.mutations_sample.push(arr)
     }
   }
+
+  expandDataset() {
+    this.pushAction({
+      type: 'click',
+      timestamp: Number(Date.now()),
+      btn_id: '#open-dataset-in-new',
+      page_href: this.$router.currentRoute.path,
+    })
+  }
   
   download() {
     this.pushAction({
       type: 'download',
       timestamp: Number(Date.now()),
       btn_id: '#download',
-      page_href: router.currentRoute.path,
+      page_href: this.$router.currentRoute.path,
     })
     // downloadDataset(this.id as string)
     putActions()
@@ -631,7 +639,7 @@ export default class Datasets extends Vue {
 
   get datasetId() {
     if (typeof this.id != 'undefined') return this.id
-    return router.currentRoute.path.split('/').pop()
+    return this.$router.currentRoute.path.split('/').pop()
   }
 
   async getDatasetOverview() {
