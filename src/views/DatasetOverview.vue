@@ -4,24 +4,24 @@ v-layout(style='width: 100%')
     v-row(v-if='typeof id == "string"').ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
-        span ({{ overview_sample.fileSize }})
-      a(:href='`/datasets/datasets/${datasetId}`' target="_blank")
-        v-btn(outlined large text).ml-2
-          v-icon mdi-open-in-new 
-      a(:href='`https://api.ivankovlab.ru/files/${fileName}`' target="_blank")
-        v-btn(outlined large text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
-          v-icon mdi-download-outline
+        //- span ({{ overview_sample.fileSize }})
+      v-btn(outlined large :href='`/datasets/datasets/${datasetId}`' target="_blank" text).ml-2
+        span Expand
+        v-icon mdi-open-in-new 
+      v-btn(outlined large :href='`https://api.ivankovlab.ru/files/${fileName}`' text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
+        span Download
+        v-icon mdi-download-outline
       v-spacer
       v-btn(outlined large text @click='$emit("closeDialog")')
         v-icon mdi-close
     v-row(v-else).ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
-        span ({{ overview_sample.fileSize }})
+        //- span ({{ overview_sample.fileSize }})
       v-spacer
-      a(:href='`https://api.ivankovlab.ru/files/${fileName}`' target="_blank")
-       v-btn(outlined large text @click='download()').ml-2
-          v-icon mdi-download-outline
+      v-btn(outlined large :href='`https://api.ivankovlab.ru/files/${fileName}`' text @click='download()').ml-2
+        span Download
+        v-icon mdi-download-outline
     v-row.ma-4 
       v-simple-table(dense).unavailable
         template(v-slot:default)
@@ -72,7 +72,7 @@ export default class Datasets extends Vue {
   name!: String
 
   overview_sample = {
-    fileName: `${this.name}-dataset-file-name.csv`,
+    fileName: `${this.name}.csv`,
     doiDescription:
       'Pires, D. E. V., Ascher, D. B., & Blundell, T. L. (2013). mCSM: predicting the effects of mutations in proteins using graph-based signatures. Bioinformatics, 30(3), 335–342',
     doiLink: 'https://doi.org/10.1093/bioinformatics/btt691',
