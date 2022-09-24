@@ -8,7 +8,7 @@ v-layout(style='width: 100%')
       a(:href='`/datasets/datasets/${datasetId}`' target="_blank")
         v-btn(outlined large text).ml-2
           v-icon mdi-open-in-new 
-      a(:href='`https://api.ivankovlab.ru/download/${datasetId}`' target="_blank")
+      a(:href='`https://api.ivankovlab.ru/files/${fileName}`' target="_blank")
         v-btn(outlined large text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
           v-icon mdi-download-outline
       v-spacer
@@ -19,7 +19,7 @@ v-layout(style='width: 100%')
         span.font-weight-bold {{ overview_sample.fileName }}
         span ({{ overview_sample.fileSize }})
       v-spacer
-      a(:href='`https://api.ivankovlab.ru/download/${datasetId}`' target="_blank")
+      a(:href='`https://api.ivankovlab.ru/files/${fileName}`' target="_blank")
        v-btn(outlined large text @click='download()').ml-2
           v-icon mdi-download-outline
     v-row.ma-4 
