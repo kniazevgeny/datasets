@@ -193,7 +193,7 @@ export default class Datasets extends Vue {
     const values = this.data.map(el => el[param])
     // Group near values or data-augmentation
     let valuesProcessed
-    if (param == 'size') {
+    if (param == 'size' || param == 'proteins') {
       valuesProcessed = values.map(el => Math.round(el / 50) * 50)
     }
     else valuesProcessed = values
@@ -297,7 +297,7 @@ export default class Datasets extends Vue {
       this.data = response
       this.filters[2].tickLabels = this.tickLabelsByData('size')
       console.log(this.filters[2].tickLabels)
-      // this.filters[6].tickLabels = this.tickLabelsByData('proteins')
+      this.filters[6].tickLabels = this.tickLabelsByData('proteins')
       this.filters[8].tickLabels = this.tickLabelsByData('year')
     })
   }
@@ -351,10 +351,10 @@ export default class Datasets extends Vue {
       subtitle: 'Number of proteins in a dataset.',
       type: 'range',
       min: 0,
-      max: 500,
+      max: 200,
       step: 1,
-      range: [0, 500],
-      tickLabels: this.tickLabels(1, 500, 10),
+      range: [0, 200],
+      tickLabels: this.tickLabels(1, 200, 10),
       hint: 'Im a hint',
     },
     {
