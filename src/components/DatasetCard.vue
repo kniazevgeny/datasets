@@ -23,17 +23,21 @@ v-card(flat, outlined)
       v-row
         span.pr-2 Original predictor: {{ originalPredictor }}
         span.pr-2 -
-        span.pr-2(v-if='typeof isOriginal == "boolean"') Origin: {{ isOriginal ? 'original' : 'processed' }}
+        span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
       v-row
-        span.pr-2(v-if='typeof doubled == "boolean"') Doubled: {{ doubled ? 'yes' : 'no' }}
+        span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
         span.pr-2 -
-        span.pr-2(v-if='typeof type == "string"') Type: {{ type }}
+        span.pr-2(v-if='typeof mutations == "string"') Mutations: {{ mutations }}
       v-row
         span.pr-2 Size: {{ size }}
         span.pr-2 -
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
-        a.pr-2(v-if='typeof doi == "string"', :href='doi') doi
+        span.pr-2(v-if='typeof author == "string"') Author: {{ author }}
+        span.pr-2(v-if='typeof author == "string"') -
+        span.pr-2(v-if='typeof year == "number"') {{ year }}
+        span.pr-2(v-if='typeof year == "number"') -
+        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank") doi
 </template>
 
 <script lang="ts">
@@ -48,12 +52,15 @@ import DatasetOverview from '../views/DatasetOverview.vue'
     fileName: String,
     externalLink: String,
     originalPredictor: String,
-    isOriginal: Boolean,
+    origin: String,
     size: Number,
-    doubled: Boolean,
+    symmetrized: Boolean,
+    available: Boolean,
     source: String,
-    type: String,
+    mutations: String,
     proteins: Number,
+    year: Number,
+    author: String,
     doi: String,
   },
   components: {
@@ -66,12 +73,15 @@ export default class DatasetCard extends Vue {
   fileName?: String
   externalLink?: String
   originalPredictor?: String
-  isOriginal?: Boolean
+  origin?: String
   size?: Number
-  doubled?: Boolean
+  symmetrized?: Boolean
+  available?: Boolean
   source?: String
-  type?: String
+  mutations?: String
   proteins?: Number
+  year?: Number
+  author?: string
   doi?: String
 
   dialog = false

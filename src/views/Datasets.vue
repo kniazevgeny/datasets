@@ -108,12 +108,14 @@ v-layout(style='width: 100%')
           :fileName='card.fileName',
           :externalLink='card.externalLink',
           :originalPredictor='card.originalPredictor',
-          :isOriginal='card.isOriginal',
+          :origin='card.origin',
           :size='card.size',
-          :doubled='card.doubled',
+          :symmetrized='card.symmetrized',
           :source='card.source',
-          :type='card.type',
+          :mutations='card.mutations',
           :proteins='card.proteins',
+          :year='card.year',
+          :author='card.author',
           :doi='card.doi'
         )
 </template>

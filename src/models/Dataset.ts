@@ -4,12 +4,14 @@ export interface Dataset {
   fileName: string
   externalLink?: string
   originalPredictor?: string
-  isOriginal: boolean
+  origin: string
   size: number
-  doubled: boolean
+  symmetrized: boolean
+  available: boolean
   source?: string
-  type: string
+  mutations: string
   proteins: number
   year: number
+  author?: string
   doi?: string
 }
