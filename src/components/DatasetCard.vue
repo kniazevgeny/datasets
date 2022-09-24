@@ -71,7 +71,7 @@ export default class DatasetCard extends Vue {
   name!: String
   _id!: String
   fileName?: String
-  externalLink?: String
+  externalLink?: string
   originalPredictor?: String
   origin?: String
   size?: Number
