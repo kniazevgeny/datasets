@@ -3,7 +3,7 @@ v-layout(style='width: 100%')
   v-col
     v-row.ma-4.d-flex.align-center(v-if='typeof id == "string"')
       span.heading-1.float-left
-        span.font-weight-bold {{ overview_sample.fileName }}
+        span.font-weight-bold {{ fileName }}
         //- span ({{ overview_sample.fileSize }})
       v-btn.ml-2(
         outlined,
@@ -18,10 +18,10 @@ v-layout(style='width: 100%')
       v-btn.ml-2(
         outlined,
         large,
-        :href='`https://api.ivankovlab.ru/files/${fileName_}`',
+        :href='`https://api.ivankovlab.ru/files/${fileName}`',
         text,
         @click='download()',
-        :disabled='typeof fileName_ == "undefined"'
+        :disabled='typeof fileName == "undefined"'
       )
         span Download
         v-icon mdi-download-outline
