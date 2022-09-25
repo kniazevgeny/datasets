@@ -669,6 +669,7 @@ export default class Datasets extends Vue {
 
   get datasetId() {
     if (typeof this.id != 'undefined') return this.id
+    if (this.id_ != null) return this.id_
     return this.$router.currentRoute.path.split('/').pop()
   }
 
