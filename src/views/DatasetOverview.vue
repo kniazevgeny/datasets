@@ -96,11 +96,11 @@ export default class Datasets extends Vue {
   @SnackbarStore.Mutation setSnackbarError!: (message: string) => void
 
   id?: string | undefined
-  id_ = null
+  id_: string | null = null
   fileName?: string | undefined
-  fileName_ = ''
+  fileName_: string | null = null
   name!: string
-  name_ = ''
+  name_: string | null = null
 
   overview_sample: Dataset = {
     _id: '632abe3f48aa669c4a139310',
