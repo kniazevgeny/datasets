@@ -1,29 +1,49 @@
 <template lang="pug">
 v-layout(style='width: 100%')
   v-col
-    v-row(v-if='typeof id == "string"').ma-4.d-flex.align-center
+    v-row.ma-4.d-flex.align-center(v-if='typeof id == "string"')
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         //- span ({{ overview_sample.fileSize }})
-      v-btn(outlined large :href='`/datasets/datasets/${datasetId}`' @click='expandDataset()' target="_blank" text).ml-2
+      v-btn.ml-2(
+        outlined,
+        large,
+        :href='`/datasets/datasets/${datasetId}`',
+        @click='expandDataset()',
+        target='_blank',
+        text
+      )
         span Expand
-        v-icon mdi-open-in-new 
-      v-btn(outlined large :href='`https://api.ivankovlab.ru/files/${fileName}`' text @click='download()' :disabled='typeof fileName == "undefined"').ml-2
+        v-icon mdi-open-in-new
+      v-btn.ml-2(
+        outlined,
+        large,
+        :href='`https://api.ivankovlab.ru/files/${fileName_}`',
+        text,
+        @click='download()',
+        :disabled='typeof fileName_ == "undefined"'
+      )
         span Download
         v-icon mdi-download-outline
       v-spacer
-      v-btn(outlined large text @click='$emit("closeDialog")')
+      v-btn(outlined, large, text, @click='$emit("closeDialog")')
         v-icon mdi-close
-    v-row(v-else).ma-4.d-flex.align-center
+    v-row.ma-4.d-flex.align-center(v-else)
       span.heading-1.float-left
         span.font-weight-bold {{ overview_sample.fileName }}
         //- span ({{ overview_sample.fileSize }})
       v-spacer
-      v-btn(outlined large :href='`https://api.ivankovlab.ru/files/${fileName}`' text @click='download()').ml-2
+      v-btn.ml-2(
+        outlined,
+        large,
+        :href='`https://api.ivankovlab.ru/files/${fileName_}`',
+        text,
+        @click='download()'
+      )
         span Download
         v-icon mdi-download-outline
     v-row.ma-4 
-      v-simple-table(dense).unavailable
+      v-simple-table.unavailable(dense)
         template(v-slot:default)
           thead
             tr
@@ -31,20 +51,24 @@ v-layout(style='width: 100%')
               th.text-left(v-for='title in mutations_headers', :key='title') {{ title }}
           tbody
             tr(v-for='(items, i) in mutations_sample', :key='i')
-              td {{mutations_headers[i]}}
-              td.font-weight-bold(v-for='(item, j) in items', :key='j', :style='getMuationColor(item)') {{ item == -1 ? '' : item }}
+              td {{ mutations_headers[i] }}
+              td.font-weight-bold(
+                v-for='(item, j) in items',
+                :key='j',
+                :style='getMuationColor(item)'
+              ) {{ item == -1 ? '' : item }}
       //- Charts here
       //- vue-chart-js for ddg perpesentation
       //- v-simple-table with reactive color set-up
     v-row.ma-4(v-if='typeof id == "undefined"')
-      v-data-table(
+      v-data-table.unavailable(
         fixed-header,
         :headers='data_sample.headers',
         :items='data_sample.data',
         item-key='name',
         checkbox-color='primary',
         multi-sort
-      ).unavailable
+      )
 </template>
 
 <script lang="ts">
@@ -52,9 +76,11 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { downloadDataset, putActions } from '@/utils/api'
 import { namespace } from 'vuex-class'
+import { Dataset } from '@/models/Dataset'
 
+const AppStore = namespace('AppStore')
 const ActionStore = namespace('ActionStore')
-
+const SnackbarStore = namespace('SnackbarStore')
 
 @Component({
   props: {
@@ -64,29 +90,33 @@ const ActionStore = namespace('ActionStore')
   },
 })
 export default class Datasets extends Vue {
-  @ActionStore.Mutation pushAction!: (action: object) => void
-  
-  id?: String | undefined
-  fileName?: String | undefined
-  name!: String
+  @AppStore.State datasets?: Dataset[] | undefined
 
-  overview_sample = {
-    fileName: `${this.name}.csv`,
-    doiDescription:
-      'Pires, D. E. V., Ascher, D. B., & Blundell, T. L. (2013). mCSM: predicting the effects of mutations in proteins using graph-based signatures. Bioinformatics, 30(3), 335–342',
-    doiLink: 'https://doi.org/10.1093/bioinformatics/btt691',
-    originalPredictor: {
-      title: 'CSM',
-      path: '',
-    },
-    isOriginal: true,
-    size: 42,
-    doubled: false,
+  @ActionStore.Mutation pushAction!: (action: object) => void
+  @SnackbarStore.Mutation setSnackbarError!: (message: string) => void
+
+  id?: string | undefined
+  id_ = null
+  fileName?: string | undefined
+  fileName_ = ''
+  name!: string
+  name_ = ''
+
+  overview_sample: Dataset = {
+    _id: '632abe3f48aa669c4a139310',
+    author: 'Parthiban',
+    available: false,
+    doi: 'https://doi.org/10.1093/nar/gkl190',
+    mutations: 'single',
+    name: 'CUPSAT-1603',
+    origin: 'original',
+    reference:
+      'Parthiban, V., Gromiha, M. M., & Schomburg, D. (2006). CUPSAT: prediction of protein stability upon point mutations. Nucleic Acids Research, 34(Web Server), W239–W242. https://doi.org/10.1093/nar/gkl190',
+    size: 1603,
+    source:
+      'Protherm, https://doi.org/10.1093/protein/10.1.7, https://doi.org/10.1002/pro.5560070117, https://doi.org/10.1073/pnas.84.13.4441',
     symmetrized: false,
-    source: '',
-    type: 'single',
-    proteins: 1,
-    fileSize: '52.4 kB',
+    year: 2006,
     overview: {},
   }
 
@@ -116,7 +146,7 @@ export default class Datasets extends Vue {
   mutations_sample: number[][] = []
 
   getMuationColor(n: number) {
-    return `background: hsl(231deg 100% 66% / ${n/165*100}%)`
+    return `background: hsl(231deg 100% 66% / ${(n / 165) * 100}%)`
   }
 
   geterateMutationsSample() {
@@ -139,7 +169,7 @@ export default class Datasets extends Vue {
       page_href: this.$router.currentRoute.path,
     })
   }
-  
+
   download() {
     this.pushAction({
       type: 'download',
@@ -649,6 +679,28 @@ export default class Datasets extends Vue {
 
   mounted() {
     // console.log(this.datasetId)
+    if (typeof this.id == 'undefined') {
+      if (typeof this.datasetId != 'undefined') {
+        // check if there's information in da store
+        if (typeof this.datasets != 'undefined') {
+          const current = this.datasets.filter(
+            (el) => el._id == this.datasetId
+          )[0]
+          this.overview_sample = current
+          this.fileName_ = current.fileName
+          this.id_ = current._id
+          this.name_ = current.name
+        } else {
+          // api request on that one dataset
+        }
+        // if this is expanded page, request more info
+        // TODO: api method to findOne({id: id})
+      } else this.setSnackbarError('dataset id is not valid')
+    } else {
+      this.id_ = this.id
+      this.fileName_ = this.fileName
+      this.name_ = this.name
+    }
     this.geterateMutationsSample()
   }
 }

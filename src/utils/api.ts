@@ -46,7 +46,7 @@ export async function putActions() {
       { headers: getHeaders() }
     )
     .then((response) => {
-      console.log(response)
+      // console.log(response)
       // Reset _actions, because it's additive at backend
       if (response.status == 200 || response.status == 204)
       {

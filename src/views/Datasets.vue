@@ -127,6 +127,9 @@ import DatasetCard from '@/components/DatasetCard.vue'
 
 import { getDatasets } from '@/utils/api'
 import { Dataset } from '@/models/Dataset'
+import { namespace } from 'vuex-class'
+
+const AppStore = namespace('AppStore')
 
 @Component({
   props: {},
@@ -135,6 +138,8 @@ import { Dataset } from '@/models/Dataset'
   },
 })
 export default class Datasets extends Vue {
+  @AppStore.Mutation setDatasets!: (datasets: Dataset[]) => void
+
   searchVisible: String = ''
   searchReal: String = '-1'
 
@@ -295,6 +300,7 @@ export default class Datasets extends Vue {
   mounted() {
     getDatasets().then(response => {
       this.data = response
+      this.setDatasets(response)
       this.filters[2].tickLabels = this.tickLabelsByData('size')
       console.log(this.filters[2].tickLabels)
       this.filters[6].tickLabels = this.tickLabelsByData('proteins')

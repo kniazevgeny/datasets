@@ -26,6 +26,11 @@ export default class AppStore extends VuexModule {
   }
 
   @Mutation
+  setDatasets(datasets: Dataset[]) {
+    this.datasets = datasets
+  }
+
+  @Mutation
   setDark(dark: boolean) {
     this.dark = dark
   }

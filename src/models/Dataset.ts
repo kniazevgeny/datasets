@@ -13,5 +13,6 @@ export interface Dataset {
   proteins: number
   year: number
   author?: string
+  reference?: string
   doi?: string
 }
