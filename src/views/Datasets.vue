@@ -117,6 +117,7 @@ v-layout(style='width: 100%')
           :year='card.year',
           :author='card.author',
           :doi='card.doi'
+          :reference='card.reference'
         )
 </template>
 
@@ -309,6 +310,7 @@ export default class Datasets extends Vue {
   }
 
   // TODO: hide subtitles inside tooltips
+  // TODO: fix bug when by click on filter v-range-select page jumps down 
   filters = [
     {
       title: 'Original predictor',
@@ -335,7 +337,7 @@ export default class Datasets extends Vue {
       hint: 'Im a hint',
     },
     {
-      title: 'Doubled',
+      title: 'Symmetrized',
       subtitle:
         'A dataset is symmetrized if it contains both forward and reverse mutations.',
       type: 'select',

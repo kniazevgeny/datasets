@@ -13,7 +13,7 @@ v-layout(style='width: 100%')
         target='_blank',
         text
       )
-        span Expand
+        span Show more
         v-icon mdi-open-in-new
       v-btn.ml-2(
         outlined,

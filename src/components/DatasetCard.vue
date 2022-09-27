@@ -22,8 +22,6 @@ v-card(flat, outlined)
   v-card-text
     v-col
       v-row
-        span.pr-2 Original predictor: {{ originalPredictor }}
-        span.pr-2 -
         span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
       v-row
         span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
@@ -34,11 +32,7 @@ v-card(flat, outlined)
         span.pr-2 -
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
-        span.pr-2(v-if='typeof author == "string"') Author: {{ author }}
-        span.pr-2(v-if='typeof author == "string"') -
-        span.pr-2(v-if='typeof year == "number"') {{ year }}
-        span.pr-2(v-if='typeof year == "number"') -
-        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank") doi
+        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank") {{reference}}
 </template>
 
 <script lang="ts">
@@ -66,6 +60,7 @@ const ActionStore = namespace('ActionStore')
     year: Number,
     author: String,
     doi: String,
+    reference: String,
   },
   components: {
     DatasetOverview
@@ -89,6 +84,7 @@ export default class DatasetCard extends Vue {
   year?: Number
   author?: string
   doi?: String
+  reference?: String
 
   dialog = false
 

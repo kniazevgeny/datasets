@@ -1,9 +1,9 @@
 <template lang="pug">
 v-app-bar(absolute, color='#fff', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
-    v-btn(text, x-large, :disabled='toggle == 0', rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') browse
+    v-btn(text, x-large, disabled, rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') browse muations
     v-btn.ml-2(text, x-large, :disabled='toggle == 1', @click='$router.push(`/datasets/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') datasets
-    v-btn.ml-2(text, x-large, :disabled='toggle == 2', @click='$router.push(`/datasets/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') predictors
+    v-btn.ml-2(text, x-large, disabled, @click='$router.push(`/datasets/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') predictors
 </template>
 <script lang="ts">
 import Vue from 'vue'

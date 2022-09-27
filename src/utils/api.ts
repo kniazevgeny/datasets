@@ -6,7 +6,7 @@ import { namespace } from 'vuex-class'
 import router from '@/router'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://10.16.161.39:1337'
 
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}
@@ -49,9 +49,7 @@ export async function putActions() {
       // console.log(response)
       // Reset _actions, because it's additive at backend
       if (response.status == 200 || response.status == 204)
-      {
         store.dispatch('ActionStore/clearActions', null, { root: true })
-      }
     })
 }
 
@@ -63,8 +61,6 @@ export async function getDatasets() {
         headers: getHeaders(),
       })
       .catch((err) => {
-        // c.logerrserv('api.balance', err)
-        // if (isInvalidToken(err)) return 1
         setSnackbar(err)
         return err
       })
