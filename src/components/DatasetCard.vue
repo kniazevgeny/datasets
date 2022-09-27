@@ -9,7 +9,7 @@ v-card(flat, outlined)
       v-card-title.mb-0.link(
         v-bind='attrs',
         v-on='on',
-        @mouseDown.middle='$router.push(`/datasets/datasets/${_id}`)'
+        @click.middle='$router.push(`/datasets/datasets/${_id}`)'
 
         :class='fileName ? "" : "v-btn--disabled disabled"'
       ) {{ name }}
