@@ -32,7 +32,7 @@ v-card(flat, outlined)
         span.pr-2 -
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
-        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank") {{reference}}
+        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{reference}}
 </template>
 
 <script lang="ts">
