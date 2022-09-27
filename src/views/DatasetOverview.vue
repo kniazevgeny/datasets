@@ -61,6 +61,7 @@ v-layout(style='width: 100%')
       //- Charts here
       //- vue-chart-js for ddg perpesentation
       //- v-simple-table with reactive color set-up
+    //- TODO: add ddg graph 
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table.unavailable(
         fixed-header,
