@@ -313,12 +313,6 @@ export default class Datasets extends Vue {
   // TODO: fix bug when by click on filter v-range-select page jumps down 
   filters = [
     {
-      title: 'Original predictor',
-      subtitle:
-        'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column',
-      type: 'input',
-    },
-    {
       title: 'Origin',
       subtitle:
         'Original - compiled from scratch. Processed - processed original dataset.',
