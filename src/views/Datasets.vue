@@ -302,10 +302,10 @@ export default class Datasets extends Vue {
     getDatasets().then(response => {
       this.data = response
       this.setDatasets(response)
-      this.filters[2].tickLabels = this.tickLabelsByData('size')
-      console.log(this.filters[2].tickLabels)
-      this.filters[6].tickLabels = this.tickLabelsByData('proteins')
-      this.filters[8].tickLabels = this.tickLabelsByData('year')
+      this.filters[1].tickLabels = this.tickLabelsByData('size')
+      console.log(this.filters[1].tickLabels)
+      this.filters[5].tickLabels = this.tickLabelsByData('proteins')
+      this.filters[7].tickLabels = this.tickLabelsByData('year')
     })
   }
 
