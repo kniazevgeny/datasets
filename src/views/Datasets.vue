@@ -1,16 +1,13 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-navigation-drawer(
-    width='420',
-    permanent,
-    style='position: sticky',
-    absolute=false
+  div(
+    style='position: sticky; width: 420px',
   )
     //- Filters
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold.font-accent Filters
+      .text-h5.font-weight-bold.font-accent.text-left Filters
     v-list.pa-4(
       color='transparent',
       v-for='filter in filters',
@@ -227,6 +224,7 @@ export default class Datasets extends Vue {
   }
 
   customFilter(value: any, search: String | null, item: object) {
+
     // in vue 2.6.9 works only if search string is provided
     // So, we need some magic for user to ignore that bug
 
