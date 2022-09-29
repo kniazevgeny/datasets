@@ -6,7 +6,7 @@ import { namespace } from 'vuex-class'
 import router from '@/router'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://10.16.161.39:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
 
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}
@@ -37,6 +37,8 @@ function setSnackbar(err) {
 }
 
 export async function putActions() {
+  // Do not send empty arrays
+  if (Object(store.state.ActionStore._actions).length != 0)
   await axios
     .put(
       `${base}/actions/${(store.state.AppStore.user as User)._id}`,
