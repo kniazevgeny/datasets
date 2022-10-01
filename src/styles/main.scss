@@ -132,8 +132,20 @@ a:visited,
 }
 
 .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
-.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
-  padding: 0 6px !important;
+.v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th {
+  // padding: 0 6px !important;
+  aspect-ratio: 1;
+  padding: 0px !important;
+  min-width: calc(100% / 20);
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1
+}
+.v-data-table--dense {
+  min-width: min(800px, 100%);
+  max-height: 70vh;
+  aspect-ratio: 1;
 }
 
 .v-btn {

@@ -44,12 +44,12 @@ v-layout(style='width: 100%')
         span Download
         v-icon mdi-download-outline
     v-row.ma-4 
-      v-simple-table.unavailable(dense)
+      v-simple-table.pl-sm-0.pr-sm-0.pl-md-12.pr-md-12(dense)
         template(v-slot:default)
           thead
             tr
               th
-              th.text-left(v-for='title in mutations_headers', :key='title') {{ title }}
+              th.text-center(v-for='title in mutations_headers', :key='title') {{ title }}
           tbody
             tr(v-for='(items, i) in mutations_sample', :key='i')
               td {{ mutations_headers[i] }}
@@ -79,6 +79,7 @@ import Component from 'vue-class-component'
 import { downloadDataset, putActions } from '@/utils/api'
 import { namespace } from 'vuex-class'
 import { Dataset } from '@/models/Dataset'
+import { getDatasetOverview } from '@/utils/api'
 
 const AppStore = namespace('AppStore')
 const ActionStore = namespace('ActionStore')
@@ -147,11 +148,18 @@ export default class Datasets extends Vue {
 
   mutations_sample: number[][] = []
 
+  get mutations_max() {
+    let maxRow = this.mutations_sample.map(function(row){ return Math.max.apply(Math, row); });
+    return Math.max.apply(null, maxRow)
+  }
+
   getMuationColor(n: number) {
-    return `background: hsl(231deg 100% 66% / ${(n / 165) * 100}%)`
+    return `background: hsl(231deg 100% 66% / ${(n / this.mutations_max * 100}%)`
   }
 
   geterateMutationsSample() {
+    // enable if backend if unavailable
+    return
     for (let i = 0; i < 20; i++) {
       let arr: number[] = []
       const anchor = Math.round(Math.random() * 155) + 10
@@ -161,7 +169,9 @@ export default class Datasets extends Vue {
       }
       this.mutations_sample.push(arr)
     }
+    console.log(this.mutations_sample)
   }
+
 
   expandDataset() {
     this.pushAction({
@@ -677,11 +687,15 @@ export default class Datasets extends Vue {
 
   async getDatasetOverview() {
     // api request
-    return this.data_sample
+    if (typeof this.id_ == null) return 1
+    let resp = await getDatasetOverview(this.id_ as string)
+    console.log(resp)
+    this.mutations_sample = resp.amkTable
+    // return this.data_sample
   }
 
   mounted() {
-    // console.log(this.datasetId)
+    // get dataset id
     if (typeof this.id == 'undefined') {
       if (typeof this.datasetId != 'undefined') {
         // check if there's information in da store
@@ -704,7 +718,11 @@ export default class Datasets extends Vue {
       this.fileName_ = this.fileName
       this.name_ = this.name
     }
+    this.getDatasetOverview()
     this.geterateMutationsSample()
+
+    // get dataset id
+
   }
 }
 </script>

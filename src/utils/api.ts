@@ -6,7 +6,7 @@ import { namespace } from 'vuex-class'
 import router from '@/router'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.43.32:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://172.22.14.109:1337'
 
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}
@@ -67,6 +67,23 @@ export async function getDatasets() {
         return err
       })
   ).data as Dataset[]
+  // c.logserv('api.balance', response)
+  // response.balance = removeBackZeroes(response.balance)
+  return response
+}
+
+export async function getDatasetOverview(id: string) {
+  // if (checkInternetConnection()) throw "error";
+  let response = (
+    await axios
+      .get(`${base}/dataset/${id}`, {
+        headers: getHeaders(),
+      })
+      .catch((err) => {
+        setSnackbar(err)
+        return err
+      })
+  ).data
   // c.logserv('api.balance', response)
   // response.balance = removeBackZeroes(response.balance)
   return response
