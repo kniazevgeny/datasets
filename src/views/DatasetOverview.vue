@@ -44,7 +44,7 @@ v-layout(style='width: 100%')
         span Download
         v-icon mdi-download-outline
     v-row.ma-4 
-      v-simple-table.pl-sm-0.pr-sm-0.pl-md-12.pr-md-12(dense)
+      v-simple-table.ml-sm-0.mr-sm-0.ml-md-12.mr-md-12(dense)
         template(v-slot:default)
           thead
             tr
@@ -154,7 +154,9 @@ export default class Datasets extends Vue {
   }
 
   getMuationColor(n: number) {
-    return `background: hsl(231deg 100% 66% / ${n / this.mutations_max * 100}%)`
+    let style = `background: hsl(231deg 100% 66% / ${n / this.mutations_max * 100}%)`
+    if (!n) return style.concat(`;color: #888`)
+    return style
   }
 
   geterateMutationsSample() {
