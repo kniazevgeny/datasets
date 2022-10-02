@@ -57,7 +57,7 @@ v-layout(style='width: 100%')
                 v-for='(item, j) in items',
                 :key='j',
                 :style='getMuationColor(item)'
-              ) {{ item == -1 ? '' : item }}
+              ) {{ i == j ? '' : item }}
       //- Charts here
       //- vue-chart-js for ddg perpesentation
       //- v-simple-table with reactive color set-up
@@ -154,7 +154,7 @@ export default class Datasets extends Vue {
   }
 
   getMuationColor(n: number) {
-    return `background: hsl(231deg 100% 66% / ${(n / this.mutations_max * 100}%)`
+    return `background: hsl(231deg 100% 66% / ${n / this.mutations_max * 100}%)`
   }
 
   geterateMutationsSample() {
