@@ -44,7 +44,7 @@ v-layout(style='width: 100%')
         span Download
         v-icon mdi-download-outline
     v-row.ma-4 
-      v-simple-table.ml-sm-0.mr-sm-0.ml-md-12.mr-md-12(dense)
+      v-simple-table(dense)
         template(v-slot:default)
           thead
             tr
