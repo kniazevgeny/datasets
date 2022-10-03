@@ -92,6 +92,15 @@ a:visited:hover,
   border-color: rgba(244, 18, 36, 0.3);
 }
 
+.v-chip:not(.v-chip--dark):not(.primary):hover {
+  background: var(--v-primary) !important;
+  color: white !important
+}
+
+span.v-chip.primary:hover {
+  background: #f41224 !important; 
+}
+
 a:visited,
 .link:visited,
 .external-link:visited {

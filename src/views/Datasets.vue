@@ -29,8 +29,8 @@ v-layout(style='width: 100%')
           :max='filter.max',
           :min='filter.min',
           track-color='DimGray',
-          track-fill-color='primary',
-          color='primary'
+          track-fill-color='black',
+          color='black'
         )
         v-layout.mt-n11
           v-text-field.pa-2(
@@ -40,7 +40,7 @@ v-layout(style='width: 100%')
             dense,
             label='min',
             type='number',
-            color='primary'
+            color='black'
           )
           v-text-field.pa-2(
             v-model='filter.range[1]',
@@ -49,11 +49,11 @@ v-layout(style='width: 100%')
             dense,
             label='max',
             type='number',
-            color='primary'
+            color='black'
           )
       v-list-item-content(v-if='filter.type === "chip"')
         v-chip-group(v-model='filter.selected', mandatory, active-class='v-chip--dark')
-          v-chip(v-for='item in filter.items', :key='item.label') {{ item.label }}
+          v-chip.pa-4(v-for='item in filter.items', :key='item.label') {{ item.label }}
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
@@ -74,14 +74,14 @@ v-layout(style='width: 100%')
             v-chip-group(column)
               TransitionGroup(name='scale-w', mode='out-in', tag='div')
                 v-chip(
-                  color='warning',
+                  color='primary',
                   v-for='(filter, i) in filterChips',
                   :key='i',
                   clearable,
                   @click='resetFilterByChipId(i)',
                   @click:close='resetFilterByChipId(i)',
                   close
-                ) 
+                )
                   span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
         v-card.mt-3.float-right(flat, width='250')
@@ -213,8 +213,9 @@ export default class Datasets extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    let color = this.$vuetify.theme.themes.light['primary']
-    let colorDisabled = 'DimGray'
+    //    let color = this.$vuetify.theme.themes.light['primary']
+    let color = 'black'
+    let colorDisabled = '#b0b0b0'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     // if (min == -10) console.log(range)
 
