@@ -61,7 +61,13 @@ v-layout(style='width: 100%')
       //- Charts here
       //- vue-chart-js for ddg perpesentation
       //- v-simple-table with reactive color set-up
-    //- TODO: add ddg graph 
+    v-row.ma-4 
+      Bar(
+        :chart-options='chartOptions',
+        :chart-data='chartData',
+        dataset-id-key='label',
+        v-if='chartData.datasets[0].data.length'
+      )
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table.unavailable(
         fixed-header,
@@ -81,6 +87,19 @@ import { namespace } from 'vuex-class'
 import { Dataset } from '@/models/Dataset'
 import { getDatasetOverview } from '@/utils/api'
 
+import { Bar } from 'vue-chartjs/legacy'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
 const AppStore = namespace('AppStore')
 const ActionStore = namespace('ActionStore')
 const SnackbarStore = namespace('SnackbarStore')
@@ -90,6 +109,9 @@ const SnackbarStore = namespace('SnackbarStore')
     id: String,
     fileName: String,
     name: String,
+  },
+  components: {
+    Bar: Bar,
   },
 })
 export default class Datasets extends Vue {
@@ -149,12 +171,16 @@ export default class Datasets extends Vue {
   mutations_sample: number[][] = []
 
   get mutations_max() {
-    let maxRow = this.mutations_sample.map(function(row){ return Math.max.apply(Math, row); });
+    let maxRow = this.mutations_sample.map(function (row) {
+      return Math.max.apply(Math, row)
+    })
     return Math.max.apply(null, maxRow)
   }
 
   getMuationColor(n: number) {
-    let style = `background: hsl(231deg 100% 66% / ${n / this.mutations_max * 100}%)`
+    let style = `background: hsl(231deg 100% 66% / ${
+      (n / this.mutations_max) * 100
+    }%)`
     if (!n) return style.concat(`;color: #888`)
     return style
   }
@@ -174,6 +200,33 @@ export default class Datasets extends Vue {
     console.log(this.mutations_sample)
   }
 
+  chartData = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: 'ddg',
+        backgroundColor: '#14c',
+        data: [],
+      },
+    ],
+  }
+  chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  }
 
   expandDataset() {
     this.pushAction({
@@ -691,8 +744,13 @@ export default class Datasets extends Vue {
     // api request
     if (typeof this.id_ == null) return 1
     let resp = await getDatasetOverview(this.id_ as string)
-    console.log(resp)
+    // console.log(resp)
     this.mutations_sample = resp.amkTable
+    this.chartData.labels = resp.ddg.headers
+    this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes
+      .light['primary'] as string
+    this.chartData.datasets[0].data = resp.ddg.data as number[]
+    // console.log(this.chartData)
     // return this.data_sample
   }
 
@@ -724,7 +782,6 @@ export default class Datasets extends Vue {
     this.geterateMutationsSample()
 
     // get dataset id
-
   }
 }
 </script>
