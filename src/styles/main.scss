@@ -240,3 +240,12 @@ button.primary:active {
   max-height: 70vh;
   transform: translate(-50%, -50%) rotate(35deg);
 }
+
+.v-chip--dark {
+  background: #000;
+  color: white !important;
+}
+
+.v-slide-group__content > div {
+  display: contents;
+}

@@ -1,8 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  div(
-    style='position: sticky; width: 420px',
-  )
+  div(style='position: sticky; width: 420px')
     //- Filters
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
@@ -32,7 +30,7 @@ v-layout(style='width: 100%')
           :min='filter.min',
           track-color='DimGray',
           track-fill-color='primary',
-          color='primary',
+          color='primary'
         )
         v-layout.mt-n11
           v-text-field.pa-2(
@@ -42,7 +40,7 @@ v-layout(style='width: 100%')
             dense,
             label='min',
             type='number',
-            color='primary',
+            color='primary'
           )
           v-text-field.pa-2(
             v-model='filter.range[1]',
@@ -51,8 +49,11 @@ v-layout(style='width: 100%')
             dense,
             label='max',
             type='number',
-            color='primary',
+            color='primary'
           )
+      v-list-item-content(v-if='filter.type === "chip"')
+        v-chip-group(v-model='filter.selected', mandatory, active-class='v-chip--dark')
+          v-chip(v-for='item in filter.items', :key='item.label') {{ item.label }}
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
@@ -71,7 +72,7 @@ v-layout(style='width: 100%')
         v-expand-transition
           v-card.mx-auto.mt-3.float-left(flat)
             v-chip-group(column)
-              TransitionGroup(name='scale-w' mode='in-out' tag='div')
+              TransitionGroup(name='scale-w', mode='out-in', tag='div')
                 v-chip(
                   color='warning',
                   v-for='(filter, i) in filterChips',
@@ -81,7 +82,7 @@ v-layout(style='width: 100%')
                   @click:close='resetFilterByChipId(i)',
                   close
                 ) 
-                  span(v-if='filter').font-weight-light {{ filter.title + ': ' }}
+                  span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
         v-card.mt-3.float-right(flat, width='250')
           v-select(
@@ -93,7 +94,7 @@ v-layout(style='width: 100%')
             @input='sortItems'
           )
             template(v-slot:prepend)
-              v-icon(@click='flipSortOrder()' v-if='select' color='DarkGray') {{ isSortDescending ? "mdi-arrow-down" : "mdi-arrow-up" }}
+              v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
     v-card-text.pb-2
       v-col
         //- id should be id, not name
@@ -113,7 +114,7 @@ v-layout(style='width: 100%')
           :proteins='card.proteins',
           :year='card.year',
           :author='card.author',
-          :doi='card.doi'
+          :doi='card.doi',
           :reference='card.reference'
         )
 </template>
@@ -144,10 +145,12 @@ export default class Datasets extends Vue {
   select = 0
 
   isSortDescending = true
-  
-  get dataVisible() {    
+
+  get dataVisible() {
     // Apply filters
-    let result = this.data.filter((item) => this.customFilter('', this.searchReal, item))
+    let result = this.data.filter((item) =>
+      this.customFilter('', this.searchReal, item)
+    )
 
     // Values are already sorted in this.sortItems
     // With datasets > 10 000 that approach may affect performance
@@ -193,17 +196,19 @@ export default class Datasets extends Vue {
   }
 
   tickLabelsByData(param: string) {
-    const values = this.data.map(el => el[param])
+    const values = this.data.map((el) => el[param])
     // Group near values or data-augmentation
     let valuesProcessed
     if (param == 'size' || param == 'proteins') {
-      valuesProcessed = values.map(el => Math.round(el / 50) * 50)
-    }
-    else valuesProcessed = values
-    const valuesReduced: Map<number, Map<number, number>> = valuesProcessed.reduce(
+      valuesProcessed = values.map((el) => Math.round(el / 50) * 50)
+    } else valuesProcessed = values
+    const valuesReduced: Map<
+      number,
+      Map<number, number>
+    > = valuesProcessed.reduce(
       (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
       new Map()
-      )
+    )
     return [...valuesReduced.values()]
   }
 
@@ -224,7 +229,6 @@ export default class Datasets extends Vue {
   }
 
   customFilter(value: any, search: String | null, item: object) {
-
     // in vue 2.6.9 works only if search string is provided
     // So, we need some magic for user to ignore that bug
 
@@ -248,6 +252,12 @@ export default class Datasets extends Vue {
           item[current] > currentFilter[0].range[1]
         )
           return false
+      if (currentFilter[0].type === 'chip') {
+        // if we selected 'any'
+        if (currentFilter[0].selected == 0) return true
+        if (item[current] != currentFilter[0].items[currentFilter[0].selected].fieldToBe)
+          return false
+      }
       return true
     }, result)
   }
@@ -268,6 +278,9 @@ export default class Datasets extends Vue {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
+      if (item.type === 'chip') {
+        if (item.selected) return true
+      }
       // TBD for other filter types
       return false
     })
@@ -279,6 +292,7 @@ export default class Datasets extends Vue {
     if (this.filters[originalIndex].type === 'range') {
       this.resetRangeSlider(originalIndex)
     }
+    if (this.filters[originalIndex].type === 'chip') this.filters[originalIndex].selected = 0
   }
 
   resetRangeSlider(i) {
@@ -287,17 +301,19 @@ export default class Datasets extends Vue {
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
-  getFilterDescription(filter: typeof this.filters[2]) {
+  getFilterDescription(filter: typeof this.filters[0] | typeof this.filters[1]) {
     if (filter.type === 'range')
       return (
         (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
         '→' +
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
+    if (filter.type === 'chip')
+      return filter.items[filter.selected].label
   }
 
   mounted() {
-    getDatasets().then(response => {
+    getDatasets().then((response) => {
       this.data = response
       this.setDatasets(response)
       this.filters[1].tickLabels = this.tickLabelsByData('size')
@@ -308,13 +324,16 @@ export default class Datasets extends Vue {
   }
 
   // TODO: hide subtitles inside tooltips
-  // TODO: fix bug when by click on filter v-range-select page jumps down 
+  // TODO: fix bug when by click on filter v-range-select page jumps down
   filters = [
     {
       title: 'Origin',
+      value: 'origin',
       subtitle:
         'Original - compiled from scratch. Processed - processed original dataset.',
-      type: 'select',
+      type: 'chip',
+      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Original', fieldToBe: 'original'}, {label: 'Processed', fieldToBe: 'processed'}],
+      selected: 0,
     },
     {
       title: 'Size',
@@ -330,9 +349,12 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Symmetrized',
+      value: 'symmetrized',
       subtitle:
         'A dataset is symmetrized if it contains both forward and reverse mutations.',
-      type: 'select',
+      type: 'chip',
+      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
+      selected: 0
     },
     {
       title: 'Source',
@@ -341,9 +363,12 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Type',
+      value: 'type',
       subtitle:
         'Single - contains only single point mutations. Multiple - contains only multiple point mutations. Mixed - contains both single and multiple point mutations.',
-      type: 'select',
+      type: 'chip',
+      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Single', fieldToBe: 'single'}, {label: 'Multiple', fieldToBe: 'multiple'}, {label: 'Mixed', fieldToBe: 'mixed'}],
+      selected: 0,
     },
     {
       title: 'Proteins',
@@ -487,15 +512,22 @@ li {
   margin: 0 10px;
 }
 
-.scale-w-enter, .scale-w-enter-from, .scale-w-leave, .scale-w-leave-to {
+.scale-w-enter,
+.scale-w-enter-from {
   transform: scaleX(0.5);
+}
+.scale-w-leave,
+.scale-w-leave-to {
+  /* transform: translateY(-100px); */
+  opacity: 0;
   /* -webkit-transform: translate(-100px, 0); */
   /* transform: translate(-100px, 0); */
 }
-.scale-w-enter-active, .scale-w-leave-active, .scale-w-move {
-  transition: all .2s ease
+.scale-w-enter-active,
+.scale-w-leave-active {
+  transition: all 0.2s ease;
 }
 .scale-w-leave-active {
-  position: absolute;
+  position: relative;
 }
 </style>
