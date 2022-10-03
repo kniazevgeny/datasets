@@ -69,7 +69,7 @@ v-layout(style='width: 100%')
         v-if='chartData.datasets[0].data.length'
       )
     v-row.ma-4(v-if='typeof id == "undefined"')
-      v-data-table.unavailable(
+      v-data-table(
         fixed-header,
         :headers='data_sample.headers',
         :items='data_sample.data',
@@ -716,18 +716,19 @@ export default class Datasets extends Vue {
     headers: [
       {
         text: 'Variation',
-        value: 'variation',
+        value: 'mutation',
         align: 'start',
         sortable: false,
       },
-      { text: 'ddg', value: 'ddg', sortable: true },
+      { text: 'ddg', value: 'ddG', sortable: true },
       { text: 'pdb', value: 'pdb', sortable: false, align: 'start' },
       { text: 'chain', value: 'chain', sortable: false, align: 'start' },
       { text: 'uniprot', value: 'uniprot', sortable: false },
       { text: 'mutation', value: 'mutation', sortable: false, align: 'start' },
+      { text: 'organism', value: 'organism', sortable: false, align: 'start' },
       {
         text: 'protein name',
-        value: 'proteinName',
+        value: 'protein',
         sortable: false,
         align: 'start',
       },
@@ -750,6 +751,7 @@ export default class Datasets extends Vue {
     this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes
       .light['primary'] as string
     this.chartData.datasets[0].data = resp.ddg.data as number[]
+    this.data_sample.data = resp.data as object[]
     // console.log(this.chartData)
     // return this.data_sample
   }
