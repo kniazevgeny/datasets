@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout(column).justify-center.align-center(style='min-height: 90vh')
+v-layout.justify-center.align-center(column style='min-height: 90vh')
   h1.font-accent {{ $t('notFound') }}
   router-link(to="/datasets") Home page
 </template>
