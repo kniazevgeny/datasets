@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout.justify-center.align-center(column)(style='min-height: 90vh')
+v-layout.justify-center.align-center(column style='min-height: 90vh')
   h1.font-accent Ivankovlab
   router-link(to='/datasets') Datasets project
 </template>
