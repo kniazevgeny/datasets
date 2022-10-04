@@ -76,6 +76,7 @@ v-layout(style='width: 100%')
         item-key='name',
         checkbox-color='primary',
         multi-sort
+        disable-pagination
       )
         template(v-slot:item.pdb='{ item }')
           a(:href='`https://www.rcsb.org/structure/${item.pdb}`' target="_blank") {{ item.pdb }}
