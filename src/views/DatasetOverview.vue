@@ -180,7 +180,9 @@ export default class Datasets extends Vue {
 
   get datasetById() {
     if (typeof this.datasets == typeof undefined) return undefined
-    return (this.datasets as Dataset[]).filter((dataset) => dataset._id == this.datasetId)
+    return (this.datasets as Dataset[]).filter(
+      (dataset) => dataset._id == this.datasetId
+    )
   }
 
   getMuationColor(n: number) {
@@ -241,7 +243,7 @@ export default class Datasets extends Vue {
     putActions()
   }
 
-  // TODO: make everything sortable except 'chain' 
+  // TODO: make everything sortable except 'chain'
 
   data_sample = {
     data: [],
@@ -288,6 +290,10 @@ export default class Datasets extends Vue {
     // return this.data_sample
   }
 
+  setTitle() {
+    document.title = this.dataset.name
+  }
+
   mounted() {
     // get dataset id
     if (typeof this.id == typeof undefined) {
@@ -300,7 +306,10 @@ export default class Datasets extends Vue {
       if (typeof this.datasetById != typeof undefined)
         this.dataset = this.datasetById
 
-    this.getDatasetOverview()
+    this.getDatasetOverview().then(() => {
+      // this is not a passed prop, so it's a new page
+      if (typeof this.id == typeof undefined) this.setTitle()
+    })
     this.geterateMutationsSample()
   }
 }
