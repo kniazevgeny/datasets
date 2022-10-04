@@ -58,13 +58,13 @@ v-layout(style='width: 100%')
                 :key='j',
                 :style='getMuationColor(item)'
               ) {{ i == j ? '' : item }}
-      Bar(
+      Bar.mx-auto(
         :chart-options='chartOptions',
         :chart-data='chartData',
-        :width='"600px"',
+        width='600',
         dataset-id-key='label',
         v-if='chartData.datasets[0].data.length'
-      ).mx-auto
+      )
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table(
         fixed-header,
@@ -72,13 +72,19 @@ v-layout(style='width: 100%')
         :items='data_sample.data',
         item-key='name',
         checkbox-color='primary',
-        multi-sort
+        multi-sort,
         disable-pagination
       )
         template(v-slot:item.pdb='{ item }')
-          a(:href='`https://www.rcsb.org/structure/${item.pdb}`' target="_blank") {{ item.pdb }}
+          a(
+            :href='`https://www.rcsb.org/structure/${item.pdb}`',
+            target='_blank'
+          ) {{ item.pdb }}
         template(v-slot:item.uniprot='{ item }')
-          a(:href='`https://www.uniprot.org/uniprotkb/${item.uniprot}`' target="_blank") {{ item.uniprot }}
+          a(
+            :href='`https://www.uniprot.org/uniprotkb/${item.uniprot}`',
+            target='_blank'
+          ) {{ item.uniprot }}
 </template>
 
 <script lang="ts">
@@ -226,9 +232,9 @@ export default class Datasets extends Vue {
     plugins: {
       title: {
         display: true,
-        text: 'ddG (kcal/mol)'
-      }
-    }
+        text: 'ddG (kcal/mol)',
+      },
+    },
   }
 
   expandDataset() {
@@ -293,12 +299,13 @@ export default class Datasets extends Vue {
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     this.data_sample.data = resp.data as object[]
     this.dataset = resp.meta
+    this.setTitle()
     // console.log(this.chartData)
     // return this.data_sample
   }
 
   setTitle() {
-    document.title = this.dataset.name
+    if (this.dataset.fileName != '') document.title = this.dataset.name
   }
 
   mounted() {
