@@ -43,7 +43,7 @@ v-layout(style='width: 100%')
       )
         span Download
         v-icon mdi-download-outline
-    v-row.ma-4 
+    v-row.ma-4
       v-simple-table(dense)
         template(v-slot:default)
           thead
@@ -58,16 +58,13 @@ v-layout(style='width: 100%')
                 :key='j',
                 :style='getMuationColor(item)'
               ) {{ i == j ? '' : item }}
-      //- Charts here
-      //- vue-chart-js for ddg perpesentation
-      //- v-simple-table with reactive color set-up
-    v-row.ma-4 
       Bar(
         :chart-options='chartOptions',
         :chart-data='chartData',
+        :width='"600px"',
         dataset-id-key='label',
         v-if='chartData.datasets[0].data.length'
-      )
+      ).mx-auto
     v-row.ma-4(v-if='typeof id == "undefined"')
       v-data-table(
         fixed-header,
