@@ -226,6 +226,12 @@ export default class Datasets extends Vue {
   chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'ddG (kcal/mol)'
+      }
+    }
   }
 
   expandDataset() {
@@ -263,7 +269,6 @@ export default class Datasets extends Vue {
       { text: 'pdb', value: 'pdb', sortable: true, align: 'start' },
       { text: 'chain', value: 'chain', sortable: false, align: 'start' },
       { text: 'uniprot', value: 'uniprot', sortable: true },
-      { text: 'mutation', value: 'mutation', sortable: true, align: 'start' },
       { text: 'organism', value: 'organism', sortable: true, align: 'start' },
       {
         text: 'protein name',
