@@ -299,7 +299,6 @@ export default class Datasets extends Vue {
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     this.data_sample.data = resp.data as object[]
     this.dataset = resp.meta
-    this.setTitle()
     // console.log(this.chartData)
     // return this.data_sample
   }
