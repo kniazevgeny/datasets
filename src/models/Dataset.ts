@@ -1,4 +1,5 @@
 export interface Dataset {
+  showSkeleton: boolean,
   name: string
   _id: string
   fileName: string

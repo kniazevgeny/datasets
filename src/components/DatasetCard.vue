@@ -20,7 +20,7 @@ v-card(flat, outlined)
     v-icon(small) mdi-open-in-new
   v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
   v-card-text
-    v-col
+    v-col(v-if='!showSkeleton')
       v-row
         span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
       v-row
@@ -33,6 +33,8 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
         span.pr-2(v-if='typeof proteins == "number"') -
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{reference}}
+    v-col(v-else)
+      v-skeleton-loader.mx-auto(type='article' min-height='100px')
 </template>
 
 <script lang="ts">
@@ -45,6 +47,7 @@ const ActionStore = namespace('ActionStore')
 
 @Component({
   props: {
+    showSkeleton: Boolean,
     name: String,
     _id: String,
     fileName: String,
@@ -68,6 +71,8 @@ const ActionStore = namespace('ActionStore')
 })
 export default class DatasetCard extends Vue {
   @ActionStore.Mutation pushAction!: (action: object) => void
+
+  showSkeleton?: Boolean
 
   name!: String
   _id!: String

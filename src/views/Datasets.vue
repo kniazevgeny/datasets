@@ -13,47 +13,53 @@ v-layout(style='width: 100%')
     )
       v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
       small.grey--text.text--darken-2 {{ filter.subtitle }}
-      v-list-item-content(v-if='filter.type === "range"') 
-        v-sparkline(
-          :fill='true',
-          :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
-          gradient-direction='left',
-          :line-width='2',
-          :padding='8',
-          :smooth=25,
-          :value='filter.tickLabels'
-        )
-        v-range-slider.mt-n11(
-          v-model='filter.range',
-          :step='filter.step',
-          :max='filter.max',
-          :min='filter.min',
-          track-color='DimGray',
-          track-fill-color='black',
-          color='black'
-        )
-        v-layout.mt-n11
-          v-text-field.pa-2(
-            v-model='filter.range[0]',
-            hide-details,
-            filled,
-            dense,
-            label='min',
-            type='number',
+      v-list-item-content(v-if='filter.type === "range"')
+        div(v-if='data.length')
+          v-sparkline(
+            :fill='true',
+            :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
+            gradient-direction='left',
+            :line-width='2',
+            :padding='8',
+            :smooth=25,
+            :value='filter.tickLabels'
+          )
+          v-range-slider.mt-n11(
+            v-model='filter.range',
+            :step='filter.step',
+            :max='filter.max',
+            :min='filter.min',
+            track-color='DimGray',
+            track-fill-color='black',
             color='black'
           )
-          v-text-field.pa-2(
-            v-model='filter.range[1]',
-            hide-details,
-            filled,
-            dense,
-            label='max',
-            type='number',
-            color='black'
-          )
+          v-layout.mt-n11
+            v-text-field.pa-2(
+              v-model='filter.range[0]',
+              hide-details,
+              filled,
+              dense,
+              label='min',
+              type='number',
+              color='black'
+            )
+            v-text-field.pa-2(
+              v-model='filter.range[1]',
+              hide-details,
+              filled,
+              dense,
+              label='max',
+              type='number',
+              color='black'
+            )
+        v-skeleton-loader.mx-auto(v-else type='card, actions' max-height='100px')
       v-list-item-content(v-if='filter.type === "chip"')
-        v-chip-group(v-model='filter.selected', mandatory, active-class='v-chip--dark')
-          v-chip.pa-4(v-for='item in filter.items', :key='item.label') {{ item.label }}
+        div(v-if='data.length')
+          v-chip-group(v-model='filter.selected', mandatory, active-class='v-chip--dark')
+            v-chip.pa-4(v-for='item in filter.items', :key='item.label') {{ item.label }}
+        v-layout(col v-else).text-left
+          v-skeleton-loader.mx-auto(type='chip')
+          v-skeleton-loader.mx-auto(type='chip')
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
@@ -101,6 +107,7 @@ v-layout(style='width: 100%')
         DatasetCard.mb-2(
           v-for='card in dataVisible',
           :key='card._id',
+          :showSkeleton='card.showSkeleton',
           :name='card.name',
           :_id='card._id',
           :fileName='card.fileName',
@@ -154,6 +161,22 @@ export default class Datasets extends Vue {
 
     // Values are already sorted in this.sortItems
     // With datasets > 10 000 that approach may affect performance
+
+    // if no data, show skeleton
+    if (!result.length) 
+      for(let i = 0; i < 5; i++) result.push({
+        showSkeleton: true,
+        name: '',
+        _id: '',
+        fileName: '',
+        origin: '',
+        size: 0,
+        symmetrized: false,
+        available: false,
+        mutations: '',
+        proteins: 0,
+        year: 0
+      })
     return result
   }
 
