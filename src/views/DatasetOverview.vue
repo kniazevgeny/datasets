@@ -77,6 +77,10 @@ v-layout(style='width: 100%')
         checkbox-color='primary',
         multi-sort
       )
+        template(v-slot:item.pdb='{ item }')
+          a(:href='`https://www.rcsb.org/structure/${item.pdb}`' target="_blank") {{ item.pdb }}
+        template(v-slot:item.uniprot='{ item }')
+          a(:href='`https://www.uniprot.org/uniprotkb/${item.uniprot}`' target="_blank") {{ item.uniprot }}
 </template>
 
 <script lang="ts">
