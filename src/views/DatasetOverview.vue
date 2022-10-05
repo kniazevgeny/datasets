@@ -44,12 +44,17 @@ v-layout(style='width: 100%')
         span Download
         v-icon mdi-download-outline
     v-row.ma-4
-      v-simple-table(dense)
+      // span#s-table-top top-text
+      // span#s-table-left side-text
+      v-simple-table(dense).mt-6.ml-6
         template(v-slot:default)
           thead
             tr
               th
-              th.text-center(v-for='title in amkTableHeaders', :key='title') {{ title }}
+              th.text-center(
+                v-for='title in amkTableHeaders',
+                :key='title'
+              ) {{ title }}
           tbody
             tr(v-for='(items, i) in amkTable', :key='i')
               td {{ amkTableHeaders[i] }}
@@ -58,7 +63,7 @@ v-layout(style='width: 100%')
                 :key='j',
                 :style='getMuationColor(item)'
               ) {{ i == j ? '' : item }}
-      Bar.mx-auto(
+      Bar#bar-chart.mx-auto(
         :chart-options='chartOptions',
         :chart-data='chartData',
         width='600',
@@ -214,7 +219,7 @@ export default class Datasets extends Vue {
     labels: [],
     datasets: [
       {
-        label: 'ddg',
+        label: 'Number of entries',
         backgroundColor: '#14c',
         data: [],
       },
@@ -226,7 +231,7 @@ export default class Datasets extends Vue {
     plugins: {
       title: {
         display: true,
-        text: 'ddG (kcal/mol)',
+        text: 'ΔΔG (kcal/mol)',
       },
     },
   }
@@ -257,13 +262,13 @@ export default class Datasets extends Vue {
     data: [],
     headers: [
       {
-        text: 'Variation',
+        text: 'Mutation',
         value: 'mutation',
         align: 'start',
         sortable: true,
       },
-      { text: 'ddg', value: 'ddG', sortable: true },
-      { text: 'pdb', value: 'pdb', sortable: true, align: 'start' },
+      { text: 'ΔΔG', value: 'ddG', sortable: true },
+      { text: 'PDB ID', value: 'pdb', sortable: true, align: 'start' },
       { text: 'chain', value: 'chain', sortable: false, align: 'start' },
       { text: 'uniprot', value: 'uniprot', sortable: true },
       { text: 'organism', value: 'organism', sortable: true, align: 'start' },
@@ -322,4 +327,8 @@ export default class Datasets extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#bar-chart {
+  max-width: 50vw;
+}
+</style>
