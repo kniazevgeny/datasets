@@ -52,12 +52,20 @@ v-layout(style='width: 100%')
               type='number',
               color='black'
             )
-        v-skeleton-loader.mx-auto(v-else type='card, actions' max-height='100px')
+        v-skeleton-loader.mx-auto(
+          v-else,
+          type='card, actions',
+          max-height='100px'
+        )
       v-list-item-content(v-if='filter.type === "chip"')
         div(v-if='data.length')
-          v-chip-group(v-model='filter.selected', mandatory, active-class='v-chip--dark')
+          v-chip-group(
+            v-model='filter.selected',
+            mandatory,
+            active-class='v-chip--dark'
+          )
             v-chip.pa-4(v-for='item in filter.items', :key='item.label') {{ item.label }}
-        v-layout(col v-else).text-left
+        v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
           v-skeleton-loader.mx-auto(type='chip')
       v-divider.mt-4
@@ -163,20 +171,21 @@ export default class Datasets extends Vue {
     // With datasets > 10 000 that approach may affect performance
 
     // if no data, show skeleton
-    if (!result.length) 
-      for(let i = 0; i < 5; i++) result.push({
-        showSkeleton: true,
-        name: '',
-        _id: '',
-        fileName: '',
-        origin: '',
-        size: 0,
-        symmetrized: false,
-        available: false,
-        mutations: '',
-        proteins: 0,
-        year: 0
-      })
+    if (!result.length)
+      for (let i = 0; i < 5; i++)
+        result.push({
+          showSkeleton: true,
+          name: '',
+          _id: '',
+          fileName: '',
+          origin: '',
+          size: 0,
+          symmetrized: false,
+          available: false,
+          mutations: '',
+          proteins: 0,
+          year: 0,
+        })
     return result
   }
 
@@ -279,7 +288,10 @@ export default class Datasets extends Vue {
       if (currentFilter[0].type === 'chip') {
         // if we selected 'any'
         if (currentFilter[0].selected == 0) return true
-        if (item[current] != currentFilter[0].items[currentFilter[0].selected].fieldToBe)
+        if (
+          item[current] !=
+          currentFilter[0].items[currentFilter[0].selected].fieldToBe
+        )
           return false
       }
       return true
@@ -316,7 +328,8 @@ export default class Datasets extends Vue {
     if (this.filters[originalIndex].type === 'range') {
       this.resetRangeSlider(originalIndex)
     }
-    if (this.filters[originalIndex].type === 'chip') this.filters[originalIndex].selected = 0
+    if (this.filters[originalIndex].type === 'chip')
+      this.filters[originalIndex].selected = 0
   }
 
   resetRangeSlider(i) {
@@ -325,38 +338,44 @@ export default class Datasets extends Vue {
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
-  getFilterDescription(filter: typeof this.filters[0] | typeof this.filters[1]) {
+  getFilterDescription(
+    filter: typeof this.filters[0] | typeof this.filters[1]
+  ) {
     if (filter.type === 'range')
       return (
         (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
         '→' +
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
-    if (filter.type === 'chip')
-      return filter.items[filter.selected].label
+    if (filter.type === 'chip') return filter.items[filter.selected].label
   }
 
   mounted() {
     getDatasets().then((response) => {
       this.data = response
       this.setDatasets(response)
-      this.filters[1].tickLabels = this.tickLabelsByData('size')
-      console.log(this.filters[1].tickLabels)
-      this.filters[5].tickLabels = this.tickLabelsByData('proteins')
-      this.filters[7].tickLabels = this.tickLabelsByData('year')
+      const generateTicks = ['size', 'proteins', 'label']
+      generateTicks.forEach((fieldName) => {
+        this.filters[
+          this.filters.findIndex((el) => el.value == fieldName)
+        ].tickLabels = this.tickLabelsByData('size')
+      })
     })
   }
 
   // TODO: hide subtitles inside tooltips
-  // TODO: fix bug when by click on filter v-range-select page jumps down
   filters = [
     {
       title: 'Origin',
       value: 'origin',
       subtitle:
-        'Original - compiled from scratch. Processed - processed original dataset.',
+        'Original - a dataset compiled from Protherm or literature sources. Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.) Subset - a subset of existing dataset',
       type: 'chip',
-      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Original', fieldToBe: 'original'}, {label: 'Processed', fieldToBe: 'processed'}],
+      items: [
+        { label: 'Any', fieldToBe: undefined },
+        { label: 'Original', fieldToBe: 'original' },
+        { label: 'Processed', fieldToBe: 'processed' },
+      ],
       selected: 0,
     },
     {
@@ -371,27 +390,32 @@ export default class Datasets extends Vue {
       range: [0, 2000],
       hint: 'Im a hint',
     },
-    {
-      title: 'Symmetrized',
-      value: 'symmetrized',
-      subtitle:
-        'A dataset is symmetrized if it contains both forward and reverse mutations.',
-      type: 'chip',
-      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
-      selected: 0
-    },
+    // {
+    //   title: 'Symmetrized',
+    //   value: 'symmetrized',
+    //   subtitle:
+    //     'A dataset is symmetrized if it contains both forward and reverse mutations.',
+    //   type: 'chip',
+    //   items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
+    //   selected: 0
+    // },
     {
       title: 'Source',
       subtitle: '',
       type: 'select',
     },
     {
-      title: 'Type',
-      value: 'type',
+      title: 'Type of mutations',
+      value: 'mutations',
       subtitle:
         'Single - contains only single point mutations. Multiple - contains only multiple point mutations. Mixed - contains both single and multiple point mutations.',
       type: 'chip',
-      items: [{label: 'Any', fieldToBe: undefined}, {label: 'Single', fieldToBe: 'single'}, {label: 'Multiple', fieldToBe: 'multiple'}, {label: 'Mixed', fieldToBe: 'mixed'}],
+      items: [
+        { label: 'Any', fieldToBe: undefined },
+        { label: 'Single', fieldToBe: 'single' },
+        { label: 'Multiple', fieldToBe: 'multiple' },
+        { label: 'Mixed', fieldToBe: 'mixed' },
+      ],
       selected: 0,
     },
     {

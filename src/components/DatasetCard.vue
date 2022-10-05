@@ -18,14 +18,14 @@ v-card(flat, outlined)
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
-  v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
-  v-card-text
+  //- v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
+  v-card-text.pt-0
     v-col(v-if='!showSkeleton')
       v-row
         span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
       v-row
-        span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
-        span.pr-2 -
+        //- span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
+        //- span.pr-2 -
         span.pr-2(v-if='typeof mutations == "string"') Mutations: {{ mutations }}
       v-row
         span.pr-2 Size: {{ size }}
