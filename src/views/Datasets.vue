@@ -68,6 +68,20 @@ v-layout(style='width: 100%')
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
           v-skeleton-loader.mx-auto(type='chip')
+      v-list-item-content(v-if='filter.type === "autocomplete"')
+        div(v-if='data.length')
+          v-autocomplete(
+            v-model='filter.selected',
+            :items='filter.items',
+            auto-select-first,
+            chips,
+            clearable,
+            deletable-chips,
+            filled,
+            multiple
+          )
+        v-layout.text-left(col, v-else)
+          v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
@@ -294,6 +308,12 @@ export default class Datasets extends Vue {
         )
           return false
       }
+      if (currentFilter[0].type === 'autocomplete') {
+        // if nothing selected
+        if (!(currentFilter[0].selected as string[]).length) return true
+        if (!(currentFilter[0].selected as string[]).includes(item[current] as string))
+          return false
+      }
       return true
     }, result)
   }
@@ -317,6 +337,9 @@ export default class Datasets extends Vue {
       if (item.type === 'chip') {
         if (item.selected) return true
       }
+      if (item.type === 'autocomplete') {
+        if ((item.selected as string[]).length) return true
+      }
       // TBD for other filter types
       return false
     })
@@ -330,6 +353,8 @@ export default class Datasets extends Vue {
     }
     if (this.filters[originalIndex].type === 'chip')
       this.filters[originalIndex].selected = 0
+    if (this.filters[originalIndex].type === 'autocomplete')
+      this.filters[originalIndex].selected = []
   }
 
   resetRangeSlider(i) {
@@ -348,6 +373,7 @@ export default class Datasets extends Vue {
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
     if (filter.type === 'chip') return filter.items[filter.selected].label
+    if (filter.type === 'autocomplete') return filter.selected.join(', ')
   }
 
   mounted() {
@@ -360,6 +386,10 @@ export default class Datasets extends Vue {
           this.filters.findIndex((el) => el.value == fieldName)
         ].tickLabels = this.tickLabelsByData(fieldName)
       })
+      // @ts-ignore
+      this.filters[this.filters.findIndex((el) => el.value == 'author')].items 
+      = [...new Set(this.data.map((el: Dataset) => el.author))]
+      console.log(this.filters)
     })
   }
 
@@ -432,8 +462,11 @@ export default class Datasets extends Vue {
     },
     {
       title: 'Author',
+      value: 'author',
       subtitle: '',
-      type: 'select',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
     },
     {
       title: 'Year',
