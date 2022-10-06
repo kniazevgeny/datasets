@@ -354,11 +354,11 @@ export default class Datasets extends Vue {
     getDatasets().then((response) => {
       this.data = response
       this.setDatasets(response)
-      const generateTicks = ['size', 'proteins', 'label']
+      const generateTicks = ['size', 'proteins', 'label', 'year']
       generateTicks.forEach((fieldName) => {
         this.filters[
           this.filters.findIndex((el) => el.value == fieldName)
-        ].tickLabels = this.tickLabelsByData('size')
+        ].tickLabels = this.tickLabelsByData(fieldName)
       })
     })
   }
