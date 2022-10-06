@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar(absolute, color='#fff', flat, height=60)
+v-app-bar(fixed, color='#fff', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
     v-btn(text, x-large, disabled, rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') browse mutations
     v-btn.ml-2(text, x-large, :disabled='toggle == 1', @click='$router.push(`/datasets/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') datasets
