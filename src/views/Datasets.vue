@@ -64,7 +64,10 @@ v-layout(style='width: 100%')
             mandatory,
             active-class='v-chip--dark'
           )
-            v-chip.pa-4(v-for='item in filter.items', :key='item.label') {{ item.label }}
+            v-tooltip(bottom v-for='item in filter.items', :key='item.label')
+              template(v-slot:activator="{ on, attrs }")
+                v-chip.pa-4(v-on='on' v-bind='attrs') {{ item.label }}
+              span(v-if='typeof item.description != typeof undefined') {{ item.description }}
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
           v-skeleton-loader.mx-auto(type='chip')
@@ -78,7 +81,8 @@ v-layout(style='width: 100%')
             clearable,
             deletable-chips,
             filled,
-            multiple
+            multiple,
+            :label='filter.title'
           )
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
@@ -88,13 +92,15 @@ v-layout(style='width: 100%')
       v-col.pb-2
         v-text-field(
           v-model='searchVisible',
-          append-icon='mdi-magnify',
+          prepend-inner-icon='mdi-magnify',
           label='Type dataset name, year, author...',
           single-line,
           hide-details,
           filled,
+          autofocus
           color='primary',
-          @input='updateSearchReal'
+          @input='updateSearchReal',
+          clearable,
         )
         //- Mirror filters in v-chips
         v-expand-transition
@@ -397,14 +403,14 @@ export default class Datasets extends Vue {
   filters = [
     {
       title: 'Origin',
+      subtitle: '',
       value: 'origin',
-      subtitle:
-        'Original - a dataset compiled from Protherm or literature sources. Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.) Subset - a subset of existing dataset',
       type: 'chip',
       items: [
-        { label: 'Any', fieldToBe: undefined },
-        { label: 'Original', fieldToBe: 'original' },
-        { label: 'Processed', fieldToBe: 'processed' },
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Original', fieldToBe: 'original', description: 'Original - a dataset compiled from Protherm or literature sources.' },
+        { label: 'Processed', fieldToBe: 'processed', description: 'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)' },
+        { label: 'Subset', fieldToBe: 'subset', description: 'Subset - a subset of existing dataset' },
       ],
       selected: 0,
     },
@@ -437,14 +443,13 @@ export default class Datasets extends Vue {
     {
       title: 'Type of mutations',
       value: 'mutations',
-      subtitle:
-        'Single - contains only single point mutations. Multiple - contains only multiple point mutations. Mixed - contains both single and multiple point mutations.',
+      subtitle: '',
       type: 'chip',
       items: [
-        { label: 'Any', fieldToBe: undefined },
-        { label: 'Single', fieldToBe: 'single' },
-        { label: 'Multiple', fieldToBe: 'multiple' },
-        { label: 'Mixed', fieldToBe: 'mixed' },
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Single', fieldToBe: 'single', description: 'Single - contains only single point mutations.' },
+        { label: 'Multiple', fieldToBe: 'multiple', description: 'Multiple - contains only multiple point mutations.' },
+        { label: 'Mixed', fieldToBe: 'mixed', description: 'Mixed - contains both single and multiple point mutations.' },
       ],
       selected: 0,
     },
