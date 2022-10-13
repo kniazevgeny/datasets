@@ -64,7 +64,7 @@ v-layout(style='width: 100%')
             mandatory,
             active-class='v-chip--dark'
           )
-            v-tooltip(bottom v-for='item in filter.items', :key='item.label')
+            v-tooltip(bottom v-for='item in filter.items', :key='item.label', max-width='275')
               template(v-slot:activator="{ on, attrs }")
                 v-chip.pa-4(v-on='on' v-bind='attrs') {{ item.label }}
               span(v-if='typeof item.description != typeof undefined') {{ item.description }}
