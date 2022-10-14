@@ -4,16 +4,16 @@ export interface Predictor {
   algorithm_0: string
   algorithm_1: string
   datasets: object
-  meta: string
+  meta: boolean
   cv?: string
-  multiple_point_mutations: string
-  complexes: string
-  hrm_dataset: string
-  hrm_check: string
+  multiple_point_mutations: boolean
+  complexes: boolean
+  hrm_dataset: boolean
+  hrm_check: boolean
   compared_tools?: string
   metrics?: string
-  T: number
-  ph: number
+  T: boolean
+  ph: boolean
   author: string
   year: number
   doi: string
