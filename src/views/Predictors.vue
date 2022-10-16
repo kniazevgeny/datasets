@@ -301,6 +301,22 @@ export default class Predictors extends Vue {
       if (currentFilter[0].type === 'chip') {
         // if we selected 'any'
         if (currentFilter[0].selected == 0) return true
+        // process download/server case
+        if (
+          current == 'download' &&
+          currentFilter[0].items[currentFilter[0].selected].fieldToBe ==
+            'download' &&
+          item['download'].length
+        )
+          return true
+        if (
+          current == 'download' &&
+          currentFilter[0].items[currentFilter[0].selected].fieldToBe ==
+            'server' &&
+          item['server'].length
+        )
+          return true
+        // general 
         if (
           item[current] !=
           currentFilter[0].items[currentFilter[0].selected].fieldToBe
@@ -387,7 +403,12 @@ export default class Predictors extends Vue {
       this.data = response
       // TODO: setPredictors to AppStore
       // this.setDatasets(response)
-      const generateAutompleteItems = ['algorithm_0', 'compared_tools', 'metrics', 'author']
+      const generateAutompleteItems = [
+        'algorithm_0',
+        'compared_tools',
+        'metrics',
+        'author',
+      ]
       generateAutompleteItems.forEach((fieldName) => {
         // @ts-ignore
         this.filters[

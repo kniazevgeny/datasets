@@ -15,7 +15,6 @@ v-card(flat, outlined)
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
-  v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
   v-card-text.pt-0
     v-col
       v-row
@@ -42,7 +41,7 @@ v-card(flat, outlined)
         span.pr-2 -
         span.pr-2(v-if='typeof hrm_check == "boolean"') Reverse mutation check: {{ hrm_check ? 'yes' : 'no' }}
       v-row.pt-2
-        span.pr-2(v-if='typeof compared_tools == "string"') Compared to predictors: {{ compared_tools }}
+        span.pr-2(v-if='typeof compared_tools == "string"').text-left Compared to predictors: {{ compared_tools }}
         span.pr-2 -
         span.pr-2(v-if='typeof metrics == "string"') Comparison metrics: {{ metrics }}
 </template>
