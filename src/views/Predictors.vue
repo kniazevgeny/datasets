@@ -3,7 +3,7 @@ v-layout(style='width: 100%')
   v-navigation-drawer(
     width='420',
     permanent,
-    style='position: sticky',
+    style='position: sticky; height: 100vh',
     absolute=false
   )
     //- Filters
@@ -98,7 +98,7 @@ v-layout(style='width: 100%')
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
-  v-card.ma-6(width='100%', height='100%', flat)
+  v-card.ma-6.ml-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2
         v-text-field(
@@ -379,6 +379,9 @@ export default class Predictors extends Vue {
   }
 
   mounted() {
+    // set correct sidebar size (25 characters)
+    this.$vuetify.theme.themes.light.sidebar_size = '30ch'
+
     // getPredictors().then((response) => {
     //   this.data = response
     //   this.filters[2].tickLabels = this.tickLabelsByData('size')

@@ -94,11 +94,11 @@ a:visited:hover,
 
 .v-chip:not(.v-chip--dark):not(.primary):hover {
   background: var(--v-primary) !important;
-  color: white !important
+  color: white !important;
 }
 
 span.v-chip.primary:hover {
-  background: #f41224 !important; 
+  background: #f41224 !important;
 }
 
 a:visited,
@@ -157,7 +157,8 @@ a:visited,
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th {
   text-transform: capitalize;
 }
-.v-data-table--dense, #s-table-container {
+.v-data-table--dense,
+#s-table-container {
   min-width: min(462px, 100%);
   max-height: 70vh;
   aspect-ratio: 1;
@@ -171,7 +172,7 @@ a:visited,
   z-index: 4;
   top: -25px;
   text-align: center;
-  left: 200px
+  left: 200px;
 }
 .v-data-table--dense > .v-data-table__wrapper::before {
   content: 'Mutatition from';
@@ -286,4 +287,23 @@ button.primary:active {
 
 #s-table-top {
   justify-content: center;
+}
+
+aside.v-navigation-drawer {
+  flex: 0 1 var(--v-sidebar_size);
+  width: var(--v-sidebar_size);
+  height: 100vh;
+  overflow: hidden;
+  margin-right: -20px;
+}
+
+.view:has(aside.v-navigation-drawer) > div {
+  width: calc(100vw - var(--v-sidebar_size) - 1rem);
+  flex: 0 1 calc(100vw - var(--v-sidebar_size) - 1rem);
+}
+
+aside.v-navigation-drawer > .v-navigation-drawer__content {
+  width: 100%;
+  overflow-y: scroll;
+  position: absolute;
 }

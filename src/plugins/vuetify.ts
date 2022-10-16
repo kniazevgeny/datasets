@@ -26,6 +26,7 @@ export default new Vuetify({
         warning: '#FF7E36',
         externalLink: '#2dd65c',
         borderRadius: '15px',
+        sidebar_size: '30ch'
       },
       dark: {},
     },

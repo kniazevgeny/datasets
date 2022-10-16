@@ -1,6 +1,11 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  div(style='position: sticky; width: 420px')
+  v-navigation-drawer(
+    permanent,
+    width='420',
+    style='position: sticky; height: 100vh',
+    absolute=false
+  )
     //- Filters
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
@@ -64,9 +69,15 @@ v-layout(style='width: 100%')
             mandatory,
             active-class='v-chip--dark'
           )
-            v-tooltip(bottom v-for='item in filter.items', :key='item.label', :disabled='typeof item.description == typeof undefined', max-width='275')
-              template(v-slot:activator="{ on, attrs }")
-                v-chip.pa-4(v-on='on' v-bind='attrs') {{ item.label }}
+            v-tooltip(
+              bottom,
+              v-for='item in filter.items',
+              :key='item.label',
+              :disabled='typeof item.description == typeof undefined',
+              max-width='275'
+            )
+              template(v-slot:activator='{ on, attrs }')
+                v-chip.pa-4(v-on='on', v-bind='attrs') {{ item.label }}
               span {{ item.description }}
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
@@ -87,7 +98,7 @@ v-layout(style='width: 100%')
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
-  v-card.ma-6(width='100%', height='100%', flat)
+  v-card.ma-6.ml-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2
         v-text-field(
@@ -97,10 +108,10 @@ v-layout(style='width: 100%')
           single-line,
           hide-details,
           filled,
-          autofocus
+          autofocus,
           color='primary',
           @input='updateSearchReal',
-          clearable,
+          clearable
         )
         //- Mirror filters in v-chips
         v-expand-transition
@@ -317,7 +328,11 @@ export default class Datasets extends Vue {
       if (currentFilter[0].type === 'autocomplete') {
         // if nothing selected
         if (!(currentFilter[0].selected as string[]).length) return true
-        if (!(currentFilter[0].selected as string[]).includes(item[current] as string))
+        if (
+          !(currentFilter[0].selected as string[]).includes(
+            item[current] as string
+          )
+        )
           return false
       }
       return true
@@ -383,6 +398,9 @@ export default class Datasets extends Vue {
   }
 
   mounted() {
+    // set correct sidebar size (42 characters)
+    this.$vuetify.theme.themes.light.sidebar_size = '42ch'
+
     getDatasets().then((response) => {
       this.data = response
       this.setDatasets(response)
@@ -393,13 +411,13 @@ export default class Datasets extends Vue {
         ].tickLabels = this.tickLabelsByData(fieldName)
       })
       // @ts-ignore
-      this.filters[this.filters.findIndex((el) => el.value == 'author')].items 
-      = [...new Set(this.data.map((el: Dataset) => el.author))]
+      this.filters[
+        this.filters.findIndex((el) => el.value == 'author')
+      ].items = [...new Set(this.data.map((el: Dataset) => el.author))]
       console.log(this.filters)
     })
   }
 
-  // TODO: hide subtitles inside tooltips
   filters = [
     {
       title: 'Origin',
@@ -408,9 +426,23 @@ export default class Datasets extends Vue {
       type: 'chip',
       items: [
         { label: 'Any', fieldToBe: undefined, description: undefined },
-        { label: 'Original', fieldToBe: 'original', description: 'Original - a dataset compiled from Protherm or literature sources.' },
-        { label: 'Processed', fieldToBe: 'processed', description: 'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)' },
-        { label: 'Subset', fieldToBe: 'subset', description: 'Subset - a subset of existing dataset' },
+        {
+          label: 'Original',
+          fieldToBe: 'original',
+          description:
+            'Original - a dataset compiled from Protherm or literature sources.',
+        },
+        {
+          label: 'Processed',
+          fieldToBe: 'processed',
+          description:
+            'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)',
+        },
+        {
+          label: 'Subset',
+          fieldToBe: 'subset',
+          description: 'Subset - a subset of existing dataset',
+        },
       ],
       selected: 0,
     },
@@ -447,9 +479,22 @@ export default class Datasets extends Vue {
       type: 'chip',
       items: [
         { label: 'Any', fieldToBe: undefined, description: undefined },
-        { label: 'Single', fieldToBe: 'single', description: 'Single - contains only single point mutations.' },
-        { label: 'Multiple', fieldToBe: 'multiple', description: 'Multiple - contains only multiple point mutations.' },
-        { label: 'Mixed', fieldToBe: 'mixed', description: 'Mixed - contains both single and multiple point mutations.' },
+        {
+          label: 'Single',
+          fieldToBe: 'single',
+          description: 'Single - contains only single point mutations.',
+        },
+        {
+          label: 'Multiple',
+          fieldToBe: 'multiple',
+          description: 'Multiple - contains only multiple point mutations.',
+        },
+        {
+          label: 'Mixed',
+          fieldToBe: 'mixed',
+          description:
+            'Mixed - contains both single and multiple point mutations.',
+        },
       ],
       selected: 0,
     },
