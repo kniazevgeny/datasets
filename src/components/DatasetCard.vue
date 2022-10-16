@@ -3,6 +3,7 @@ v-card(flat, outlined)
   v-dialog(
     v-model='dialog',
     width='1000',
+    :fullscreen='isMobile',
     v-if='typeof externalLink == "undefined"'
   )
     template(v-slot:activator='{ on, attrs }')
@@ -91,6 +92,10 @@ export default class DatasetCard extends Vue {
   reference?: String
 
   dialog = false
+
+  get isMobile() {
+    return window.innerWidth < 500
+  }
 
   openDatasetOverview() {
     this.pushAction({

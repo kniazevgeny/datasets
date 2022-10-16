@@ -3,32 +3,33 @@ v-layout(style='width: 100%')
   v-col
     //- TODO: add licence plate
     v-row.ma-4.d-flex.align-center(v-if='typeof id == "string"')
-      span.heading-1.float-left
-        span.font-weight-bold {{ dataset.fileName }}
-        //- span ({{ dataset.fileSize }})
-      v-btn.ml-2(
-        outlined,
-        large,
-        :href='`/datasets/datasets/${datasetId}`',
-        @click='expandDataset()',
-        target='_blank',
-        text
-      )
-        span Show more
-        v-icon mdi-open-in-new
-      v-btn.ml-2(
-        outlined,
-        large,
-        :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
-        text,
-        @click='download()',
-        :disabled='typeof dataset.fileName == typeof undefined'
-      )
-        span Download
-        v-icon mdi-download-outline
-      v-spacer
-      v-btn(outlined, large, text, @click='$emit("closeDialog")')
-        v-icon mdi-close
+      v-col(cols=9)
+        span.heading-1.float-left
+          span.font-weight-bold {{ dataset.fileName }}
+          //- span ({{ dataset.fileSize }})
+        v-btn.ml-2(
+          outlined,
+          large,
+          :href='`/datasets/datasets/${datasetId}`',
+          @click='expandDataset()',
+          target='_blank',
+          text
+        )
+          span Show more
+          v-icon mdi-open-in-new
+        v-btn.ml-2(
+          outlined,
+          large,
+          :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
+          text,
+          @click='download()',
+          :disabled='typeof dataset.fileName == typeof undefined'
+        )
+          span Download
+          v-icon mdi-download-outline
+      v-col(cols=3)
+        v-btn(outlined, large, text, @click='$emit("closeDialog")')
+          v-icon mdi-close
     v-row.ma-4.d-flex.align-center(v-else)
       span.heading-1.float-left
         span.font-weight-bold {{ dataset.fileName }}
@@ -46,15 +47,12 @@ v-layout(style='width: 100%')
     v-row.ma-4
       // span#s-table-top top-text
       // span#s-table-left side-text
-      v-simple-table(dense).mt-6.ml-6
+      v-simple-table.mt-6.ml-6(dense)
         template(v-slot:default)
           thead
             tr
               th
-              th.text-center(
-                v-for='title in amkTableHeaders',
-                :key='title'
-              ) {{ title }}
+              th.text-center(v-for='title in amkTableHeaders', :key='title') {{ title }}
           tbody
             tr(v-for='(items, i) in amkTable', :key='i')
               td {{ amkTableHeaders[i] }}
