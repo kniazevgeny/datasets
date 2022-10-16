@@ -289,6 +289,10 @@ button.primary:active {
   justify-content: center;
 }
 
+.v-app-bar {
+  z-index: 10;
+}
+
 aside.v-navigation-drawer {
   flex: 0 1 var(--v-sidebar_size);
   width: var(--v-sidebar_size);
