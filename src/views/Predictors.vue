@@ -355,10 +355,12 @@ export default class Predictors extends Vue {
       if (currentFilter[0].type === 'autocomplete') {
         // if nothing selected
         if (!(currentFilter[0].selected as string[]).length) return true
+        if ((currentFilter[0].selected as string[]).some(el => item[current].includes(el)))
+          return true
         if (
           !(currentFilter[0].selected as string[]).includes(
             item[current] as string
-          )
+          )          
         )
           return false
       }
