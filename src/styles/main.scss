@@ -307,3 +307,7 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
   overflow-y: scroll;
   position: absolute;
 }
+
+.v-toolbar > .v-toolbar__content {
+  overflow: auto;
+}
