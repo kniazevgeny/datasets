@@ -39,7 +39,7 @@ v-card(flat, outlined)
         span.pr-2 •
         span.pr-2(v-if='typeof hrm_check == "boolean"') Reverse mutation check: {{ hrm_check ? 'yes' : 'no' }}
       v-row.pt-2
-        span.pr-2(v-if='compared_tools.length').text-left Compared to predictors: {{ compared_tools }}
+        span.pr-2(v-if='compared_tools.length').text-left Compared to predictors: {{ compared_tools.split(',').join(', ') }}
         span.pr-2 •
         span.pr-2(v-if='metrics.length') Comparison metrics: {{ metrics }}
       v-row
