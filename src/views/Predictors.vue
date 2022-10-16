@@ -176,6 +176,7 @@ import PredictorCard from '@/components/PredictorCard.vue'
 
 // import { getPredictors } from '@/utils/api'
 import { Predictor } from '@/models/Predictor'
+import { getPredictors } from '@/utils/api'
 
 @Component({
   props: {},
@@ -382,13 +383,19 @@ export default class Predictors extends Vue {
     // set correct sidebar size (25 characters)
     this.$vuetify.theme.themes.light.sidebar_size = '30ch'
 
-    // getPredictors().then((response) => {
-    //   this.data = response
-    //   this.filters[2].tickLabels = this.tickLabelsByData('size')
-    //   console.log(this.filters[2].tickLabels)
-    //   // this.filters[6].tickLabels = this.tickLabelsByData('proteins')
-    //   this.filters[8].tickLabels = this.tickLabelsByData('year')
-    // })
+    getPredictors().then((response) => {
+      this.data = response
+      // TODO: setPredictors to AppStore
+      // this.setDatasets(response)
+      const generateAutompleteItems = ['algorithm_0', 'compared_tools', 'metrics', 'author']
+      generateAutompleteItems.forEach((fieldName) => {
+        // @ts-ignore
+        this.filters[
+          this.filters.findIndex((el) => el.value == fieldName)
+        ].items = [...new Set(this.data.map((el: Predictor) => el[fieldName]))]
+      })
+      console.log(this.filters)
+    })
   }
 
   // TODO: hide subtitles inside tooltips
