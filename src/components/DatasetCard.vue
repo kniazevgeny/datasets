@@ -23,15 +23,14 @@ v-card(flat, outlined)
     v-col(v-if='!showSkeleton')
       v-row
         span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
-      v-row
         //- span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
-        //- span.pr-2 -
-        span.pr-2(v-if='typeof mutations == "string"') Mutations: {{ mutations }}
+        span.pr-2 •
+        span.pr-2(v-if='typeof mutations == "string"') {{ mutations }} mutations
+        span.pr-2 •
+        span.pr-2 {{ size }} entries
+        span.pr-2 •
+        span.pr-2(v-if='typeof proteins == "number"') {{ proteins }} proteins
       v-row
-        span.pr-2 Size: {{ size }}
-        span.pr-2 -
-        span.pr-2(v-if='typeof proteins == "number"') Proteins: {{ proteins }}
-        span.pr-2(v-if='typeof proteins == "number"') -
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{reference}}
     v-col(v-else)
       v-skeleton-loader.mx-auto(type='article' min-height='100px')

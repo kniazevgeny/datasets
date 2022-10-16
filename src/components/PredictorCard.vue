@@ -17,33 +17,33 @@ v-card(flat, outlined)
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
     v-col
-      v-row
-        a.pr-2.text-left(v-if='typeof doi == "string"', :href='doi') {{reference}}
       v-row.pt-2
         span.pr-2 Input: {{ input }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2 Algorithm: {{ algorithm_0 }}
-        span.pr-2(v-if='typeof algorithm_1 == "string"') {{ algorithm_1 }}
+        span.pr-2(v-if='algorithm_1.length') {{ algorithm_1 }}
       v-row.pt-2
         span.pr-2(v-if='typeof meta == "boolean"') Meta-predictor: {{ meta ? 'yes' : 'no' }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2(v-if='typeof multiple_point_mutations == "boolean"') Muptilpe-point mutations: {{ multiple_point_mutations ? 'yes' : 'no' }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2(v-if='typeof complexes == "boolean"') Mutations in protein complexes: {{ complexes ? 'yes' : 'no' }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2(v-if='typeof T == "boolean"') Setting temperature: {{ T ? 'yes' : 'no' }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2(v-if='typeof ph == "boolean"') Setting pH: {{ ph ? 'yes' : 'no' }}
       v-row.pt-2
-        span.pr-2(v-if='typeof cv == "string"') Validation procedure: {{ cv }}
-        span.pr-2 -
+        span.pr-2(v-if='cv.length') Validation procedure: {{ cv }}
+        span.pr-2 •
         span.pr-2(v-if='typeof hrm_dataset == "boolean"') Symmetrized training set: {{ hrm_dataset ? 'yes' : 'no' }}
-        span.pr-2 -
+        span.pr-2 •
         span.pr-2(v-if='typeof hrm_check == "boolean"') Reverse mutation check: {{ hrm_check ? 'yes' : 'no' }}
       v-row.pt-2
-        span.pr-2(v-if='typeof compared_tools == "string"').text-left Compared to predictors: {{ compared_tools }}
-        span.pr-2 -
-        span.pr-2(v-if='typeof metrics == "string"') Comparison metrics: {{ metrics }}
+        span.pr-2(v-if='compared_tools.length').text-left Compared to predictors: {{ compared_tools }}
+        span.pr-2 •
+        span.pr-2(v-if='metrics.length') Comparison metrics: {{ metrics }}
+      v-row
+        a.pr-2.text-left(v-if='typeof doi == "string"', :href='doi') {{reference}}
 </template>
 
 <script lang="ts">
