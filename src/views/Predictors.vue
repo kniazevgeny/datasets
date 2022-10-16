@@ -18,44 +18,79 @@ v-layout(style='width: 100%')
     )
       v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
       small.grey--text.text--darken-2 {{ filter.subtitle }}
-      v-list-item-content(v-if='filter.type === "range"') 
-        v-sparkline(
-          :fill='true',
-          :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
-          gradient-direction='left',
-          :line-width='2',
-          :padding='8',
-          :smooth=25,
-          :value='filter.tickLabels'
-        )
-        v-range-slider.mt-n11(
-          v-model='filter.range',
-          :step='filter.step',
-          :max='filter.max',
-          :min='filter.min',
-          track-color='DimGray',
-          track-fill-color='primary',
-          color='primary'
-        )
-        v-layout.mt-n11
-          v-text-field.pa-2(
-            v-model='filter.range[0]',
-            hide-details,
-            filled,
-            dense,
-            label='min',
-            type='number',
-            color='primary'
+      v-list-item-content(v-if='filter.type === "range"')
+        div(v-if='data.length')
+          v-sparkline(
+            :fill='true',
+            :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
+            gradient-direction='left',
+            :line-width='2',
+            :padding='8',
+            :smooth=25,
+            :value='filter.tickLabels'
           )
-          v-text-field.pa-2(
-            v-model='filter.range[1]',
-            hide-details,
-            filled,
-            dense,
-            label='max',
-            type='number',
-            color='primary'
+          v-range-slider.mt-n11(
+            v-model='filter.range',
+            :step='filter.step',
+            :max='filter.max',
+            :min='filter.min',
+            track-color='DimGray',
+            track-fill-color='black',
+            color='black'
           )
+          v-layout.mt-n11
+            v-text-field.pa-2(
+              v-model='filter.range[0]',
+              hide-details,
+              filled,
+              dense,
+              label='min',
+              type='number',
+              color='black'
+            )
+            v-text-field.pa-2(
+              v-model='filter.range[1]',
+              hide-details,
+              filled,
+              dense,
+              label='max',
+              type='number',
+              color='black'
+            )
+        v-skeleton-loader.mx-auto(
+          v-else,
+          type='card, actions',
+          max-height='100px'
+        )
+      v-list-item-content(v-if='filter.type === "chip"')
+        div(v-if='data.length')
+          v-chip-group(
+            v-model='filter.selected',
+            mandatory,
+            active-class='v-chip--dark'
+          )
+            v-tooltip(bottom v-for='item in filter.items', :key='item.label', :disabled='typeof item.description == typeof undefined', max-width='275')
+              template(v-slot:activator="{ on, attrs }")
+                v-chip.pa-4(v-on='on' v-bind='attrs') {{ item.label }}
+              span {{ item.description }}
+        v-layout.text-left(col, v-else)
+          v-skeleton-loader.mx-auto(type='chip')
+          v-skeleton-loader.mx-auto(type='chip')
+      v-list-item-content(v-if='filter.type === "autocomplete"')
+        div(v-if='data.length')
+          v-autocomplete(
+            v-model='filter.selected',
+            :items='filter.items',
+            auto-select-first,
+            chips,
+            clearable,
+            deletable-chips,
+            filled,
+            multiple,
+            :label='filter.title'
+          )
+        v-layout.text-left(col, v-else)
+          v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
   v-card.ma-6(width='100%', height='100%', flat)
     v-card-title.pb-2
@@ -76,7 +111,7 @@ v-layout(style='width: 100%')
             v-chip-group(column)
               TransitionGroup(name='scale-w', mode='in-out', tag='div')
                 v-chip(
-                  color='warning',
+                  color='primary',
                   v-for='(filter, i) in filterChips',
                   :key='i',
                   clearable,
@@ -249,7 +284,6 @@ export default class Predictors extends Vue {
       // get suitable filter object
       let currentFilter = this.filters.filter((f) => f.value === current)
       if (currentFilter.length == 0) return true
-      console.log(currentFilter[0].title, current)
       // check each type
       if (currentFilter[0].type === 'range')
         if (
@@ -257,6 +291,21 @@ export default class Predictors extends Vue {
           item[current] > currentFilter[0].range[1]
         )
           return false
+      if (currentFilter[0].type === 'chip') {
+        // if we selected 'any'
+        if (currentFilter[0].selected == 0) return true
+        if (
+          item[current] !=
+          currentFilter[0].items[currentFilter[0].selected].fieldToBe
+        )
+          return false
+      }
+      if (currentFilter[0].type === 'autocomplete') {
+        // if nothing selected
+        if (!(currentFilter[0].selected as string[]).length) return true
+        if (!(currentFilter[0].selected as string[]).includes(item[current] as string))
+          return false
+      }
       return true
     }, result)
   }
@@ -277,6 +326,12 @@ export default class Predictors extends Vue {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
+      if (item.type === 'chip') {
+        if (item.selected) return true
+      }
+      if (item.type === 'autocomplete') {
+        if ((item.selected as string[]).length) return true
+      }
       // TBD for other filter types
       return false
     })
@@ -288,6 +343,10 @@ export default class Predictors extends Vue {
     if (this.filters[originalIndex].type === 'range') {
       this.resetRangeSlider(originalIndex)
     }
+    if (this.filters[originalIndex].type === 'chip')
+      this.filters[originalIndex].selected = 0
+    if (this.filters[originalIndex].type === 'autocomplete')
+      this.filters[originalIndex].selected = []
   }
 
   resetRangeSlider(i) {
@@ -296,13 +355,17 @@ export default class Predictors extends Vue {
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
-  getFilterDescription(filter: typeof this.filters[2]) {
+  getFilterDescription(
+    filter: typeof this.filters[0] | typeof this.filters[1]
+  ) {
     if (filter.type === 'range')
       return (
         (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
         '→' +
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
+    if (filter.type === 'chip') return filter.items[filter.selected].label
+    if (filter.type === 'autocomplete') return filter.selected.join(', ')
   }
 
   mounted() {
@@ -318,74 +381,144 @@ export default class Predictors extends Vue {
   // TODO: hide subtitles inside tooltips
   filters = [
     {
-      title: 'Original predictor',
-      subtitle:
-        'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column',
-      type: 'input',
-    },
-    {
-      title: 'Origin',
-      subtitle:
-        'Original - compiled from scratch. Processed - processed original dataset.',
-      type: 'select',
-    },
-    {
-      title: 'Size',
-      value: 'size',
-      subtitle: 'Number of data points in a dataset.',
-      type: 'range',
-      min: 0,
-      max: 2000,
-      step: 1,
-      tickLabels: this.tickLabels(0, 2000, 25),
-      range: [0, 2000],
-      hint: 'Im a hint',
-    },
-    {
-      title: 'Doubled',
-      subtitle:
-        'A dataset is symmetrized if it contains both forward and reverse mutations.',
-      type: 'select',
-    },
-    {
-      title: 'Source',
+      title: 'Input',
       subtitle: '',
-      type: 'select',
+      value: 'input',
+      type: 'chip',
+      items: [
+        { label: 'Both', fieldToBe: undefined, description: undefined },
+        { label: '1D', fieldToBe: '1D', description: '' },
+        { label: '3D', fieldToBe: '3D', description: '' },
+      ],
+      selected: 0,
     },
     {
-      title: 'Type',
-      subtitle:
-        'Single - contains only single point mutations. Multiple - contains only multiple point mutations. Mixed - contains both single and multiple point mutations.',
-      type: 'select',
+      title: 'Algorithm',
+      value: 'algorithm_0',
+      subtitle: '',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
     },
     {
-      title: 'Proteins',
-      value: 'proteins',
-      subtitle: 'Number of proteins in a dataset.',
-      type: 'range',
-      min: 0,
-      max: 500,
-      step: 1,
-      range: [0, 500],
-      tickLabels: this.tickLabels(1, 500, 10),
-      hint: 'Im a hint',
+      title: 'Access',
+      subtitle: '',
+      value: 'download',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Offline', fieldToBe: 'download', description: '' },
+        { label: 'Server', fieldToBe: 'server', description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Meta-predictor',
+      subtitle: '',
+      value: 'meta',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Multiple-point mutations',
+      subtitle: '',
+      value: 'multiple_point_mutations',
+      type: 'chip',
+      items: [
+        { label: 'Both', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Mutation in protein complexes',
+      subtitle: '',
+      value: 'complexes',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Setting temperature',
+      subtitle: '',
+      value: 'T',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Setting pH',
+      subtitle: '',
+      value: 'ph',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Symmetrized training set',
+      subtitle: '',
+      value: 'hrm_dataset',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Reverse mutation check',
+      subtitle: '',
+      value: 'hrm_check',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        { label: 'Yes', fieldToBe: true, description: '' },
+        { label: 'No', fieldToBe: false, description: '' },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Compared to predictors',
+      value: 'compared_tools',
+      subtitle: '',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
+    },
+    {
+      title: 'Comparison metrics',
+      value: 'metrics',
+      subtitle: '',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
     },
     {
       title: 'Author',
+      value: 'author',
       subtitle: '',
-      type: 'select',
-    },
-    {
-      title: 'Year',
-      value: 'year',
-      subtitle: '',
-      type: 'range',
-      min: 2000,
-      max: 2022,
-      step: 1,
-      range: [2000, 2022],
-      tickLabels: this.tickLabels(2000, 2022, 10),
-      hint: 'Im a hint',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
     },
   ]
   selected = []
@@ -393,12 +526,7 @@ export default class Predictors extends Vue {
   // most of the values is unnecessary :/
   // TODO: rm unused rows
   headers = [
-    {
-      text: 'Predictor',
-      align: 'start',
-      sortable: false,
-      value: 'predictor',
-    },
+    { text: 'Predictor', align: 'start', sortable: false, value: 'predictor' },
     { text: 'Input', value: 'input' },
     { text: 'Algorithm', value: 'algorithm_0', sortable: false, align: 'start' },
     { text: '', value: 'algorithm_1', sortable: false, align: 'start' },
