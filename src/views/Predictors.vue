@@ -69,9 +69,15 @@ v-layout(style='width: 100%')
             mandatory,
             active-class='v-chip--dark'
           )
-            v-tooltip(bottom v-for='item in filter.items', :key='item.label', :disabled='typeof item.description == typeof undefined', max-width='275')
-              template(v-slot:activator="{ on, attrs }")
-                v-chip.pa-4(v-on='on' v-bind='attrs') {{ item.label }}
+            v-tooltip(
+              bottom,
+              v-for='item in filter.items',
+              :key='item.label',
+              :disabled='typeof item.description == typeof undefined',
+              max-width='275'
+            )
+              template(v-slot:activator='{ on, attrs }')
+                v-chip.pa-4(v-on='on', v-bind='attrs') {{ item.label }}
               span {{ item.description }}
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
@@ -181,7 +187,7 @@ export default class Predictors extends Vue {
   searchVisible: String = ''
   searchReal: String = '-1'
 
-  select = {text: 'Performance'}
+  select = { text: 'Performance' }
 
   isSortDescending = true
 
@@ -303,7 +309,11 @@ export default class Predictors extends Vue {
       if (currentFilter[0].type === 'autocomplete') {
         // if nothing selected
         if (!(currentFilter[0].selected as string[]).length) return true
-        if (!(currentFilter[0].selected as string[]).includes(item[current] as string))
+        if (
+          !(currentFilter[0].selected as string[]).includes(
+            item[current] as string
+          )
+        )
           return false
       }
       return true
@@ -386,7 +396,7 @@ export default class Predictors extends Vue {
       value: 'input',
       type: 'chip',
       items: [
-        { label: 'Both', fieldToBe: undefined, description: undefined },
+        { label: 'Any', fieldToBe: undefined, description: undefined },
         { label: '1D', fieldToBe: '1D', description: '' },
         { label: '3D', fieldToBe: '3D', description: '' },
       ],
@@ -528,18 +538,37 @@ export default class Predictors extends Vue {
   headers = [
     { text: 'Predictor', align: 'start', sortable: false, value: 'predictor' },
     { text: 'Input', value: 'input' },
-    { text: 'Algorithm', value: 'algorithm_0', sortable: false, align: 'start' },
+    {
+      text: 'Algorithm',
+      value: 'algorithm_0',
+      sortable: false,
+      align: 'start',
+    },
     { text: '', value: 'algorithm_1', sortable: false, align: 'start' },
     { text: 'Meta', value: 'meta', sortable: false },
-    { text: 'Multiple-point mutations ', value: 'multiple_point_mutations', sortable: false },
-    { text: 'Mutations in protein complexes', value: 'complexes', sortable: false },
+    {
+      text: 'Multiple-point mutations ',
+      value: 'multiple_point_mutations',
+      sortable: false,
+    },
+    {
+      text: 'Mutations in protein complexes',
+      value: 'complexes',
+      sortable: false,
+    },
     { text: 'Setting temperature', value: 'T', sortable: false },
     { text: 'Setting pH', value: 'ph', sortable: false },
 
-    { text: 'Preformance', value: ''},
-    
+    { text: 'Preformance', value: '' },
+
     { text: 'Year', value: 'year' },
-    { text: 'Reference', value: 'doi', sortable: false, align: 'start', width: '10' },
+    {
+      text: 'Reference',
+      value: 'doi',
+      sortable: false,
+      align: 'start',
+      width: '10',
+    },
     { text: 'Download', value: 'download', sortable: false, align: 'start' },
     { text: 'Server', value: 'server', sortable: false, align: 'start' },
   ]
