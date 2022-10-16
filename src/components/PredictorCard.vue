@@ -16,7 +16,7 @@ v-card(flat, outlined)
     a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
-    v-col
+    v-col(v-if='!showSkeleton').black--text
       v-row.pt-2
         span.pr-2 Input: {{ input }}
         span.pr-2 •
@@ -44,6 +44,8 @@ v-card(flat, outlined)
         span.pr-2(v-if='metrics.length') Comparison metrics: {{ metrics }}
       v-row
         a.pr-2.text-left(v-if='typeof doi == "string"', :href='doi') {{reference}}
+    v-col(v-else)
+      v-skeleton-loader.mx-auto(type='article' min-height='100px')
 </template>
 
 <script lang="ts">
@@ -52,6 +54,7 @@ import Component from 'vue-class-component'
 
 @Component({
   props: {
+    showSkeleton: Boolean,
     title: String,
     _id: String,
     input: String,
@@ -79,6 +82,7 @@ import Component from 'vue-class-component'
   }
 })
 export default class PredictorCard extends Vue {
+  showSkeleton!: Boolean
   title!: String
   _id!: String
   input!: string

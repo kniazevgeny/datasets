@@ -20,7 +20,7 @@ v-card(flat, outlined)
     v-icon(small) mdi-open-in-new
   //- v-card-subtitle.pt-0.text-left(v-if='typeof source == "string"') Source: {{ source }}
   v-card-text.pt-0
-    v-col(v-if='!showSkeleton')
+    v-col(v-if='!showSkeleton').black--text
       v-row
         span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
         //- span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}

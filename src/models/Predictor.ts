@@ -1,4 +1,5 @@
 export interface Predictor {
+  showSkeleton: boolean
   predictor: string
   input: string
   algorithm_0: string
