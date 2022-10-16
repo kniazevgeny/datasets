@@ -345,7 +345,7 @@ export default class Predictors extends Vue {
           item['server'].length
         )
           return true
-        // general 
+        // general
         if (
           item[current] !=
           currentFilter[0].items[currentFilter[0].selected].fieldToBe
@@ -439,12 +439,26 @@ export default class Predictors extends Vue {
         'author',
       ]
       generateAutompleteItems.forEach((fieldName) => {
+        // .split(',') and => set => values
+
+        // Creates set of values (authors) or multiple values (of comma separated string)
         // @ts-ignore
         this.filters[
           this.filters.findIndex((el) => el.value == fieldName)
-        ].items = [...new Set(this.data.map((el: Predictor) => el[fieldName]))]
+        ].items = [
+          ...new Set(
+            new Set(
+              this.data
+                .map((el: Predictor) => el[fieldName].split(','))
+                .flat(1)
+                .map(e => e.trim())
+                .filter((e) => e)
+                .sort()
+            )
+          ),
+        ]
       })
-      console.log(this.filters)
+      // console.log(this.filters)
     })
   }
 
