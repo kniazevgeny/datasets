@@ -23,7 +23,7 @@ v-layout(style='width: 100%')
           :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
           text,
           @click='download()',
-          :disabled='typeof dataset.fileName == typeof undefined'
+          :disabled='typeof dataset.fileName == undefined'
         )
           span Download
           v-icon mdi-download-outline
@@ -86,6 +86,11 @@ v-layout(style='width: 100%')
         template(v-slot:item.uniprot='{ item }')
           a(
             :href='`https://www.uniprot.org/uniprotkb/${item.uniprot}`',
+            target='_blank'
+          ) {{ item.uniprot }}
+        template(v-slot:item.alphafolddb='{ item }')
+          a(
+            :href='`https://alphafold.ebi.ac.uk/entry/${item.uniprot}`',
             target='_blank'
           ) {{ item.uniprot }}
 </template>
@@ -184,7 +189,14 @@ export default class Datasets extends Vue {
   }
 
   get reference() {
-    return `Sources: ${this.dataset.reference.slice(0, this.dataset.reference.indexOf('https://'))} <a href="${this.dataset.doi}" target='_blank'>${this.dataset.reference.slice(this.dataset.reference.indexOf('https://doi.org') + 16, )}</a>`
+    return `Sources: ${this.dataset.reference.slice(
+      0,
+      this.dataset.reference.indexOf('https://')
+    )} <a href="${
+      this.dataset.doi
+    }" target='_blank'>${this.dataset.reference.slice(
+      this.dataset.reference.indexOf('https://doi.org') + 16
+    )}</a>`
   }
 
   get datasetById() {
@@ -264,22 +276,29 @@ export default class Datasets extends Vue {
     data: [],
     headers: [
       {
+        text: 'protein name',
+        value: 'protein',
+        sortable: true,
+        align: 'start',
+      },
+      {
         text: 'Mutation',
         value: 'mutation',
         align: 'start',
         sortable: true,
       },
       { text: 'ΔΔG', value: 'ddG', sortable: true },
+      { text: 'Sequence', value: 'sequence', sortable: true },
       { text: 'PDB ID', value: 'pdb', sortable: true, align: 'start' },
       { text: 'chain', value: 'chain', sortable: false, align: 'start' },
       { text: 'uniprot', value: 'uniprot', sortable: true },
-      { text: 'organism', value: 'organism', sortable: true, align: 'start' },
-      {
-        text: 'protein name',
-        value: 'protein',
-        sortable: true,
-        align: 'start',
-      },
+      { text: 'AlphaFold DB', value: 'alphafolddb', sortable: true },
+      // { text: 'organism', value: 'organism', sortable: true, align: 'start' },
+      { text: 'Temperature', value: 'T', sortable: true },
+      { text: 'pH', value: 'pH', sortable: true },
+      { text: 'method', value: 'method', sortable: true },
+      { text: 'measure', value: 'measure', sortable: true },
+      { text: 'reference', value: 'doi', sortable: true },
     ],
   }
 
