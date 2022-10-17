@@ -44,9 +44,9 @@ v-layout(style='width: 100%')
       )
         span Download
         v-icon mdi-download-outline
+    v-row.ma-4.d-flex
+      span.text-left(v-html='reference')
     v-row.ma-4
-      // span#s-table-top top-text
-      // span#s-table-left side-text
       v-simple-table.mt-6.ml-6(dense)
         template(v-slot:default)
           thead
@@ -181,6 +181,10 @@ export default class Datasets extends Vue {
       return Math.max.apply(Math, row)
     })
     return Math.max.apply(null, maxRow)
+  }
+
+  get reference() {
+    return `Sources: ${this.dataset.reference.slice(0, this.dataset.reference.indexOf('https://'))} <a href="${this.dataset.doi}" target='_blank'>${this.dataset.reference.slice(this.dataset.reference.indexOf('https://doi.org') + 16, )}</a>`
   }
 
   get datasetById() {
