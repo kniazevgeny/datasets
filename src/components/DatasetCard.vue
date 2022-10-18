@@ -32,7 +32,9 @@ v-card(flat, outlined)
         span.pr-2 •
         span.pr-2(v-if='typeof proteins == "number"') {{ proteins }} proteins
       v-row
-        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{reference}}
+        span.pr-2(v-if='typeof author == "string"').text-left {{ authorProcessed }}
+        span.pr-2 •
+        span.pr-2(v-if='typeof year == "number"').text-left {{year}}
     v-col(v-else)
       v-skeleton-loader.mx-auto(type='article' min-height='100px')
 </template>
@@ -95,6 +97,11 @@ export default class DatasetCard extends Vue {
 
   get isMobile() {
     return window.innerWidth < 500
+  }
+
+  get authorProcessed() {
+    if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1) return this.author
+    return this.author + 'et al.'
   }
 
   openDatasetOverview() {
