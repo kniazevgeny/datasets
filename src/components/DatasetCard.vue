@@ -35,6 +35,8 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof author == "string"').text-left {{ authorProcessed }}
         span.pr-2 •
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
+      v-row
+        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
     v-col(v-else)
       v-skeleton-loader.mx-auto(type='article' min-height='100px')
 </template>
@@ -97,6 +99,10 @@ export default class DatasetCard extends Vue {
 
   get isMobile() {
     return window.innerWidth < 500
+  }
+
+  get doiProcessed() {
+    return this.doi.slice(16, )
   }
 
   get authorProcessed() {
