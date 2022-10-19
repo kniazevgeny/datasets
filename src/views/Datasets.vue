@@ -158,6 +158,7 @@ v-layout(style='width: 100%')
           :source='card.source',
           :mutations='card.mutations',
           :proteins='card.proteins',
+          :predictors='card.predictors',
           :year='card.year',
           :author='card.author',
           :doi='card.doi',
