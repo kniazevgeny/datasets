@@ -187,13 +187,14 @@ export default class Datasets extends Vue {
   @AppStore.Mutation setDatasets!: (datasets: Dataset[]) => void
 
   searchVisible: String = ''
-  searchReal: String = '-1'
+  searchReal: String | null = null
 
   select = 0
 
   isSortDescending = true
 
   get dataVisible() {
+    console.log(this.searchVisible, this.searchReal)
     // Apply filters
     let result = this.data.filter((item) =>
       this.customFilter('', this.searchReal, item)
@@ -222,8 +223,9 @@ export default class Datasets extends Vue {
   }
 
   updateSearchReal() {
-    if (this.searchVisible != '') this.searchReal = this.searchVisible
-    else this.searchReal = '-1'
+    if (this.searchVisible != '')
+      this.searchReal = this.searchVisible
+    else this.searchReal = null
   }
 
   randn_bm(min, max, skew) {
@@ -299,12 +301,11 @@ export default class Datasets extends Vue {
 
     let result = false
 
-    if (typeof search === 'string')
-      if (search == '-1') result = true
-      else
-        result = Object.values(item).some((el) =>
-          el.toString().toLowerCase().includes(search.toLowerCase())
-        )
+    if (search == null) result = true
+    else
+      result = Object.values(item).some((el) =>
+        el.toString().toLowerCase().includes(search.toLowerCase())
+      )
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
       // get suitable filter object
