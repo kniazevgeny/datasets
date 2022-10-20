@@ -103,13 +103,15 @@ v-layout(style='width: 100%')
       v-col.pb-2
         v-text-field(
           v-model='searchVisible',
-          append-icon='mdi-magnify',
+          prepend-inner-icon='mdi-magnify',
           label='Type predictor name, algorithm, author...',
           single-line,
           hide-details,
           filled,
+          autofocus,
           color='primary',
-          @input='updateSearchReal'
+          @input='updateSearchReal',
+          clearable
         )
         //- Mirror filters in v-chips
         v-expand-transition
@@ -140,6 +142,7 @@ v-layout(style='width: 100%')
               v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
     v-card-text.pb-2
       v-col
+        span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
         //- id should be id, not name
         PredictorCard.mb-2(
           v-for='card in dataVisible',
@@ -187,11 +190,13 @@ import { getPredictors } from '@/utils/api'
 })
 export default class Predictors extends Vue {
   searchVisible: String = ''
-  searchReal: String = '-1'
+  searchReal: String | null = null
 
   select = { text: 'Performance' }
 
   isSortDescending = true
+  
+  isDataLoaded = false
 
   get dataVisible() {
     // Apply filters
@@ -203,7 +208,7 @@ export default class Predictors extends Vue {
     // With datasets > 10 000 that approach may affect performance
 
     // if no data, show skeleton
-    if (!result.length)
+    if (!this.isDataLoaded && !result.length)
       for (let i = 0; i < 5; i++)
         result.push({
           showSkeleton: true,
@@ -234,7 +239,7 @@ export default class Predictors extends Vue {
 
   updateSearchReal() {
     if (this.searchVisible != '') this.searchReal = this.searchVisible
-    else this.searchReal = '-1'
+    else this.searchReal = null
   }
 
   randn_bm(min, max, skew) {
@@ -309,12 +314,11 @@ export default class Predictors extends Vue {
 
     let result = false
 
-    if (typeof search === 'string')
-      if (search == '-1') result = true
-      else
-        result = Object.values(item).some((el) =>
-          el.toString().toLowerCase().includes(search.toLowerCase())
-        )
+    if (search == null) result = true
+    else
+      result = Object.values(item).some((el) =>
+        el.toString().toLowerCase().includes(search.toLowerCase())
+      )
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
       // get suitable filter object
@@ -432,6 +436,7 @@ export default class Predictors extends Vue {
 
     getPredictors().then((response) => {
       this.data = response
+      this.isDataLoaded = true
       // TODO: setPredictors to AppStore
       // this.setDatasets(response)
       const generateAutompleteItems = [
