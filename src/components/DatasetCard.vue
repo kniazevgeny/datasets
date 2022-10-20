@@ -1,21 +1,23 @@
 <template lang="pug">
 v-card(flat, outlined)
-  v-dialog(
+  //- v-dialog(
     v-model='dialog',
     width='1000',
     :fullscreen='isMobile',
     v-if='typeof externalLink == "undefined"'
-  )
-    template(v-slot:activator='{ on, attrs }')
-      v-card-title.mb-0.link(
-        v-bind='attrs',
-        v-on='on',
-        @click.middle='$router.push(`/datasets/datasets/${_id}`)'
-
-        :class='fileName ? "" : "v-btn--disabled disabled"'
-      ) {{ name }}
-    v-card.white()
-      DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
+  //- )
+  //-   template(v-slot:activator='{ on, attrs }')
+  //-     v-card-title.mb-0.link(
+  //-       v-bind='attrs',
+  //-       v-on='on',
+  //-       @click.middle='$router.push(`/datasets/datasets/${_id}`)'
+        
+  //-       :class='fileName ? "" : "v-btn--disabled disabled"'
+  //-     ) {{ name }}
+  //-   v-card.white()
+  //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
+  v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "v-btn--disabled disabled"')
+    a(:href='`/datasets/datasets/${_id}`' target="_blank") {{ name }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
