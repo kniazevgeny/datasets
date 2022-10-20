@@ -114,7 +114,7 @@ export default class DatasetCard extends Vue {
 
   get authorProcessed() {
     if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1) return this.author
-    return this.author + 'et al.'
+    return this.author + ' et al.'
   }
 
   openDatasetOverview() {
