@@ -142,6 +142,7 @@ v-layout(style='width: 100%')
               v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
     v-card-text.pb-2
       v-col
+        span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
         //- id should be id, not name
         DatasetCard.mb-2(
           v-for='card in dataVisible',
@@ -193,6 +194,8 @@ export default class Datasets extends Vue {
 
   isSortDescending = true
 
+  isDataLoaded = false
+
   get dataVisible() {
     console.log(this.searchVisible, this.searchReal)
     // Apply filters
@@ -204,7 +207,7 @@ export default class Datasets extends Vue {
     // With datasets > 10 000 that approach may affect performance
 
     // if no data, show skeleton
-    if (!result.length)
+    if (!this.isDataLoaded && !result.length)
       for (let i = 0; i < 5; i++)
         result.push({
           showSkeleton: true,
@@ -405,6 +408,7 @@ export default class Datasets extends Vue {
 
     getDatasets().then((response) => {
       this.data = response
+      this.isDataLoaded = true
       this.setDatasets(response)
       const generateTicks = ['size', 'proteins', 'year']
       generateTicks.forEach((fieldName) => {
