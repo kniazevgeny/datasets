@@ -406,6 +406,8 @@ export default class Datasets extends Vue {
     // set correct sidebar size (42 characters)
     this.$vuetify.theme.themes.light.sidebar_size = '42ch'
 
+    document.title = "Datasets | datasets project"
+
     getDatasets().then((response) => {
       this.data = response
       this.isDataLoaded = true

@@ -65,6 +65,8 @@ export default class Home extends Vue {
   }
 
   mounted() {
+    document.title = "Home page | datasets project"
+
     window.setTimeout(() => {
       this.loaded = true
     }, 1000)

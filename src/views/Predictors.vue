@@ -434,6 +434,8 @@ export default class Predictors extends Vue {
     // set correct sidebar size (25 characters)
     this.$vuetify.theme.themes.light.sidebar_size = '30ch'
 
+    document.title = "Predictors | datasets project"
+
     getPredictors().then((response) => {
       this.data = response
       this.isDataLoaded = true
