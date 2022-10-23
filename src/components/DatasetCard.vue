@@ -17,6 +17,7 @@ v-card(flat, outlined)
   //-   v-card.white()
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
   v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "v-btn--disabled disabled"')
+    v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
     a(:href='`/datasets/datasets/${_id}`' target="_blank") {{ name }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
@@ -54,6 +55,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import DatasetOverview from '../views/DatasetOverview.vue'
 import { namespace } from 'vuex-class'
+import { Watch } from 'vue-property-decorator'
 
 const ActionStore = namespace('ActionStore')
 
@@ -77,6 +79,7 @@ const ActionStore = namespace('ActionStore')
     author: String,
     doi: String,
     reference: String,
+    _selected: Boolean,
   },
   components: {
     DatasetOverview
@@ -103,8 +106,11 @@ export default class DatasetCard extends Vue {
   author?: string
   doi?: String
   reference?: String
+  _selected?: Boolean
 
   dialog = false
+
+  selected = false
 
   get isMobile() {
     return window.innerWidth < 500
@@ -128,8 +134,19 @@ export default class DatasetCard extends Vue {
     })
   }
 
+  mounted() {
+  }
+  
   closeDialog() {
     this.dialog = false
+  }
+  
+  onCardSelected() {
+    this.$emit('cardSelected', this._id)
+  }
+  @Watch('_selected')
+  onSelectionChange() {
+    this.selected = this._selected
   }
 }
 </script>

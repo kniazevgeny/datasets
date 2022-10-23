@@ -101,6 +101,26 @@ v-layout(style='width: 100%')
   v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2
+        v-row.pa-2.mb-1.justify-space-between
+          v-btn.text-left(
+            v-if='dataVisible.length',
+            @click='selectVisible()',
+            outlined,
+            :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "black"'
+          ) 
+            v-icon(
+              v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
+            ) mdi-checkbox-outline
+            v-icon(v-else) mdi-checkbox-blank-outline
+            span.font-weight-regular Select all
+          v-btn.text-left(
+            v-if='dataVisible.length',
+            :disabled='!selected.filter((el) => el.isSelected == true).length',
+            outlined,
+            color='primary'
+          ) 
+            v-icon mdi-download-outline
+            span.font-weight-regular Download
         v-text-field(
           v-model='searchVisible',
           prepend-inner-icon='mdi-magnify',
@@ -129,7 +149,7 @@ v-layout(style='width: 100%')
                 )
                   span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
-        v-card.mt-3.float-right(flat, width='250')
+        v-card.mt-3.mb-n6.float-right(flat, width='250')
           v-select(
             v-model='select',
             clearable,
@@ -140,7 +160,7 @@ v-layout(style='width: 100%')
           )
             template(v-slot:prepend)
               v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
-    v-card-text.pb-2
+    v-card-text.pb-2.pt-0.mt-0
       v-col
         span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
         //- id should be id, not name
@@ -163,7 +183,9 @@ v-layout(style='width: 100%')
           :year='card.year',
           :author='card.author',
           :doi='card.doi',
-          :reference='card.reference'
+          :reference='card.reference',
+          :_selected='getIsSelected(card._id)',
+          @cardSelected='cardSelected'
         )
 </template>
 
@@ -192,12 +214,39 @@ export default class Datasets extends Vue {
 
   select = 0
 
+  selected: object[] = []
+  getIsSelected(_id) {
+    if (!this.selected.length) return false
+    if (this.selected.filter((el) => el._id == _id).length)
+      return this.selected.filter((el) => el._id == _id)[0].isSelected
+  }
+  cardSelected(_id: string) {
+    const i = this.selected.indexOf(
+      this.selected.filter((el) => el._id == _id)[0]
+    )
+    this.selected[i].isSelected = !this.selected[i].isSelected
+  }
+  selectVisible() {
+    let toBe = false
+    if (
+      this.selected.filter((el) => el.isSelected == true).length !=
+      this.dataVisible.filter((el) => el.fileName).length
+    )
+      toBe = true
+    this.dataVisible.forEach((dataElement) => {
+      const i = this.selected.indexOf(
+        this.selected.filter((el) => el._id == dataElement._id)[0]
+      )
+      if (dataElement.fileName) this.selected[i].isSelected = toBe
+    })
+  }
+
   isSortDescending = true
 
   isDataLoaded = false
 
   get dataVisible() {
-    console.log(this.searchVisible, this.searchReal)
+    // console.log(this.searchVisible, this.searchReal)
     // Apply filters
     let result = this.data.filter((item) =>
       this.customFilter('', this.searchReal, item)
@@ -226,8 +275,7 @@ export default class Datasets extends Vue {
   }
 
   updateSearchReal() {
-    if (this.searchVisible != '')
-      this.searchReal = this.searchVisible
+    if (this.searchVisible != '') this.searchReal = this.searchVisible
     else this.searchReal = null
   }
 
@@ -406,12 +454,17 @@ export default class Datasets extends Vue {
     // set correct sidebar size (42 characters)
     this.$vuetify.theme.themes.light.sidebar_size = '42ch'
 
-    document.title = "Datasets | datasets project"
+    document.title = 'Datasets | datasets project'
 
     getDatasets().then((response) => {
       this.data = response
       this.isDataLoaded = true
       this.setDatasets(response)
+      this.selected = this.data
+        .filter((el) => el.fileName)
+        .map((el) => {
+          return { _id: el._id, isSelected: false }
+        })
       const generateTicks = ['size', 'proteins', 'year']
       generateTicks.forEach((fieldName) => {
         this.filters[
@@ -539,7 +592,6 @@ export default class Datasets extends Vue {
       hint: 'Im a hint',
     },
   ]
-  selected = []
 
   headers = [
     {

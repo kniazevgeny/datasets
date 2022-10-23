@@ -1,7 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
   v-col
-    //- TODO: add licence plate
     v-row.ma-4.d-flex.align-center(v-if='typeof id == "string"')
       v-col(cols=9)
         span.heading-1.float-left
