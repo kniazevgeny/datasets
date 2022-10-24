@@ -117,7 +117,8 @@ v-layout(style='width: 100%')
             v-if='dataVisible.length',
             :disabled='!selected.filter((el) => el.isSelected == true).length',
             outlined,
-            color='primary'
+            color='primary',
+            @click='downloadSelected'
           ) 
             v-icon mdi-download-outline
             span.font-weight-regular Download
@@ -194,7 +195,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import DatasetCard from '@/components/DatasetCard.vue'
 
-import { getDatasets } from '@/utils/api'
+import { downloadDataset, getDatasets } from '@/utils/api'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
 
@@ -239,6 +240,14 @@ export default class Datasets extends Vue {
       )
       if (dataElement.fileName) this.selected[i].isSelected = toBe
     })
+  }
+  downloadSelected() {
+    downloadDataset(
+      this.selected
+        .filter((el) => el.isSelected)
+        .map((el) => el._id)
+        .join(',')
+    )
   }
 
   isSortDescending = true

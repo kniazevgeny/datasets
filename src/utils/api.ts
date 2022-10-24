@@ -109,7 +109,7 @@ export async function getDatasetOverview(id: string) {
 
 export async function downloadDataset(id: string) {
   // if (checkInternetConnection()) throw "error";
-  window.open(`${base}/download/${id}`, '_blank')
+  window.open(`${base}/download?ids=${id}`, '_blank')
   store.commit(
     'ActionStore/pushAction',
     {
