@@ -40,10 +40,10 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
       v-row
         span.pr-2(v-if='predictors.train.length' ).text-left Used for train:&nbsp;
-        a.pr-2(v-if='predictors.train.length' v-for='train in predictors.train' :href='"https://ivankovlab.ru/datasets/predictor/" + train._id' target='_blank').text-left {{ train.predictor }}&nbsp;
+        a.pr-2(v-if='predictors.train.length' v-for='train in predictors.train' :href='"https://ivankovlab.ru/datasets/predictor/" + train._id' target='_blank').text-left {{ train.predictor }}
       v-row
         span.pr-2(v-if='predictors.test.length' ).text-left Used for test:&nbsp;
-        a.pr-2(v-if='predictors.test.length' v-for='test in predictors.test' :href='"https://ivankovlab.ru/datasets/predictor/" + test._id' target='_blank').text-left {{ test.predictor }}&nbsp;
+        a.pr-2(v-if='predictors.test.length' v-for='test in predictors.test' :href='"https://ivankovlab.ru/datasets/predictor/" + test._id' target='_blank').text-left {{ test.predictor }}
       v-row
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
     v-col(v-else)
