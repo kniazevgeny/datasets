@@ -17,7 +17,7 @@ v-card(flat, outlined)
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
     v-col(v-if='!showSkeleton').black--text
-      v-row.pt-2
+      v-row
         span.pr-2 Input: {{ input }}
         span.pr-2 •
         span.pr-2 Algorithm: {{ algorithm_0 }}
@@ -34,11 +34,11 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof ph == "boolean"') Setting pH: {{ ph ? 'yes' : 'no' }}
       v-row.pt-2
         span.pr-2(v-if='cv.length') Validation procedure: {{ cv }}
-        span.pr-2 •
+        span.pr-2(v-if='cv.length') •
         span.pr-2(v-if='typeof hrm_dataset == "boolean"') Symmetrized training set: {{ hrm_dataset ? 'yes' : 'no' }}
         span.pr-2 •
         span.pr-2(v-if='typeof hrm_check == "boolean"') Reverse mutation check: {{ hrm_check ? 'yes' : 'no' }}
-      v-row.pt-2
+      v-row.pt-(v-if='compared_tools.length || metrics.length')
         span.pr-2(v-if='compared_tools.length').text-left Compared to predictors: {{ compared_tools.split(',').join(', ') }}
         span.pr-2 •
         span.pr-2(v-if='metrics.length') Comparison metrics: {{ metrics }}
@@ -119,6 +119,7 @@ export default class PredictorCard extends Vue {
   dialog = false
 
   get doiProcessed() {
+    if(this.doi.includes('dx.doi')) return decodeURIComponent(this.doi.slice(19, ))
     return this.doi.slice(16, )
   }
 
