@@ -34,12 +34,14 @@ v-layout(style='width: 100%')
     v-row(v-if='predictor.datasets')
       DatasetOverview(
         v-for='(train, i) in predictor.datasets.train',
+        :key='i',
         :name='train',
         :class='"train-" + i + ` section-${i + 1}`',
         v-intersect='{ handler: onIntersect }'
       )
       DatasetOverview(
         v-for='(test, i) in predictor.datasets.test',
+        :key='i',
         :name='test',
         :class='"test-" + i + ` section-${i + predictor.datasets.train.length + 2}`',
         v-intersect='{ handler: onIntersect }'
