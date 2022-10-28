@@ -1,17 +1,20 @@
 <template lang="pug">
 v-card(flat, outlined)
-  v-dialog(
-    v-model='dialog',
-    width='1000',
-    v-if='typeof externalLink == "undefined"'
-  )
-    template(v-slot:activator='{ on, attrs }')
-      v-card-title.mb-0.link(
-        v-bind='attrs',
-        v-on='on',
-      ) {{ title }}
-    v-card.white()
-      //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
+  //- v-dialog(
+  //-   v-model='dialog',
+  //-   width='1000',
+  //-   v-if='typeof externalLink == "undefined"'
+  //- )
+  //-   template(v-slot:activator='{ on, attrs }')
+  //-     v-card-title.mb-0.link(
+  //-       v-bind='attrs',
+  //-       v-on='on',
+  //-     ) {{ title }}
+  //-   v-card.white()
+  //-     //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
+  v-card-title.mb-0(v-if='typeof externalLink == "undefined"')
+    v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
+    a(:href='`/datasets/predictor/${title}`' target="_blank") {{ title }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
