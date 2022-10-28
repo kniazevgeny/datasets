@@ -117,10 +117,11 @@ export default class DatasetCard extends Vue {
   }
 
   get doiProcessed() {
-    return this.doi.slice(16, )
+    return (this.doi as string).slice(16, )
   }
 
   get authorProcessed() {
+    //@ts-ignore
     if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1) return this.author
     return this.author + ' et al.'
   }
@@ -146,7 +147,7 @@ export default class DatasetCard extends Vue {
   }
   @Watch('_selected')
   onSelectionChange() {
-    this.selected = this._selected
+    this.selected = this._selected as boolean
   }
 }
 </script>

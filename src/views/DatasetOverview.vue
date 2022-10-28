@@ -255,6 +255,7 @@ export default class Datasets extends Vue {
 
   get sources() {
     if (typeof this.dataset.source == typeof undefined) return ''
+    //@ts-ignore
     const splitted = this.dataset.source.split(',')
     let result = 'Sources: '
     for (let i = 0; i < splitted.length; i++) {
@@ -272,7 +273,7 @@ export default class Datasets extends Vue {
     if (typeof this.datasets == typeof undefined) return undefined
     return (this.datasets as Dataset[]).filter(
       (dataset) => dataset.name == this.datasetName
-    )
+    )[0]
   }
 
   getMuationColor(n: number) {
@@ -441,9 +442,9 @@ export default class Datasets extends Vue {
 
   get datasetId() {
     if (typeof this.id != typeof undefined) return this.id
-    if (typeof this.name != typeof undefined)
+    if (typeof this.name != typeof undefined && this.datasets)
       return this.datasets.filter((el) => el.name == this.name)[0]._id
-    return this.datasets.filter(
+    if (this.datasets) return this.datasets.filter(
       (el) => el.name == this.$router.currentRoute.path.split('/').pop()
     )[0]._id
   }
@@ -459,7 +460,9 @@ export default class Datasets extends Vue {
     this.chartData.labels = resp.ddg.headers
     this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes
       .light['primary'] as string
+    //@ts-ignore
     this.chartData.datasets[0].data = resp.ddg.data as number[]
+    //@ts-ignore
     this.data_sample.data = resp.data as object[]
     // console.log(this.chartData)
     // return this.data_sample
@@ -474,12 +477,12 @@ export default class Datasets extends Vue {
     if (typeof this.name == typeof undefined) {
       if (typeof this.datasetName == typeof undefined)
         this.setSnackbarError('dataset id is not valid')
-    } else this.name_ = this.name
+    } else this.name_ = this.name as string
 
     // Get Dataset Info from the store
     if (typeof this.datasetName != typeof undefined)
       if (typeof this.datasetByName != typeof undefined)
-        this.dataset = this.datasetByName
+        this.dataset = this.datasetByName as Dataset
 
     this.getDatasetOverview().then(() => {
       // this is not a passed prop, so it's a new page

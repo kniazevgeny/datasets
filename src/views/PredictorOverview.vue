@@ -80,7 +80,33 @@ export default class PredictorOverview extends Vue {
 
   currentSection = 1
 
-  predictor: Predictor = {}
+  predictor: Predictor = {
+    showSkeleton: true,
+    predictor: '',
+    input: '',
+    algorithm_0: '',
+    algorithm_1: '',
+    datasets: {
+      train: [],
+      test: [],
+    },
+    meta: false,
+    cv: '',
+    multiple_point_mutations: false,
+    complexes: false,
+    hrm_dataset: false,
+    hrm_check: false,
+    compared_tools: '',
+    metrics: '',
+    T: false,
+    ph: true,
+    author: '',
+    doi: '',
+    reference: '',
+    download: '',
+    server: '',
+    year: 2011,
+  }
 
   get contents() {
     return [
@@ -93,9 +119,9 @@ export default class PredictorOverview extends Vue {
 
   onIntersect(e) {
     if (!e[0].isIntersecting) return
-    const navClass = Array.from(e[0].target.classList).filter(
+    const navClass = (Array.from(e[0].target.classList) as string[]).filter(
       (el) => el.includes('train-') || el.includes('test-')
-    )[0]
+    )[0] as string
     // 0 for train, 1 for test
     const navSection = navClass.includes('test-')
     let startingPos = 1
@@ -106,7 +132,8 @@ export default class PredictorOverview extends Vue {
   }
 
   scrollContentsIntoView() {
-    document.getElementById('list-item-' + this.currentSection).scrollIntoView()
+    const el = document.getElementById('list-item-' + this.currentSection)
+    if (typeof el != null) (el as HTMLElement).scrollIntoView()
     // should be { behavior: 'smooth' }, but it doesn't work
   }
 
@@ -116,21 +143,6 @@ export default class PredictorOverview extends Vue {
       offset: 50,
       easing: 'easeInOutCubic',
     })
-  }
-
-  get sources() {
-    if (typeof this.predictor.source == typeof undefined) return ''
-    const splitted = this.predictor.source.split(',')
-    let result = 'Sources: '
-    for (let i = 0; i < splitted.length; i++) {
-      if (splitted[i].indexOf('https://doi.org') + 1)
-        result += `<a href="${splitted[i]}" target='_blank'>${splitted[i].slice(
-          splitted[i].indexOf('https://doi.org') + 16
-        )}</a>, `
-      else result += `${splitted[i]}, `
-    }
-    if (result.slice(-2) == ', ') result = result.slice(0, -2)
-    return result
   }
 
   get predictorByName() {
@@ -154,13 +166,13 @@ export default class PredictorOverview extends Vue {
   }
 
   setTitle() {
-    document.title = this.name
+    document.title = (this.predictorByName as Predictor).predictor as string
   }
 
   mounted() {
     // Get Dataset Info from the store
     if (typeof this.predictorByName != typeof undefined)
-      this.predictor = this.predictorByName
+      this.predictor = this.predictorByName as Predictor
   }
 }
 </script>

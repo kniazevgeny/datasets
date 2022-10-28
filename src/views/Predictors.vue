@@ -221,7 +221,10 @@ export default class Predictors extends Vue {
           input: '',
           algorithm_0: '',
           algorithm_1: '',
-          datasets: {},
+          datasets: {
+            train: [],
+            test: []
+          },
           meta: false,
           cv: '',
           multiple_point_mutations: false,
@@ -332,7 +335,9 @@ export default class Predictors extends Vue {
       // check each type
       if (currentFilter[0].type === 'range')
         if (
+          //@ts-ignore
           item[current] < currentFilter[0].range[0] ||
+          //@ts-ignore
           item[current] > currentFilter[0].range[1]
         )
           return false
@@ -342,14 +347,14 @@ export default class Predictors extends Vue {
         // process download/server case
         if (
           current == 'download' &&
-          currentFilter[0].items[currentFilter[0].selected].fieldToBe ==
+          currentFilter[0].items[currentFilter[0].selected as number].fieldToBe ==
             'download' &&
           item['download'].length
         )
           return true
         if (
           current == 'download' &&
-          currentFilter[0].items[currentFilter[0].selected].fieldToBe ==
+          currentFilter[0].items[currentFilter[0].selected as number].fieldToBe ==
             'server' &&
           item['server'].length
         )
@@ -357,7 +362,7 @@ export default class Predictors extends Vue {
         // general
         if (
           item[current] !=
-          currentFilter[0].items[currentFilter[0].selected].fieldToBe
+          currentFilter[0].items[currentFilter[0].selected as number].fieldToBe
         )
           return false
       }
@@ -390,7 +395,9 @@ export default class Predictors extends Vue {
   get filterChips() {
     return this.filters.filter((item) => {
       if (item.type === 'range') {
+        //@ts-ignore
         if (item.min < item.range[0]) return true
+        //@ts-ignore
         if (item.range[1] < item.max) return true
       }
       if (item.type === 'chip') {
@@ -418,7 +425,9 @@ export default class Predictors extends Vue {
 
   resetRangeSlider(i) {
     // solves reactivity problem
+    //@ts-ignore
     Vue.set(this.filters[i].range, 0, this.filters[i].min)
+    //@ts-ignore
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
@@ -427,11 +436,14 @@ export default class Predictors extends Vue {
   ) {
     if (filter.type === 'range')
       return (
+        //@ts-ignore
         (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
         '→' +
+        //@ts-ignore
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
-    if (filter.type === 'chip') return filter.items[filter.selected].label
+    if (filter.type === 'chip') return filter.items[filter.selected as number].label
+    //@ts-ignore
     if (filter.type === 'autocomplete') return filter.selected.join(', ')
   }
 

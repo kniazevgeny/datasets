@@ -4,7 +4,10 @@ export interface Predictor {
   input: string
   algorithm_0: string
   algorithm_1: string
-  datasets: object
+  datasets: {
+    train: string[],
+    test: string[]
+  }
   meta: boolean
   cv?: string
   multiple_point_mutations: boolean

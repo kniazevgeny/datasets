@@ -201,6 +201,11 @@ import { namespace } from 'vuex-class'
 
 const AppStore = namespace('AppStore')
 
+interface Selection {
+  isSelected: boolean
+  _id: string
+}
+
 @Component({
   props: {},
   components: {
@@ -215,7 +220,7 @@ export default class Datasets extends Vue {
 
   select = 0
 
-  selected: object[] = []
+  selected: Selection[] = []
   getIsSelected(_id) {
     if (!this.selected.length) return false
     if (this.selected.filter((el) => el._id == _id).length)
@@ -372,18 +377,20 @@ export default class Datasets extends Vue {
       let currentFilter = this.filters.filter((f) => f.value === current)
       if (currentFilter.length == 0) return true
       // check each type
-      if (currentFilter[0].type === 'range')
+      if (currentFilter[0].type === 'range' && currentFilter[0].range)
         if (
-          item[current] < currentFilter[0].range[0] ||
-          item[current] > currentFilter[0].range[1]
+          item[current] < currentFilter[0]?.range[0] ||
+          item[current] > currentFilter[0]?.range[1]
         )
           return false
       if (currentFilter[0].type === 'chip') {
         // if we selected 'any'
         if (currentFilter[0].selected == 0) return true
         if (
+          currentFilter[0].items &&
+          currentFilter[0].selected &&
           item[current] !=
-          currentFilter[0].items[currentFilter[0].selected].fieldToBe
+            currentFilter[0].items[currentFilter[0].selected as number].fieldToBe
         )
           return false
       }
@@ -413,7 +420,7 @@ export default class Datasets extends Vue {
 
   get filterChips() {
     return this.filters.filter((item) => {
-      if (item.type === 'range') {
+      if (item.type === 'range' && item.min && item.max && item.range) {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
@@ -442,21 +449,27 @@ export default class Datasets extends Vue {
 
   resetRangeSlider(i) {
     // solves reactivity problem
+    //@ts-ignore
     Vue.set(this.filters[i].range, 0, this.filters[i].min)
+    //@ts-ignore
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
   getFilterDescription(
     filter: typeof this.filters[0] | typeof this.filters[1]
   ) {
-    if (filter.type === 'range')
+    if (filter.type === 'range' && filter.range)
       return (
         (filter.range[0] == filter.min ? 'min' : filter.range[0]) +
         '→' +
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
-    if (filter.type === 'chip') return filter.items[filter.selected].label
-    if (filter.type === 'autocomplete') return filter.selected.join(', ')
+    if (filter.type === 'chip' && filter.items)
+      //@ts-ignore
+      return filter.items[filter.selected].label
+    if (filter.type === 'autocomplete' && filter.selected)
+      //@ts-ignore
+      return filter.selected.join(', ')
   }
 
   mounted() {
