@@ -75,7 +75,6 @@ v-layout(style='width: 100%')
         item-key='name',
         checkbox-color='primary',
         multi-sort,
-        disable-pagination
       )
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
@@ -187,6 +186,7 @@ const SnackbarStore = namespace('SnackbarStore')
 @Component({
   props: {
     id: String,
+    name: String,
   },
   components: {
     Bar: Bar,
@@ -199,7 +199,8 @@ export default class Datasets extends Vue {
   @SnackbarStore.Mutation setSnackbarError!: (message: string) => void
 
   id?: string | undefined
-  id_: string | null = null
+  name?: string | undefined
+  name_: string | null = null
 
   dataset: Dataset = {
     showSkeleton: false,
@@ -267,10 +268,10 @@ export default class Datasets extends Vue {
     return result
   }
 
-  get datasetById() {
+  get datasetByName() {
     if (typeof this.datasets == typeof undefined) return undefined
     return (this.datasets as Dataset[]).filter(
-      (dataset) => dataset._id == this.datasetId
+      (dataset) => dataset.name == this.datasetName
     )
   }
 
@@ -432,10 +433,19 @@ export default class Datasets extends Vue {
     ],
   }
 
+  get datasetName() {
+    if (typeof this.name != typeof undefined) return this.name
+    if (typeof this.name_ != typeof null) return this.name_
+    return this.$router.currentRoute.path.split('/').pop()
+  }
+
   get datasetId() {
     if (typeof this.id != typeof undefined) return this.id
-    if (typeof this.id_ != typeof null) return this.id_
-    return this.$router.currentRoute.path.split('/').pop()
+    if (typeof this.name != typeof undefined)
+      return this.datasets.filter((el) => el.name == this.name)[0]._id
+    return this.datasets.filter(
+      (el) => el.name == this.$router.currentRoute.path.split('/').pop()
+    )[0]._id
   }
 
   async getDatasetOverview() {
@@ -461,19 +471,19 @@ export default class Datasets extends Vue {
 
   mounted() {
     // get dataset id
-    if (typeof this.id == typeof undefined) {
-      if (typeof this.datasetId == typeof undefined)
+    if (typeof this.name == typeof undefined) {
+      if (typeof this.datasetName == typeof undefined)
         this.setSnackbarError('dataset id is not valid')
-    } else this.id_ = this.id
+    } else this.name_ = this.name
 
     // Get Dataset Info from the store
-    if (typeof this.datasetId != typeof undefined)
-      if (typeof this.datasetById != typeof undefined)
-        this.dataset = this.datasetById
+    if (typeof this.datasetName != typeof undefined)
+      if (typeof this.datasetByName != typeof undefined)
+        this.dataset = this.datasetByName
 
     this.getDatasetOverview().then(() => {
       // this is not a passed prop, so it's a new page
-      if (typeof this.id == typeof undefined) this.setTitle()
+      if (typeof this.name == typeof undefined) this.setTitle()
     })
     this.geterateMutationsSample()
   }

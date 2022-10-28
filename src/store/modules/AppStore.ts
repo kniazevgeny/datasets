@@ -1,6 +1,7 @@
 import { User } from './../../models/User'
 import { VuexModule, Module, Mutation } from 'vuex-module-decorators'
 import { Dataset } from '@/models/Dataset'
+import { Predictor } from '@/models/Predictor'
 
 @Module({ namespaced: true, name: 'AppStore' })
 export default class AppStore extends VuexModule {
@@ -12,7 +13,7 @@ export default class AppStore extends VuexModule {
   browseFilters?: any[] = undefined
   datasets?: Dataset[] = undefined
   datasetsFilters?: any[] = undefined
-  predictors?: any[] = undefined
+  predictors?: Predictor[] = undefined
   predictorsFilters?: any[] = undefined
 
   @Mutation
@@ -28,6 +29,11 @@ export default class AppStore extends VuexModule {
   @Mutation
   setDatasets(datasets: Dataset[]) {
     this.datasets = datasets
+  }
+
+  @Mutation
+  setPredictors(predictors: Predictor[]) {
+    this.predictors = predictors
   }
 
   @Mutation

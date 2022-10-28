@@ -7,6 +7,7 @@ import Predictors from '../views/Predictors.vue'
 import Home from '@/views/Home.vue'
 import store from '@/store'
 import Root from '@/views/Root.vue'
+import PredictorOverview from '@/views/PredictorOverview.vue'
 
 Vue.use(Router)
 
@@ -34,7 +35,7 @@ const router = new Router({
       component: Datasets,
     },
     {
-      path: '/datasets/datasets/:id',
+      path: '/datasets/dataset/:name',
       name: 'dataset-overview',
       component: DatasetOverview,
     },
@@ -42,6 +43,11 @@ const router = new Router({
       path: '/datasets/predictors',
       name: 'predictors',
       component: Predictors,
+    },
+    {
+      path: '/datasets/predictor/:name',
+      name: 'predictors-overview',
+      component: PredictorOverview,
     },
     {
       path: '/datasets/*',

@@ -181,6 +181,9 @@ import PredictorCard from '@/components/PredictorCard.vue'
 // import { getPredictors } from '@/utils/api'
 import { Predictor } from '@/models/Predictor'
 import { getPredictors } from '@/utils/api'
+import { namespace } from 'vuex-class'
+
+const AppStore = namespace('AppStore')
 
 @Component({
   props: {},
@@ -189,6 +192,8 @@ import { getPredictors } from '@/utils/api'
   },
 })
 export default class Predictors extends Vue {
+  @AppStore.Mutation setPredictors!: (predictors: Predictor[]) => void
+
   searchVisible: String = ''
   searchReal: String | null = null
 
@@ -440,7 +445,7 @@ export default class Predictors extends Vue {
       this.data = response
       this.isDataLoaded = true
       // TODO: setPredictors to AppStore
-      // this.setDatasets(response)
+      this.setPredictors(response)
       const generateAutompleteItems = [
         'algorithm_0',
         'compared_tools',

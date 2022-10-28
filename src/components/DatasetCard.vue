@@ -18,7 +18,7 @@ v-card(flat, outlined)
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
   v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "v-btn--disabled disabled"')
     v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
-    a(:href='`/datasets/datasets/${_id}`' target="_blank") {{ name }}
+    a(:href='`/datasets/dataset/${name}`' target="_blank") {{ name }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
