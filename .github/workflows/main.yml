@@ -15,9 +15,7 @@ jobs:
       - name: Setup Yarn for build
         uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: yarn config set ignore-engines true # to fix node-ipc@9.2.4 error
-        uses: borales/actions-yarn@v3.0.0
-        with:
+          cmd: config set ignore-engines true # to fix node-ipc@9.2.4 error
           cmd: install # will run `yarn install` command
       - uses: borales/actions-yarn@v3.0.0
         with:
