@@ -2,6 +2,23 @@
 # yarn lockfile v1
 
 
+"@achrinza/event-pubsub@5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@achrinza/event-pubsub/-/event-pubsub-5.0.8.tgz#4dec147508024c3b68bd51152022c70935d38d98"
+  integrity sha512-2FupDKPCvK3ceontoqmleg6DeQPECvmwvVTONzlWDCjk4gNQ/0Spt4+kwq9Rb0hHdAGiEaA487+8WXsTXBI4JA==
+  dependencies:
+    "@achrinza/strong-type" "0.1.10"
+
+"@achrinza/node-ipc@10.1.7":
+  version "10.1.7"
+  resolved "https://registry.yarnpkg.com/@achrinza/node-ipc/-/node-ipc-10.1.7.tgz#0e2d5a69a117dd8ea1294fb04c476dc3f49a1cf0"
+  integrity sha512-xuSoaImTsihgO7pM+R6J61/AMBA9v+rJIGax1g/T16GKa8TO/cuuDXZA4ZN6q0zdUuUeCXIac9UPQZw8ofKBzQ==
+  dependencies:
+    "@achrinza/event-pubsub" "5.0.8"
+    "@node-ipc/js-queue" "2.0.3"
+    js-message "1.0.7"
+    strong-type "1.0.1"
+
 "@achrinza/node-ipc@9.2.2":
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/@achrinza/node-ipc/-/node-ipc-9.2.2.tgz#ae1b5d3d6a9362034eea60c8d946b93893c2e4ec"
@@ -11,14 +28,10 @@
     event-pubsub "4.3.0"
     js-message "1.0.7"
 
-"@achrinza/node-ipc@9.2.6":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@achrinza/node-ipc/-/node-ipc-9.2.6.tgz#75c89e95fe38ff9e3dd33a0d2681dc28f1c31f33"
-  integrity sha512-ULSIYPy4ZPM301dfCxRz0l2GJjOwIo/PqmWonIu1bLml7UmnVQmH+juJcoyXp6E8gIRRNAjGYftJnNQlfy4vPg==
-  dependencies:
-    "@node-ipc/js-queue" "2.0.3"
-    event-pubsub "4.3.0"
-    js-message "1.0.7"
+"@achrinza/strong-type@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@achrinza/strong-type/-/strong-type-0.1.10.tgz#8d15e63c29fd2ee1361520c7035d671118300df3"
+  integrity sha512-0FdEy7yj3PzgMvDSMdIZPmMfo+5SvMaDU6KZB9AOBEmvZHXFJIf4i6b30iDVkMiEMUJDaExBvwMLBsLVNV25yA==
 
 "@angular/compiler@10.0.1":
   version "10.0.1"
@@ -7398,6 +7411,11 @@ strip-indent@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/strip-indent/-/strip-indent-2.0.0.tgz#5ef8db295d01e6ed6cbf7aab96998d7822527b68"
   integrity sha512-RsSNPLpq6YUL7QYy44RnPVTn/lcVZtb48Uof3X5JLbF4zD/Gs7ZFDv2HWol+leoQN2mT86LAzSshGfkTlSOpsA==
+
+strong-type@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/strong-type/-/strong-type-1.0.1.tgz#501d15117a0750472c39c09cad49b74a191daaca"
+  integrity sha512-K8KEzne00nA5HG3eSIPy44adqGTAMnNlpfvRWtiv8QvRsRm0/rMLHtSoppJ11iFtnmzzpgeYogzdY2YMgrUgOA==
 
 stylehacks@^4.0.0:
   version "4.0.3"
