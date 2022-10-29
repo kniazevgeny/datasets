@@ -5,7 +5,7 @@ module.exports = {
   },
   assetsDir: 'datasets',
   publicPath: process.env.VUE_APP_MODE !== 'dev'
-    ? 'https://kniazevgeny.github.io/'
+    ? '/'
     : '/',
   runtimeCompiler: true,
   // lintOnSave: process.env.NODE_ENV !== 'production',
