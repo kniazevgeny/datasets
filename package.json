@@ -7,6 +7,9 @@
     "build": "vue-cli-service build",
     "distribute": "vue-cli-service serve --mode development"
   },
+  "overrides": {
+    "@achrinza/node-ipc": "10.1.7"
+  },
   "dependencies": {
     "@achrinza/node-ipc": "9.2.2",
     "@types/node": "^14.14.33",
