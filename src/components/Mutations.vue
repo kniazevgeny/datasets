@@ -1,11 +1,11 @@
 <template lang="pug">
-div.d-flex
+.d-flex
   v-navigation-drawer(
     v-if='filters.length',
     permanent,
     width='420',
     style='position: sticky; height: 100vh',
-    absolute=false,
+    absolute=false
   )
     //- Filters
     .pa-4(
@@ -245,13 +245,27 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 
+interface Filter {
+  title: string,
+  value: string,
+  subtitle: string,
+  type: string,
+  min: number,
+  max: number,
+  step: number,
+  tickLabels: number[],
+  range: number[],
+  selected: string[] | number[] | number,
+  items: {label: string, fieldToBe: string, description: string}[]
+}
+
 @Component({
   props: {
     headers: {
       type: Array,
       default: () => [],
     },
-    filters: {
+    filters:{
       type: Array,
       default: () => [],
     },
@@ -264,7 +278,7 @@ import { Watch } from 'vue-property-decorator'
 export default class Mutations extends Vue {
   data!: Array<Object>
   headers!: Array<Object>
-  filters?: Array<Object>
+  filters!: Filter[]
 
   search: string = ''
 
@@ -374,14 +388,16 @@ export default class Mutations extends Vue {
 
   resetFilterByChipId(chipId) {
     // console.log(this.filterChips[chipId])
-    let originalIndex = this.filters.indexOf(this.filterChips[chipId])
-    if (this.filters[originalIndex].type === 'range') {
+    let originalIndex = (this.filters as Filter[]).indexOf(
+      this.filterChips[chipId]
+    )
+    if ((this.filters as Filter[])[originalIndex].type === 'range') {
       this.resetRangeSlider(originalIndex)
     }
-    if (this.filters[originalIndex].type === 'chip')
-      this.filters[originalIndex].selected = 0
-    if (this.filters[originalIndex].type === 'autocomplete')
-      this.filters[originalIndex].selected = []
+    if ((this.filters as Filter[])[originalIndex].type === 'chip')
+      (this.filters as Filter[])[originalIndex].selected = 0
+    if ((this.filters as Filter[])[originalIndex].type === 'autocomplete')
+      (this.filters as Filter[])[originalIndex].selected = []
   }
 
   resetRangeSlider(i) {
