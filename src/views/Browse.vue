@@ -84,35 +84,6 @@ export default class Browse extends Vue {
     })
   }
 
-  customFilter(value: any, search: string | null, item: object) {
-    // in vue 2.6.9 works only if search string is provided
-    // So, we need some magic for user to ignore that bug
-
-    let result = false
-
-    if (typeof search === 'string')
-      if (search == '-1') result = true
-      else
-        result = Object.values(item).some((el) =>
-          el.toString().toLowerCase().includes(search.toLowerCase())
-        )
-
-    return Object.keys(item).reduce((prev, current) => {
-      if (prev === false) return false
-
-      // get suitable filter object
-      let currentFilter = this.filters.filter((f) => f.vaule === current)
-      if (currentFilter.length == 0) return true
-      if (currentFilter[0].type === 'range')
-        if (
-          item[current] < currentFilter[0].range[0] ||
-          item[current] > currentFilter[0].range[1]
-        )
-          return false
-      return true
-    }, result)
-  }
-
   filters = [
     {
       title: 'Origin',
@@ -275,7 +246,7 @@ export default class Browse extends Vue {
     { text: 'T', value: 'T' },
     { text: 'pH', value: 'pH' },
   ]
-  data = [
+  data: object[] = [
     // {
     //   name: 'Q104H',
     //   ddg: -0.24,
