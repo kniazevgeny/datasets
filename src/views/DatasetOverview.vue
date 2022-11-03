@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-col
+  v-col(style='width: 100%')
     v-row.ma-4.d-flex.align-center(v-if='typeof id == "string"')
       v-col(cols=9)
         span.heading-1.float-left
@@ -68,94 +68,12 @@ v-layout(style='width: 100%')
         v-if='chartData.datasets[0].data.length'
       )
     v-row.ma-4(v-if='typeof id == "undefined"')
-      v-data-table(
-        fixed-header,
-        :headers='data_sample.headers',
-        :items='data_sample.data',
-        item-key='name',
-        checkbox-color='primary',
-        multi-sort,
+      //- Mutations component here
+      Mutations(
+        :data='data_sample.data',
+        :headers='mutations_headers',
+        :filters='filters'
       )
-        template(v-slot:header.protein='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.mutation='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.ddG='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.sequence='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.pdb='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.chain='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.uniprot='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.alphafolddb='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.T='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.pH='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.method='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.measure='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:header.doi='{ header }')
-          v-tooltip(top, max-width='475')
-            template(v-slot:activator='{ on, attrs }')
-              span(v-on='on', v-bind='attrs') {{ header.text }}
-            span {{ header.description }}
-        template(v-slot:item.pdb='{ item }')
-          a(
-            :href='`https://www.rcsb.org/structure/${item.pdb}`',
-            target='_blank'
-          ) {{ item.pdb }}
-        template(v-slot:item.uniprot='{ item }')
-          a(
-            :href='`https://www.uniprot.org/uniprotkb/${item.uniprot}`',
-            target='_blank'
-          ) {{ item.uniprot }}
-        template(v-slot:item.alphafolddb='{ item }')
-          a(
-            :href='`https://alphafold.ebi.ac.uk/entry/${item.uniprot}`',
-            target='_blank'
-          ) {{ item.uniprot }}
 </template>
 
 <script lang="ts">
@@ -176,6 +94,7 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js'
+import Mutations from '../components/Mutations.vue'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -190,6 +109,7 @@ const SnackbarStore = namespace('SnackbarStore')
   },
   components: {
     Bar: Bar,
+    Mutations,
   },
 })
 export default class Datasets extends Vue {
@@ -201,6 +121,10 @@ export default class Datasets extends Vue {
   id?: string | undefined
   name?: string | undefined
   name_: string | null = null
+
+  get mutations_headers() {
+    return this.$t('mutations_headers')
+  }
 
   dataset: Dataset = {
     showSkeleton: false,
@@ -251,6 +175,25 @@ export default class Datasets extends Vue {
       return Math.max.apply(Math, row)
     })
     return Math.max.apply(null, maxRow)
+  }
+
+  tickLabelsByData(param: string) {
+    const values = this.data_sample.data.map((el) => el[param])
+    // Group near values or data-augmentation
+    let valuesProcessed
+    if (param == 'size' || param == 'proteins' || param == 'T') {
+      valuesProcessed = values.map((el) => Math.round(el / 50) * 50)
+    } else if (param == 'ddG' || param == 'pH') 
+      valuesProcessed = values.map((el) => Math.round(el / 1.5) * 1.5)
+    else valuesProcessed = values
+    const valuesReduced: Map<
+      number,
+      Map<number, number>
+    > = valuesProcessed.reduce(
+      (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+      new Map()
+    )
+    return [...valuesReduced.values()]
   }
 
   get sources() {
@@ -344,95 +287,177 @@ export default class Datasets extends Vue {
 
   data_sample = {
     data: [],
-    headers: [
-      {
-        text: 'protein name',
-        value: 'protein',
-        description: 'Name of the protein studied in the experiment.',
-        sortable: true,
-        align: 'start',
-      },
-      {
-        text: 'Mutation',
-        value: 'mutation',
-        description:
-          'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column.',
-        align: 'start',
-        sortable: true,
-      },
-      {
-        text: 'ΔΔG',
-        value: 'ddG',
-        description:
-          'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
-        sortable: true,
-      },
-      {
-        text: 'Sequence',
-        value: 'sequence',
-        description: 'The sequence of the protein used in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'PDB ID',
-        value: 'pdb',
-        description: 'PDB ID of the protein structure if available.',
-        sortable: true,
-        align: 'start',
-      },
-      {
-        text: 'chain',
-        value: 'chain',
-        description: 'Chain identifier of the protein structure.',
-        sortable: false,
-        align: 'start',
-      },
-      {
-        text: 'uniprot',
-        value: 'uniprot',
-        description: 'Chain identifier of the protein structure.',
-        sortable: true,
-      },
-      {
-        text: 'AlphaFold DB',
-        value: 'alphafolddb',
-        description: 'Protein model in AlphaFold database.',
-        sortable: true,
-      },
-      // { text: 'organism', value: 'organism', sortable: true, align: 'start' },
-      {
-        text: 'Temperature',
-        value: 'T',
-        description: 'Temperature of the experiment in kelvins.',
-        sortable: true,
-      },
-      {
-        text: 'pH',
-        value: 'pH',
-        description: 'pH of the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'method',
-        value: 'method',
-        description:
-          'Method of measuring the folding free energy change in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'measure',
-        value: 'measure',
-        description: 'Signal measured in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'reference',
-        value: 'doi',
-        description: 'Experiment reference.',
-        sortable: true,
-      },
-    ],
   }
+  randn_bm(min, max, skew) {
+    let u = 0,
+      v = 0
+    while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
+    while (v === 0) v = Math.random()
+    let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
+
+    num = num / 10.0 + 0.5 // Translate to 0 -> 1
+    if (num > 1 || num < 0) num = this.randn_bm(min, max, skew)
+    // resample between 0 and 1 if out of range
+    else {
+      num = Math.pow(num, skew) // Skew
+      num *= max - min // Stretch to fill range
+      num += min // offset to min
+    }
+    return num
+  }
+
+  tickLabels(start: number, end: number, step: number) {
+    // That shuold be pre-computed on backend
+    let rand: Array<number> = []
+    for (let i = 0; i < step * 1000; i++)
+      rand.push(Math.round(this.randn_bm(start, end, 1) * step * 2) / step / 2)
+    rand = rand.sort(function (a, b) {
+      return a - b
+    })
+    let randReduced: Map<number, Map<number, number>> = rand.reduce(
+      (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
+      new Map()
+    )
+    return [...randReduced.values()]
+  }
+
+  filters = [
+    {
+      title: 'Origin',
+      subtitle: '',
+      value: 'origin',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        {
+          label: 'Original',
+          fieldToBe: 'original',
+          description:
+            'Original - a dataset compiled from Protherm or literature sources.',
+        },
+        {
+          label: 'Processed',
+          fieldToBe: 'processed',
+          description:
+            'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)',
+        },
+        {
+          label: 'Subset',
+          fieldToBe: 'subset',
+          description: 'Subset - a subset of existing dataset',
+        },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'ΔΔG',
+      value: 'ddG',
+      subtitle: 'Number of data points in a dataset.',
+      type: 'range',
+      min: -10,
+      max: 10,
+      step: 0.1,
+      tickLabels: this.tickLabels(-10, 10, 1),
+      range: [-10, 10],
+      hint: 'Im a hint',
+    },
+    {
+      title: 'Temperature',
+      value: 'T',
+      subtitle: 'Number of data points in a dataset.',
+      type: 'range',
+      min: 250,
+      max: 590,
+      step: 1,
+      tickLabels: this.tickLabels(250, 590, 1),
+      range: [250, 590],
+      hint: 'Im a hint',
+    },
+    {
+      title: 'pH',
+      value: 'pH',
+      subtitle: 'Number of data points in a dataset.',
+      type: 'range',
+      min: 1,
+      max: 12,
+      step: 0.1,
+      tickLabels: this.tickLabels(1, 12, 0.1),
+      range: [1, 12],
+      hint: 'Im a hint',
+    },
+    // {
+    //   title: 'Symmetrized',
+    //   value: 'symmetrized',
+    //   subtitle:
+    //     'A dataset is symmetrized if it contains both forward and reverse mutations.',
+    //   type: 'chip',
+    //   items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
+    //   selected: 0
+    // },
+    {
+      title: 'Source',
+      subtitle: '',
+      type: 'select',
+    },
+    {
+      title: 'Type of mutations',
+      value: 'mutations',
+      subtitle: '',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        {
+          label: 'Single',
+          fieldToBe: 'single',
+          description: 'Single - contains only single point mutations.',
+        },
+        {
+          label: 'Multiple',
+          fieldToBe: 'multiple',
+          description: 'Multiple - contains only multiple point mutations.',
+        },
+        {
+          label: 'Mixed',
+          fieldToBe: 'mixed',
+          description:
+            'Mixed - contains both single and multiple point mutations.',
+        },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Proteins',
+      value: 'proteins',
+      subtitle: 'Number of proteins in a dataset.',
+      type: 'range',
+      min: 0,
+      max: 200,
+      step: 1,
+      range: [0, 200],
+      tickLabels: this.tickLabels(1, 200, 10),
+      hint: 'Im a hint',
+    },
+    {
+      title: 'Author',
+      value: 'author',
+      subtitle: '',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
+    },
+    {
+      title: 'Year',
+      value: 'year',
+      subtitle: '',
+      type: 'range',
+      min: 2000,
+      max: 2022,
+      step: 1,
+      range: [2000, 2022],
+      tickLabels: this.tickLabels(2000, 2022, 10),
+      hint: 'Im a hint',
+    },
+  ]
 
   get datasetName() {
     if (typeof this.name != typeof undefined) return this.name
@@ -444,9 +469,10 @@ export default class Datasets extends Vue {
     if (typeof this.id != typeof undefined) return this.id
     if (typeof this.name != typeof undefined && this.datasets)
       return this.datasets.filter((el) => el.name == this.name)[0]._id
-    if (this.datasets) return this.datasets.filter(
-      (el) => el.name == this.$router.currentRoute.path.split('/').pop()
-    )[0]._id
+    if (this.datasets)
+      return this.datasets.filter(
+        (el) => el.name == this.$router.currentRoute.path.split('/').pop()
+      )[0]._id
   }
 
   async getDatasetOverview() {
@@ -464,6 +490,12 @@ export default class Datasets extends Vue {
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     //@ts-ignore
     this.data_sample.data = resp.data as object[]
+    const generateTicks = ['ddG', 'pH', 'T']
+    generateTicks.forEach((fieldName) => {
+      this.filters[
+        this.filters.findIndex((el) => el.value == fieldName)
+      ].tickLabels = this.tickLabelsByData(fieldName)
+    })
     // console.log(this.chartData)
     // return this.data_sample
   }

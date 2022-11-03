@@ -1,106 +1,27 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-navigation-drawer(
-    width='420',
-    permanent,
-    style='position: sticky',
-    absolute=false
-  )
-    //- Filters
-    .pa-4(
-      style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
-    )
-      .text-h5.font-weight-bold Filters
-    v-list.pa-4(
-      color='transparent',
-      v-for='filter in filters',
-      :key='filter.title'
-    )
-      v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
-      small.grey--text.text--darken-2 {{ filter.subtitle }}
-      v-list-item-content(v-if='filter.type === "range"') 
-        v-sparkline(
-          :fill='true',
-          :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
-          gradient-direction='left',
-          :line-width='2',
-          :padding='8',
-          :smooth=25,
-          :value='filter.tickLabels'
-        )
-        //- TODO: make filters less reactive (or take 0.1s to updage results)
-        //- instant changes are unnecessary but they kill performance
-        v-range-slider.mt-n11(
-          v-model='filter.range',
-          :step='filter.step',
-          :max='filter.max',
-          :min='filter.min',
-          track-color='DimGray',
-          track-fill-color='primary',
-          color='primary'
-        )
-        v-layout.mt-n11
-          v-text-field.pa-2(
-            v-model='filter.range[0]',
-            hide-details,
-            filled,
-            dense,
-            label='min',
-            type='number',
-            color='primary'
-          )
-          v-text-field.pa-2(
-            v-model='filter.range[1]',
-            hide-details,
-            filled,
-            dense,
-            label='max',
-            type='number',
-            color='primary'
-          )
-      v-divider.mt-4
-  v-card.ma-6(width='100%', height='100%', flat)
-    v-card-title.pl-0.pr-0
-      v-text-field(
-        v-model='searchVisible',
-        append-icon='mdi-magnify',
-        label='Type mutation id, protein, variation...',
-        single-line,
-        hide-details,
-        filled,
-        color='primary',
-        @input='updateSearchReal'
-      )
-    //- TODO: duplicate active filters on top of the table
-    v-data-table(
-      v-model='selected',
-      fixed-header,
-      :headers='headers',
-      :items='data',
-      :search='searchReal',
-      item-key='name',
-      show-select,
-      checkbox-color='primary',
-      multi-sort,
-      :customFilter='customFilter'
-    ).unavailable
-      template(v-slot:item.mutation='{ item }')
-        v-chip.primary--text.text--accent-2.font-weight-bold(
-          outlined,
-          label,
-          color='blue lighten-1',
-          dark
-        ) {{ item.mutation }}
+  Mutations(:headers='mutations_headers', :data='data', :filters='filters')
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-@Component({})
+import { getMutations } from '@/utils/api'
+import Mutations from '../components/Mutations.vue'
+
+@Component({
+  components: {
+    Mutations,
+  },
+})
 export default class Browse extends Vue {
   searchVisible: String = ''
   searchReal: String = '-1'
+
+  get mutations_headers() {
+    return this.$t('mutations_headers')
+  }
 
   updateSearchReal() {
     if (this.searchVisible != '') this.searchReal = this.searchVisible
@@ -156,7 +77,12 @@ export default class Browse extends Vue {
     return gradient
   }
 
-  mounted() {}
+  mounted() {
+    getMutations().then((response) => {
+      this.data = response
+      console.log(this.data.length)
+    })
+  }
 
   customFilter(value: any, search: string | null, item: object) {
     // in vue 2.6.9 works only if search string is provided
@@ -167,7 +93,7 @@ export default class Browse extends Vue {
     if (typeof search === 'string')
       if (search == '-1') result = true
       else
-          result = Object.values(item).some((el) =>
+        result = Object.values(item).some((el) =>
           el.toString().toLowerCase().includes(search.toLowerCase())
         )
 
@@ -189,58 +115,142 @@ export default class Browse extends Vue {
 
   filters = [
     {
-      title: 'Variation',
-      subtitle:
-        'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column.',
+      title: 'Origin',
+      subtitle: '',
+      value: 'origin',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        {
+          label: 'Original',
+          fieldToBe: 'original',
+          description:
+            'Original - a dataset compiled from Protherm or literature sources.',
+        },
+        {
+          label: 'Processed',
+          fieldToBe: 'processed',
+          description:
+            'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)',
+        },
+        {
+          label: 'Subset',
+          fieldToBe: 'subset',
+          description: 'Subset - a subset of existing dataset',
+        },
+      ],
+      selected: 0,
     },
     {
-      title: 'ddg',
-      vaule: 'ddg',
-      subtitle:
-        'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
+      title: 'ΔΔG',
+      value: 'ddG',
+      subtitle: 'Number of data points in a dataset.',
       type: 'range',
       min: -10,
       max: 10,
       step: 0.1,
+      tickLabels: this.tickLabels(-10, 10, 1),
       range: [-10, 10],
-      tickLabels: this.tickLabels(-10, 10, 0.5),
       hint: 'Im a hint',
     },
     {
-      title: 'Mutation',
-      vaule: 'mutation',
-      subtitle: 'Mutation context',
-    },
-    {
-      title: 'T',
-      vaule: 'temperature',
-      subtitle: 'Temperature of the experiment in kelvins.',
+      title: 'Temperature',
+      value: 'T',
+      subtitle: 'Number of data points in a dataset.',
       type: 'range',
       min: 250,
       max: 590,
       step: 1,
-      tickLabels: this.tickLabels(250, 590, 20),
+      tickLabels: this.tickLabels(250, 590, 1),
       range: [250, 590],
       hint: 'Im a hint',
     },
     {
       title: 'pH',
-      vaule: 'ph',
-      subtitle: 'pH of the experiment.',
+      value: 'pH',
+      subtitle: 'Number of data points in a dataset.',
+      type: 'range',
+      min: 1,
+      max: 12,
+      step: 0.1,
+      tickLabels: this.tickLabels(1, 12, 0.1),
+      range: [1, 12],
+      hint: 'Im a hint',
+    },
+    // {
+    //   title: 'Symmetrized',
+    //   value: 'symmetrized',
+    //   subtitle:
+    //     'A dataset is symmetrized if it contains both forward and reverse mutations.',
+    //   type: 'chip',
+    //   items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
+    //   selected: 0
+    // },
+    {
+      title: 'Source',
+      subtitle: '',
+      type: 'select',
+    },
+    {
+      title: 'Type of mutations',
+      value: 'mutations',
+      subtitle: '',
+      type: 'chip',
+      items: [
+        { label: 'Any', fieldToBe: undefined, description: undefined },
+        {
+          label: 'Single',
+          fieldToBe: 'single',
+          description: 'Single - contains only single point mutations.',
+        },
+        {
+          label: 'Multiple',
+          fieldToBe: 'multiple',
+          description: 'Multiple - contains only multiple point mutations.',
+        },
+        {
+          label: 'Mixed',
+          fieldToBe: 'mixed',
+          description:
+            'Mixed - contains both single and multiple point mutations.',
+        },
+      ],
+      selected: 0,
+    },
+    {
+      title: 'Proteins',
+      value: 'proteins',
+      subtitle: 'Number of proteins in a dataset.',
       type: 'range',
       min: 0,
-      max: 12,
-      step: 0.5,
-      range: [0, 12],
-      tickLabels: this.tickLabels(0, 12, 0.5),
+      max: 200,
+      step: 1,
+      range: [0, 200],
+      tickLabels: this.tickLabels(1, 200, 10),
       hint: 'Im a hint',
     },
     {
-      title: 'Method',
-      subtitle:
-        'Method of measuring the folding free energy change in the experiment.',
+      title: 'Author',
+      value: 'author',
+      subtitle: '',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
+    },
+    {
+      title: 'Year',
+      value: 'year',
+      subtitle: '',
+      type: 'range',
+      min: 2000,
+      max: 2022,
+      step: 1,
+      range: [2000, 2022],
+      tickLabels: this.tickLabels(2000, 2022, 10),
+      hint: 'Im a hint',
     },
   ]
+
 
   selected = []
 
@@ -249,13 +259,12 @@ export default class Browse extends Vue {
       text: 'Variation',
       align: 'start',
       sortable: false,
-      value: 'name',
+      value: 'muatation',
     },
-    { text: 'ddg', value: 'ddg' },
+    { text: 'ddg', value: 'ddG' },
     { text: 'pdb', value: 'pdb', sortable: false, align: 'start' },
     { text: 'Chain', value: 'chain', sortable: false, align: 'start' },
     { text: 'Uniprot', value: 'uniprot' },
-    { text: 'Mutation', value: 'mutation', sortable: false, align: 'start' },
     {
       text: 'Protein Name',
       value: 'protein',
@@ -263,120 +272,120 @@ export default class Browse extends Vue {
       align: 'start',
       width: '200',
     },
-    { text: 'T', value: 'temperature' },
-    { text: 'pH', value: 'ph' },
+    { text: 'T', value: 'T' },
+    { text: 'pH', value: 'pH' },
   ]
   data = [
-    {
-      name: 'Q104H',
-      ddg: -0.24,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 275,
-      ph: 2,
-    },
-    {
-      name: 'Q104P',
-      ddg: -0.11,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 250,
-      ph: 1,
-    },
-    {
-      name: 'T123A',
-      ddg: 0.13,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 275,
-      ph: 2,
-    },
-    {
-      name: 'A129D',
-      ddg: 0.7,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 300,
-      ph: 3,
-    },
-    {
-      name: 'A129E',
-      ddg: 0.38,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 325,
-      ph: 4,
-    },
-    {
-      name: 'A129S',
-      ddg: 0.19,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 350,
-      ph: 5,
-    },
-    {
-      name: 'M133L',
-      ddg: -0.3,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 375,
-      ph: 6,
-    },
-    {
-      name: 'F134L',
-      ddg: 4.78,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 400,
-      ph: 7,
-    },
-    {
-      name: 'V143A',
-      ddg: 3.5,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 425,
-      ph: 8,
-    },
-    {
-      name: 'L145Q',
-      ddg: 2.98,
-      pdb: '2ocj',
-      chain: 'A',
-      uniprot: 'P04637',
-      mutation: 'wt',
-      protein: 'DNA-binding domain of human p53',
-      temperature: 450,
-      ph: 9,
-    },
+    // {
+    //   name: 'Q104H',
+    //   ddg: -0.24,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 275,
+    //   ph: 2,
+    // },
+    // {
+    //   name: 'Q104P',
+    //   ddg: -0.11,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 250,
+    //   ph: 1,
+    // },
+    // {
+    //   name: 'T123A',
+    //   ddg: 0.13,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 275,
+    //   ph: 2,
+    // },
+    // {
+    //   name: 'A129D',
+    //   ddg: 0.7,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 300,
+    //   ph: 3,
+    // },
+    // {
+    //   name: 'A129E',
+    //   ddg: 0.38,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 325,
+    //   ph: 4,
+    // },
+    // {
+    //   name: 'A129S',
+    //   ddg: 0.19,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 350,
+    //   ph: 5,
+    // },
+    // {
+    //   name: 'M133L',
+    //   ddg: -0.3,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 375,
+    //   ph: 6,
+    // },
+    // {
+    //   name: 'F134L',
+    //   ddg: 4.78,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 400,
+    //   ph: 7,
+    // },
+    // {
+    //   name: 'V143A',
+    //   ddg: 3.5,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 425,
+    //   ph: 8,
+    // },
+    // {
+    //   name: 'L145Q',
+    //   ddg: 2.98,
+    //   pdb: '2ocj',
+    //   chain: 'A',
+    //   uniprot: 'P04637',
+    //   mutation: 'wt',
+    //   protein: 'DNA-binding domain of human p53',
+    //   temperature: 450,
+    //   ph: 9,
+    // },
   ]
 }
 </script>

@@ -90,6 +90,23 @@ export async function getPredictors() {
   return response
 }
 
+export async function getMutations() {
+  // if (checkInternetConnection()) throw "error";
+  let response = (
+    await axios
+      .get(`${base}/mutations`, {
+        headers: getHeaders(),
+      })
+      .catch((err) => {
+        setSnackbar(err)
+        return err
+      })
+  ).data as object[]
+  // c.logserv('api.balance', response)
+  // response.balance = removeBackZeroes(response.balance)
+  return response
+}
+
 export async function getDatasetOverview(id: string) {
   // if (checkInternetConnection()) throw "error";
   let response = (
