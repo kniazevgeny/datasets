@@ -99,7 +99,7 @@
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
-  v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
+  v-container.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2.pl-0.pr-0
         //- v-row.pa-2.mb-1.justify-space-between
