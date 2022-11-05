@@ -2,7 +2,7 @@
 v-layout(style='width: 100%')
   v-container.ml-0.mr-0(fluid style='padding-right: 256px')
     v-row.ma-4.d-flex.align-center
-      span.heading-1.float-left
+      span.text-h2.float-left
         span.font-weight-bold {{ predictor.predictor }}
         //- span ({{ predictor.fileSize }})
       v-spacer
@@ -39,8 +39,9 @@ v-layout(style='width: 100%')
     tag='nav',
     style='z-index: 0; top: 64px',
   )
-    template(v-slot:prepend).pt-12
-      span.mb-2.text-h6.font-weight-medium.text-left Contents
+    template(v-slot:prepend)
+      div.d-flex
+        span.pl-4.text-h6.font-weight-medium.text-left Contents
     v-list(v-if='predictor.datasets', dense)
       //- v-subheader Train
       v-list-item-group(v-model='currentSection', color='primary')
@@ -185,4 +186,5 @@ export default class PredictorOverview extends Vue {
 <style scoped>
 span.text-h6 {
   font-family: 'Alegreya Sans' !important;
-}</style>
+}
+</style>

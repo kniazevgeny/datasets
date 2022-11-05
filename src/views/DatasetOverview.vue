@@ -30,7 +30,7 @@ v-layout(style='width: 100%')
         v-btn(outlined, large, text, @click='$emit("closeDialog")')
           v-icon mdi-close
     v-row.ma-4.d-flex.align-center(v-else)
-      span.heading-1.float-left
+      span.text-h4.float-left
         span.font-weight-bold {{ dataset.fileName }}
         //- span ({{ dataset.fileSize }})
       v-spacer
