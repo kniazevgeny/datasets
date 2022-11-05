@@ -63,7 +63,7 @@ export const messages = {
         description: 'Protein model in AlphaFold database.',
         sortable: true,
       },
-      // { text: 'organism', value: 'organism', sortable: true, align: 'start' },
+      { text: 'organism', value: 'organism', sortable: true, align: 'start' },
       {
         text: 'Temperature',
         value: 'T',

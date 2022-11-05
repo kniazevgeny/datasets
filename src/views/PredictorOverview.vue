@@ -1,20 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-navigation-drawer(fixed, right, tag='div')
-    v-list(v-if='predictor.datasets', dense)
-      //- v-subheader Train
-      v-list-item-group(v-model='currentSection', color='primary')
-        v-list-item(
-          v-for='(item, i) in contents',
-          :key='i',
-          :id='"list-item-" + i',
-          :disabled='item == "Train" || item == "Test"',
-          @click='scrollToContent(i)'
-        ) {{ item }}
-      //- v-subheader Test
-      //- v-list-item-group(v-model='selectedItem', color='primary')
-      //-   v-list-item(v-for='(item, i) in predictor.datasets.test', :key='i') {{ item }}
-  v-col(width='80%')
+  v-container.ml-0.mr-0()
     v-row.ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ predictor.predictor }}
@@ -29,23 +15,45 @@ v-layout(style='width: 100%')
         //- )
         //- span Download
         //- v-icon mdi-download-outline
-    v-row.ma-4.d-flex
-      span.text-left(v-html='sources')
     v-row(v-if='predictor.datasets')
       DatasetOverview(
         v-for='(train, i) in predictor.datasets.train',
-        :key='i',
+        :key='"train-" + i',
         :name='train',
         :class='"train-" + i + ` section-${i + 1}`',
         v-intersect='{ handler: onIntersect }'
       )
       DatasetOverview(
         v-for='(test, i) in predictor.datasets.test',
-        :key='i',
+        :key='"test-" + i',
         :name='test',
         :class='"test-" + i + ` section-${i + predictor.datasets.train.length + 2}`',
         v-intersect='{ handler: onIntersect }'
       )
+  v-navigation-drawer(
+    clipped,
+    fixed,
+    floating,
+    permanent,
+    right,
+    tag='nav',
+    style='z-index: 0; top: 64px',
+  )
+    template(v-slot:prepend).pt-12
+      span.mb-2.text-h6.font-weight-medium.text-left Contents
+    v-list(v-if='predictor.datasets', dense)
+      //- v-subheader Train
+      v-list-item-group(v-model='currentSection', color='primary')
+        v-list-item(
+          v-for='(item, i) in contents',
+          :key='i',
+          :id='"list-item-" + i',
+          :disabled='item == "Train" || item == "Test"',
+          @click='scrollToContent(i)'
+        ) {{ item }}
+      //- v-subheader Test
+      //- v-list-item-group(v-model='selectedItem', color='primary')
+      //-   v-list-item(v-for='(item, i) in predictor.datasets.test', :key='i') {{ item }}
 </template>
 
 <script lang="ts">
@@ -122,7 +130,6 @@ export default class PredictorOverview extends Vue {
     const navClass = (Array.from(e[0].target.classList) as string[]).filter(
       (el) => el.includes('train-') || el.includes('test-')
     )[0] as string
-    // 0 for train, 1 for test
     const navSection = navClass.includes('test-')
     let startingPos = 1
     if (navSection) startingPos = this.contents.indexOf('Test') + 1
@@ -134,7 +141,6 @@ export default class PredictorOverview extends Vue {
   scrollContentsIntoView() {
     const el = document.getElementById('list-item-' + this.currentSection)
     if (typeof el != null) (el as HTMLElement).scrollIntoView()
-    // should be { behavior: 'smooth' }, but it doesn't work
   }
 
   scrollToContent(scrollToSection: number) {
@@ -153,6 +159,7 @@ export default class PredictorOverview extends Vue {
         predictor.predictor == this.$router.currentRoute.path.split('/').pop()
     )[0]
   }
+  
 
   download() {
     this.pushAction({
@@ -161,7 +168,6 @@ export default class PredictorOverview extends Vue {
       btn_id: '#download',
       page_href: this.$router.currentRoute.path,
     })
-    // downloadDataset(this.id as string)
     putActions()
   }
 
@@ -170,7 +176,6 @@ export default class PredictorOverview extends Vue {
   }
 
   mounted() {
-    // Get Dataset Info from the store
     if (typeof this.predictorByName != typeof undefined)
       this.predictor = this.predictorByName as Predictor
   }
@@ -178,12 +183,6 @@ export default class PredictorOverview extends Vue {
 </script>
 
 <style scoped>
-div.v-navigation-drawer {
-  height: 100px !important;
-}
-
-div.v-navigation-drawer:hover {
-  height: 300px !important;
-  transition: all 0.2s ease-out;
-}
-</style>
+span.text-h6 {
+  font-family: 'Alegreya Sans' !important;
+}</style>

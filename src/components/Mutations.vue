@@ -1,7 +1,7 @@
 <template lang="pug">
-.d-flex
+.d-flex(style='overflow: hidden')
   v-navigation-drawer(
-    v-if='filters.length',
+    v-if='!hideFilters && filters.length',
     permanent,
     width='420',
     style='position: sticky; height: 100vh',
@@ -140,10 +140,10 @@
                 )
                   span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
-    v-card-text
+    v-card-text()
       v-data-table(
         v-model='selected',
-        fixed-header,
+        :loading='!data.length'
         :headers='headers',
         :items='data',
         item-key='hash',
@@ -151,7 +151,9 @@
         :custom-filter='customFilter',
         show-select,
         checkbox-color='primary',
-        multi-sort
+        multi-sort,
+        calculate-widths
+        style='overflow-x: auto; overflow-y: hidden'	
       )
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
@@ -273,21 +275,31 @@ interface Filter {
       type: Array,
       default: () => [],
     },
+    hideFilters: {
+      type: Boolean,
+      default: false
+    }
   },
 })
 export default class Mutations extends Vue {
   data!: Array<Object>
   headers!: Array<Object>
   filters!: Filter[]
+  hideFilters!: boolean
 
-  search: string = ''
-
+  search: String = ''
+  
   selected = []
 
   filterChangeFlag = 0
   get stringFilterFlag() {
     return this.filterChangeFlag.toString()
   }
+
+  // updateSearchReal() {
+  //   if (this.searchVisible != '') this.searchReal = this.searchVisible
+  //   else this.searchReal = null
+  // }
 
   get dataVisible() {
     // console.log(this.searchVisible, this.searchReal)
@@ -310,10 +322,16 @@ export default class Mutations extends Vue {
     if (search == null) result = true
     // if (typeof search == typeof '' && search.length > 1000) result = true
     else
-      result = Object.values(item).some((el) => {
-        if (typeof el != typeof '') return false
-        return el.toLowerCase().includes(this.search.toLowerCase())
-      })
+    result = Object.values(item).some((el) => {
+      // should i return true or false? why can't it show all 13 grand datapoints?
+      // TODO: fix issue of hiding part of the elements
+      if (typeof el != typeof '') return true
+      return el.toLowerCase().includes(search.toLowerCase())
+    })
+
+    // apply search only
+    if (this.hideFilters) return result
+    
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
       // get suitable filter object
@@ -427,6 +445,7 @@ export default class Mutations extends Vue {
 
   mounted() {
     this.$vuetify.theme.themes.light.sidebar_size = '42ch'
+    console.log(this.data)
   }
 
   @Watch('filters')
@@ -435,3 +454,9 @@ export default class Mutations extends Vue {
   }
 }
 </script>
+<style scoped>
+.v-data-table__wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+</style>
