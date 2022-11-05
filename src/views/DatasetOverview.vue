@@ -491,7 +491,6 @@ export default class Datasets extends Vue {
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     //@ts-ignore
     this.data_sample.data = resp.data as object[]
-    console.log(this.data_sample.data)
     const generateTicks = ['ddG', 'pH', 'T']
     generateTicks.forEach((fieldName) => {
       this.filters[

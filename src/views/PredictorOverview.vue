@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-container.ml-0.mr-0()
+  v-container.ml-0.mr-0(fluid style='padding-right: 256px')
     v-row.ma-4.d-flex.align-center
       span.heading-1.float-left
         span.font-weight-bold {{ predictor.predictor }}
