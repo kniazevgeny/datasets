@@ -94,7 +94,6 @@ export default class Browse extends Vue {
       this.filters.forEach((filter, i) => {
         if (filter.type == 'range') {
           const values = this.data.filter(el => !!el[filter.value]).map(el => parseFloat(el[filter.value]))
-          console.log(values, filter)
           this.filters[i].min = values.reduce((prev, current) => {
             if (prev < current) return prev
             else return current

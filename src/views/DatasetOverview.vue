@@ -438,8 +438,8 @@ export default class Datasets extends Vue {
       hint: 'Im a hint',
     },
     {
-      title: 'Author',
-      value: 'author',
+      title: 'Organism',
+      value: 'organism',
       subtitle: '',
       type: 'autocomplete',
       items: [],
@@ -519,6 +519,11 @@ export default class Datasets extends Vue {
     this.getDatasetOverview().then(() => {
       // this is not a passed prop, so it's a new page
       if (typeof this.name == typeof undefined) this.setTitle()
+
+      // @ts-ignore
+      this.filters[
+        this.filters.findIndex((el) => el.value == 'organism')
+      ].items = [...new Set(this.data_sample.data.map((el: any) => el.organism))]
     })
     this.geterateMutationsSample()
   }

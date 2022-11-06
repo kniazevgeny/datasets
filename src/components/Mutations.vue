@@ -330,8 +330,10 @@ export default class Mutations extends Vue {
     else
     result = Object.values(item).filter(el => typeof el == typeof '').some((el) => {
       // should i return true or false? why can't it show all 13 grand datapoints?
-      // TODO: fix issue of hiding part of the elements
+      // TODO?: fix issue of hiding part of the elements
       // if (typeof el != typeof '') {console.log(el); return true}
+
+      // TODO: fix no-search problem
       return el.toLowerCase().includes(search.toLowerCase())
     })
 
