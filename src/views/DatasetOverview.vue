@@ -73,7 +73,6 @@ v-layout(style='width: 100%')
         :data='data_sample.data',
         :headers='mutations_headers',
         :filters='filters',
-        hideFilters
       )
 </template>
 

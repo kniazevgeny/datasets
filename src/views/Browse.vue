@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  Mutations(:headers='mutations_headers', :data='data', :filters='filters')
+  Mutations(:headers='mutations_headers', :data='data', :filters='filters', showFilters, selectable)
 </template>
 
 <script lang="ts">

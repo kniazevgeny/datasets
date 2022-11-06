@@ -1,7 +1,7 @@
 <template lang="pug">
 .d-flex(style='overflow: hidden')
   v-navigation-drawer(
-    v-if='!hideFilters && filters.length',
+    v-if='showFilters && filters.length',
     permanent,
     width='420',
     style='position: sticky; height: 100vh',
@@ -149,7 +149,7 @@
         item-key='hash',
         :search='stringFilterFlag',
         :custom-filter='customFilter',
-        show-select,
+        :show-select='selectable',
         checkbox-color='primary',
         multi-sort,
         calculate-widths
@@ -275,7 +275,11 @@ interface Filter {
       type: Array,
       default: () => [],
     },
-    hideFilters: {
+    showFilters: {
+      type: Boolean,
+      default: false
+    },
+    selectable: {
       type: Boolean,
       default: false
     }
@@ -285,7 +289,8 @@ export default class Mutations extends Vue {
   data!: Array<Object>
   headers!: Array<Object>
   filters!: Filter[]
-  hideFilters!: boolean
+  showFilters!: boolean
+  selectable!: boolean
 
   search: String = ''
   
@@ -330,7 +335,7 @@ export default class Mutations extends Vue {
     })
 
     // apply search only
-    if (this.hideFilters) return result
+    if (!this.showFilters) return result
     
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
