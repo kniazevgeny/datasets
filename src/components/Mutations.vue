@@ -116,7 +116,7 @@
         v-text-field(
           v-model='search',
           prepend-inner-icon='mdi-magnify',
-          label='Type mutation id, protein, author...',
+          label='Type mutation id, protein...',
           single-line,
           hide-details,
           filled,
@@ -324,13 +324,14 @@ export default class Mutations extends Vue {
 
     let result = false
 
-    if (search == null) result = true
+    // console.log(search, typeof search)
+    if (search == null || search == '0') result = true
     // if (typeof search == typeof '' && search.length > 1000) result = true
     else
-    result = Object.values(item).some((el) => {
+    result = Object.values(item).filter(el => typeof el == typeof '').some((el) => {
       // should i return true or false? why can't it show all 13 grand datapoints?
       // TODO: fix issue of hiding part of the elements
-      if (typeof el != typeof '') return true
+      // if (typeof el != typeof '') {console.log(el); return true}
       return el.toLowerCase().includes(search.toLowerCase())
     })
 
@@ -345,8 +346,8 @@ export default class Mutations extends Vue {
       // check each type
       if (currentFilter[0].type === 'range' && currentFilter[0].range)
         if (
-          item[current] < currentFilter[0]?.range[0] ||
-          item[current] > currentFilter[0]?.range[1]
+          parseFloat(item[current]) < currentFilter[0]?.range[0] ||
+          parseFloat(item[current]) > currentFilter[0]?.range[1]
         )
           return false
       if (currentFilter[0].type === 'chip') {
@@ -450,7 +451,7 @@ export default class Mutations extends Vue {
 
   mounted() {
     this.$vuetify.theme.themes.light.sidebar_size = '42ch'
-    console.log(this.data)
+    // console.log(this.filters)
   }
 
   @Watch('filters')
