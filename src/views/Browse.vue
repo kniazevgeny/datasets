@@ -1,6 +1,12 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  Mutations(:headers='mutations_headers', :data='data', :filters='filters', showFilters, selectable)
+  Mutations(
+    :headers='mutations_headers',
+    :data='data',
+    :filters='filters',
+    showFilters,
+    selectable
+  )
 </template>
 
 <script lang="ts">
@@ -31,23 +37,21 @@ export default class Browse extends Vue {
   randn_bm(min, max, skew) {
     let u = 0,
       v = 0
-    while (u === 0) u = Math.random() //Converting [0,1) to (0,1)
+    while (u === 0) u = Math.random()
     while (v === 0) v = Math.random()
     let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
 
-    num = num / 10.0 + 0.5 // Translate to 0 -> 1
+    num = num / 10.0 + 0.5
     if (num > 1 || num < 0) num = this.randn_bm(min, max, skew)
-    // resample between 0 and 1 if out of range
     else {
-      num = Math.pow(num, skew) // Skew
-      num *= max - min // Stretch to fill range
-      num += min // offset to min
+      num = Math.pow(num, skew)
+      num *= max - min
+      num += min
     }
     return num
   }
 
   tickLabels(start: number, end: number, step: number) {
-    // That shuold be pre-computed on backend
     let rand: Array<number> = []
     for (let i = 0; i < step * 1000; i++)
       rand.push(Math.round(this.randn_bm(start, end, 1) * step * 2) / step / 2)
@@ -65,8 +69,6 @@ export default class Browse extends Vue {
     let color = this.$vuetify.theme.themes.light['primary']
     let colorDisabled = 'DimGray'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
-    // if (min == -10) console.log(range)
-
     let gradient: Array<String> = []
     for (let i = min; i < max; i += step) {
       if (i < range[0]) gradient.push(colorDisabled)
@@ -79,49 +81,45 @@ export default class Browse extends Vue {
 
   mounted() {
     getMutations().then((response) => {
-      this.data = response
-      console.log(this.data.length)
+      // rm duplicates
+      this.data = [...new Set(response)]
+      //@ts-ignore
+      this.filters[
+        this.filters.findIndex((el) => el.value == 'organism')
+      ].items = [
+        ...new Set(this.data.map((el: any) => el.organism).filter((el) => el)),
+      ].sort()
+
+      // set border values
+      this.filters.forEach((filter, i) => {
+        if (filter.type == 'range') {
+          const values = this.data.filter(el => !!el[filter.value]).map(el => parseFloat(el[filter.value]))
+          console.log(values, filter)
+          this.filters[i].min = values.reduce((prev, current) => {
+            if (prev < current) return prev
+            else return current
+          }, 250) as number
+          this.filters[i].max = values.reduce((prev, current) => {
+            if (prev > current) return prev
+            else return current as number
+          }, -10)
+          this.filters[i].range = [this.filters[i].min as number, this.filters[i].max as number] 
+        }
+      }) 
     })
   }
 
   filters = [
     {
-      title: 'Origin',
-      subtitle: '',
-      value: 'origin',
-      type: 'chip',
-      items: [
-        { label: 'Any', fieldToBe: undefined, description: undefined },
-        {
-          label: 'Original',
-          fieldToBe: 'original',
-          description:
-            'Original - a dataset compiled from Protherm or literature sources.',
-        },
-        {
-          label: 'Processed',
-          fieldToBe: 'processed',
-          description:
-            'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)',
-        },
-        {
-          label: 'Subset',
-          fieldToBe: 'subset',
-          description: 'Subset - a subset of existing dataset',
-        },
-      ],
-      selected: 0,
-    },
-    {
       title: 'ΔΔG',
       value: 'ddG',
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
-      min: -10,
+      min: -14,
       max: 10,
       step: 0.1,
-      tickLabels: this.tickLabels(-10, 10, 1),
-      range: [-10, 10],
+      tickLabels: this.tickLabels(-10, 14, 1),
+      range: [-14, 10],
       hint: 'Im a hint',
     },
     {
@@ -129,11 +127,11 @@ export default class Browse extends Vue {
       value: 'T',
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
-      min: 250,
+      min: 0,
       max: 590,
       step: 1,
-      tickLabels: this.tickLabels(250, 590, 1),
-      range: [250, 590],
+      tickLabels: this.tickLabels(0, 590, 1),
+      range: [0, 590],
       hint: 'Im a hint',
     },
     {
@@ -148,80 +146,15 @@ export default class Browse extends Vue {
       range: [1, 12],
       hint: 'Im a hint',
     },
-    // {
-    //   title: 'Symmetrized',
-    //   value: 'symmetrized',
-    //   subtitle:
-    //     'A dataset is symmetrized if it contains both forward and reverse mutations.',
-    //   type: 'chip',
-    //   items: [{label: 'Any', fieldToBe: undefined}, {label: 'Yes', fieldToBe: true}, {label: 'No', fieldToBe: false}],
-    //   selected: 0
-    // },
     {
-      title: 'Source',
-      subtitle: '',
-      type: 'select',
-    },
-    {
-      title: 'Type of mutations',
-      value: 'mutations',
-      subtitle: '',
-      type: 'chip',
-      items: [
-        { label: 'Any', fieldToBe: undefined, description: undefined },
-        {
-          label: 'Single',
-          fieldToBe: 'single',
-          description: 'Single - contains only single point mutations.',
-        },
-        {
-          label: 'Multiple',
-          fieldToBe: 'multiple',
-          description: 'Multiple - contains only multiple point mutations.',
-        },
-        {
-          label: 'Mixed',
-          fieldToBe: 'mixed',
-          description:
-            'Mixed - contains both single and multiple point mutations.',
-        },
-      ],
-      selected: 0,
-    },
-    {
-      title: 'Proteins',
-      value: 'proteins',
-      subtitle: 'Number of proteins in a dataset.',
-      type: 'range',
-      min: 0,
-      max: 200,
-      step: 1,
-      range: [0, 200],
-      tickLabels: this.tickLabels(1, 200, 10),
-      hint: 'Im a hint',
-    },
-    {
-      title: 'Author',
-      value: 'author',
+      title: 'Organism',
+      value: 'organism',
       subtitle: '',
       type: 'autocomplete',
       items: [],
       selected: [],
-    },
-    {
-      title: 'Year',
-      value: 'year',
-      subtitle: '',
-      type: 'range',
-      min: 2000,
-      max: 2022,
-      step: 1,
-      range: [2000, 2022],
-      tickLabels: this.tickLabels(2000, 2022, 10),
-      hint: 'Im a hint',
-    },
+    }
   ]
-
 
   selected = []
 
@@ -246,118 +179,7 @@ export default class Browse extends Vue {
     { text: 'T', value: 'T' },
     { text: 'pH', value: 'pH' },
   ]
-  data: object[] = [
-    // {
-    //   name: 'Q104H',
-    //   ddg: -0.24,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 275,
-    //   ph: 2,
-    // },
-    // {
-    //   name: 'Q104P',
-    //   ddg: -0.11,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 250,
-    //   ph: 1,
-    // },
-    // {
-    //   name: 'T123A',
-    //   ddg: 0.13,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 275,
-    //   ph: 2,
-    // },
-    // {
-    //   name: 'A129D',
-    //   ddg: 0.7,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 300,
-    //   ph: 3,
-    // },
-    // {
-    //   name: 'A129E',
-    //   ddg: 0.38,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 325,
-    //   ph: 4,
-    // },
-    // {
-    //   name: 'A129S',
-    //   ddg: 0.19,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 350,
-    //   ph: 5,
-    // },
-    // {
-    //   name: 'M133L',
-    //   ddg: -0.3,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 375,
-    //   ph: 6,
-    // },
-    // {
-    //   name: 'F134L',
-    //   ddg: 4.78,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 400,
-    //   ph: 7,
-    // },
-    // {
-    //   name: 'V143A',
-    //   ddg: 3.5,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 425,
-    //   ph: 8,
-    // },
-    // {
-    //   name: 'L145Q',
-    //   ddg: 2.98,
-    //   pdb: '2ocj',
-    //   chain: 'A',
-    //   uniprot: 'P04637',
-    //   mutation: 'wt',
-    //   protein: 'DNA-binding domain of human p53',
-    //   temperature: 450,
-    //   ph: 9,
-    // },
-  ]
+  data: object[] = []
 }
 </script>
 
