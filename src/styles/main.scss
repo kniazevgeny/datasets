@@ -191,7 +191,7 @@ a:not(.no-link-decoration):visited,
   transform: none;
 }
 
-.v-btn:hover {
+.v-btn:not(.no-scale):hover {
   transform: scale(1.1);
 }
 

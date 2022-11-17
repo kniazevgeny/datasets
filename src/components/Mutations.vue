@@ -102,17 +102,36 @@
   v-container.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2.pl-0.pr-0
-        //- v-row.pa-2.mb-1.justify-space-between
-        //-   div
-        //-   //- @click='downloadSelected'
-        //-   v-btn.text-left(
-        //-     v-if='data.length',
-        //-     :disabled='!selected.filter((el) => el.isSelected == true).length',
-        //-     outlined,
-        //-     color='primary',
-        //-   ) 
-        //-     v-icon mdi-download-outline
-        //-     span.font-weight-regular Download
+        v-row.pa-2.mb-1.justify-space-between
+          div
+          v-menu(v-if='dataVisible.length' offset-y v-model="downloadMenu" transition="slide-y-transition" bottom)
+            template(v-slot:activator="{ on: on, attrs }")
+              v-btn.no-scale(
+                :disabled='!selected.length',
+                color='primary',
+                @click='requestDownloadSelected'
+                v-bind="attrs"
+                v-on="on"
+              )
+                span.font-weight-regular Manage selected
+                v-icon mdi-menu-down-outline
+            div
+            v-card
+              v-card-actions.d-flex(style='flex-direction: column')
+                v-text-field(
+                  v-model='linkToMutationSet',
+                  readonly,
+                  dense, 
+                  outlined, 
+                  hint="A permanent link to that set of mutations", 
+                  persistent-hint) 
+                  template(v-slot:append)
+                    v-btn.mt-n1(@click='', icon, color='primary')
+                      v-icon() mdi-link-variant
+                v-btn(block, outlined, :loading='!isDownloadRequested', link, target='_blank', :href='linkToMutationSet') 
+                  v-icon mdi-download-outline
+                  span Download  .tsv
+
         v-text-field(
           v-model='search',
           prepend-inner-icon='mdi-magnify',
@@ -246,6 +265,8 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
+import { requestMutations } from '@/utils/api'
+import { Md5 } from 'ts-md5'
 
 interface Filter {
   title: string,
@@ -292,9 +313,27 @@ export default class Mutations extends Vue {
   showFilters!: boolean
   selectable!: boolean
 
+  downloadMenu = false
+
   search: String = ''
   
   selected = []
+  isDownloadRequested = false
+  requestDownloadSelected() {
+    this.isDownloadRequested = false
+    // @ts-ignore
+    const hashes = this.selected.map(el => el.hash)
+    requestMutations(hashes).then((response) => {
+      this.isDownloadRequested = true
+    })
+  }
+
+  get linkToMutationSet(){
+    // @ts-ignore
+    const mutation_hashes = this.selected.map(el => el.hash)
+    const hash = Md5.hashStr(JSON.stringify(mutation_hashes.sort()))
+    return `https://api.ivankovlab.ru/download_mutations?record_hash=${hash}`
+  }
 
   filterChangeFlag = 0
   get stringFilterFlag() {
