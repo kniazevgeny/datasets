@@ -104,14 +104,21 @@
       v-col.pb-2.pl-0.pr-0
         v-row.pa-2.mb-1.justify-space-between
           div
-          v-menu(v-if='dataVisible.length' offset-y v-model="downloadMenu" transition="slide-y-transition" bottom :close-on-content-click='false')
-            template(v-slot:activator="{ on: on, attrs }")
+          v-menu(
+            v-if='dataVisible.length',
+            offset-y,
+            v-model='downloadMenu',
+            transition='slide-y-transition',
+            bottom,
+            :close-on-content-click='false'
+          )
+            template(v-slot:activator='{ on: on, attrs }')
               v-btn.no-scale(
                 :disabled='!selected.length',
                 color='primary',
-                @click='requestDownloadSelected'
-                v-bind="attrs"
-                v-on="on"
+                @click='requestDownloadSelected',
+                v-bind='attrs',
+                v-on='on'
               )
                 span.font-weight-regular Manage selected
                 v-icon mdi-menu-down-outline
@@ -121,16 +128,24 @@
                 v-text-field(
                   v-model='linkToMutationSet',
                   readonly,
-                  dense, 
-                  outlined, 
-                  hint="A permanent link to that set of mutations", 
-                  persistent-hint) 
+                  dense,
+                  outlined,
+                  hint='A permanent link to that set of mutations',
+                  persistent-hint
+                ) 
                   template(v-slot:append)
                     v-btn.mt-n1(@click='', icon, color='primary')
-                      v-icon() mdi-link-variant
-                v-btn(block, outlined, :loading='!isDownloadRequested', link, target='_blank', :href='linkToMutationSet') 
+                      v-icon mdi-link-variant
+                v-btn(
+                  block,
+                  outlined,
+                  :loading='!isDownloadRequested',
+                  link,
+                  target='_blank',
+                  :href='linkToMutationSet'
+                ) 
                   v-icon mdi-download-outline
-                  span Download  .tsv
+                  span Download .tsv
 
         v-text-field(
           v-model='search',
@@ -159,10 +174,10 @@
                 )
                   span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
-    v-card-text()
+    v-card-text
       v-data-table(
         v-model='selected',
-        :loading='!data.length'
+        :loading='!data.length',
         :headers='headers',
         :items='data',
         item-key='hash',
@@ -171,8 +186,8 @@
         :show-select='selectable',
         checkbox-color='primary',
         multi-sort,
-        calculate-widths
-        style='overflow-x: auto; overflow-y: hidden'	
+        calculate-widths,
+        style='overflow-x: auto; overflow-y: hidden'
       )
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
@@ -269,17 +284,17 @@ import { requestMutations } from '@/utils/api'
 import { Md5 } from 'ts-md5'
 
 interface Filter {
-  title: string,
-  value: string,
-  subtitle: string,
-  type: string,
-  min: number,
-  max: number,
-  step: number,
-  tickLabels: number[],
-  range: number[],
-  selected: string[] | number[] | number,
-  items: {label: string, fieldToBe: string, description: string}[]
+  title: string
+  value: string
+  subtitle: string
+  type: string
+  min: number
+  max: number
+  step: number
+  tickLabels: number[]
+  range: number[]
+  selected: string[] | number[] | number
+  items: { label: string; fieldToBe: string; description: string }[]
 }
 
 @Component({
@@ -288,7 +303,7 @@ interface Filter {
       type: Array,
       default: () => [],
     },
-    filters:{
+    filters: {
       type: Array,
       default: () => [],
     },
@@ -298,12 +313,12 @@ interface Filter {
     },
     showFilters: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selectable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 })
 export default class Mutations extends Vue {
@@ -316,21 +331,21 @@ export default class Mutations extends Vue {
   downloadMenu = false
 
   search: String = ''
-  
+
   selected = []
   isDownloadRequested = false
   requestDownloadSelected() {
     this.isDownloadRequested = false
     // @ts-ignore
-    const hashes = this.selected.map(el => el.hash)
+    const hashes = this.selected.map((el) => el.hash)
     requestMutations(hashes).then((response) => {
       this.isDownloadRequested = true
     })
   }
 
-  get linkToMutationSet(){
+  get linkToMutationSet() {
     // @ts-ignore
-    const mutation_hashes = this.selected.map(el => el.hash)
+    const mutation_hashes = this.selected.map((el) => el.hash)
     const hash = Md5.hashStr(JSON.stringify(mutation_hashes.sort()))
     return `https://api.ivankovlab.ru/download_mutations?record_hash=${hash}`
   }
@@ -340,51 +355,31 @@ export default class Mutations extends Vue {
     return this.filterChangeFlag.toString()
   }
 
-  // updateSearchReal() {
-  //   if (this.searchVisible != '') this.searchReal = this.searchVisible
-  //   else this.searchReal = null
-  // }
-
   get dataVisible() {
-    // console.log(this.searchVisible, this.searchReal)
-    // Apply filters
     let result = this.data.filter((item) =>
       this.customFilter('', this.search, item)
     )
 
-    // Values are already sorted in this.sortItems
-    // With datasets > 10 000 that approach may affect performance
     return result
   }
 
   customFilter(value: any, search: String | null, item: object) {
-    // in vue 2.6.9 works only if search string is provided
-    // So, we need some magic for user to ignore that bug
-
     let result = false
 
-    // console.log(search, typeof search)
     if (search == null || search == '0') result = true
-    // if (typeof search == typeof '' && search.length > 1000) result = true
     else
-    result = Object.values(item).filter(el => typeof el == typeof '').some((el) => {
-      // should i return true or false? why can't it show all 13 grand datapoints?
-      // TODO?: fix issue of hiding part of the elements
-      // if (typeof el != typeof '') {console.log(el); return true}
+      result = Object.values(item)
+        .filter((el) => typeof el == typeof '')
+        .some((el) => {
+          return el.toLowerCase().includes(search.toLowerCase())
+        })
 
-      // TODO: fix no-search problem
-      return el.toLowerCase().includes(search.toLowerCase())
-    })
-
-    // apply search only
     if (!this.showFilters) return result
-    
+
     return Object.keys(item).reduce((prev, current) => {
       if (prev === false) return false
-      // get suitable filter object
       let currentFilter = this.filters.filter((f) => f.value === current)
       if (currentFilter.length == 0) return true
-      // check each type
       if (currentFilter[0].type === 'range' && currentFilter[0].range)
         if (
           parseFloat(item[current]) < currentFilter[0]?.range[0] ||
@@ -392,7 +387,6 @@ export default class Mutations extends Vue {
         )
           return false
       if (currentFilter[0].type === 'chip') {
-        // if we selected 'any'
         if (currentFilter[0].selected == 0) return true
         if (
           currentFilter[0].items &&
@@ -404,7 +398,6 @@ export default class Mutations extends Vue {
           return false
       }
       if (currentFilter[0].type === 'autocomplete') {
-        // if nothing selected
         if (!(currentFilter[0].selected as string[]).length) return true
         if (
           !(currentFilter[0].selected as string[]).includes(
@@ -418,12 +411,9 @@ export default class Mutations extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    //    let color = this.$vuetify.theme.themes.light['primary']
     let color = 'black'
     let colorDisabled = '#b0b0b0'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
-    // if (min == -10) console.log(range)
-
     let gradient: Array<String> = []
     for (let i = min; i < max; i += step) {
       if (i < range[0]) gradient.push(colorDisabled)
@@ -446,13 +436,11 @@ export default class Mutations extends Vue {
       if (item.type === 'autocomplete') {
         if ((item.selected as string[]).length) return true
       }
-      // TBD for other filter types
       return false
     })
   }
 
   resetFilterByChipId(chipId) {
-    // console.log(this.filterChips[chipId])
     let originalIndex = (this.filters as Filter[]).indexOf(
       this.filterChips[chipId]
     )
@@ -466,10 +454,7 @@ export default class Mutations extends Vue {
   }
 
   resetRangeSlider(i) {
-    // solves reactivity problem
-    //@ts-ignore
     Vue.set(this.filters[i].range, 0, this.filters[i].min)
-    //@ts-ignore
     Vue.set(this.filters[i].range, 1, this.filters[i].max)
   }
 
@@ -483,16 +468,15 @@ export default class Mutations extends Vue {
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
     if (filter.type === 'chip' && filter.items)
-      //@ts-ignore
+      // @ts-ignore
       return filter.items[filter.selected].label
     if (filter.type === 'autocomplete' && filter.selected)
-      //@ts-ignore
+      // @ts-ignore
       return filter.selected.join(', ')
   }
 
   mounted() {
     this.$vuetify.theme.themes.light.sidebar_size = '42ch'
-    // console.log(this.filters)
   }
 
   @Watch('filters')
@@ -503,7 +487,7 @@ export default class Mutations extends Vue {
 </script>
 <style scoped>
 .v-data-table__wrapper {
-    overflow-x: auto;
-    overflow-y: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 </style>
