@@ -125,16 +125,18 @@
             div
             v-card
               v-card-actions.d-flex(style='flex-direction: column')
-                v-text-field(
+                v-text-field#linkToMutationSet(
                   v-model='linkToMutationSet',
                   readonly,
                   dense,
                   outlined,
                   hint='A permanent link to that set of mutations',
-                  persistent-hint
-                ) 
+                  persistent-hint,
+                  :success='isLinkToMutationSetCopied',
+                  :success-messages='isLinkToMutationSetCopied ? "Copied!" : ""'
+                )
                   template(v-slot:append)
-                    v-btn.mt-n1(@click='', icon, color='primary')
+                    v-btn.mt-n1(@click='copyLinkToMutationSet', icon, color='primary')
                       v-icon mdi-link-variant
                 v-btn(
                   block,
@@ -282,6 +284,9 @@ import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
 import { requestMutations } from '@/utils/api'
 import { Md5 } from 'ts-md5'
+import { namespace } from 'vuex-class'
+
+const SnackbarStore = namespace('SnackbarStore')
 
 interface Filter {
   title: string
@@ -322,6 +327,8 @@ interface Filter {
   },
 })
 export default class Mutations extends Vue {
+  @SnackbarStore.Mutation setSnackbar!: (snackbarStore: object) => void
+
   data!: Array<Object>
   headers!: Array<Object>
   filters!: Filter[]
@@ -348,6 +355,24 @@ export default class Mutations extends Vue {
     const mutation_hashes = this.selected.map((el) => el.hash)
     const hash = Md5.hashStr(JSON.stringify(mutation_hashes.sort()))
     return `https://api.ivankovlab.ru/download_mutations?record_hash=${hash}`
+  }
+
+  isLinkToMutationSetCopied = false
+  copyLinkToMutationSet() {
+    if (!this.downloadMenu) return
+    let textfield = document.getElementById('linkToMutationSet') as HTMLTextAreaElement
+    // Select the text field
+    textfield.select();
+    textfield.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(textfield.value);
+
+    // Display success message
+    this.isLinkToMutationSetCopied = true
+    window.setTimeout(() => {
+      this.isLinkToMutationSetCopied = false
+    }, 1500)
   }
 
   filterChangeFlag = 0
