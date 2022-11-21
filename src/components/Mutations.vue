@@ -104,7 +104,7 @@
       v-col.pb-2.pl-0.pr-0
         v-row.pa-2.mb-1.justify-space-between
           div
-          v-menu(v-if='dataVisible.length' offset-y v-model="downloadMenu" transition="slide-y-transition" bottom)
+          v-menu(v-if='dataVisible.length' offset-y v-model="downloadMenu" transition="slide-y-transition" bottom :close-on-content-click='false')
             template(v-slot:activator="{ on: on, attrs }")
               v-btn.no-scale(
                 :disabled='!selected.length',
