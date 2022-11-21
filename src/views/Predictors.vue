@@ -200,7 +200,7 @@ export default class Predictors extends Vue {
   select = { text: 'Performance' }
 
   isSortDescending = true
-  
+
   isDataLoaded = false
 
   get dataVisible() {
@@ -223,7 +223,7 @@ export default class Predictors extends Vue {
           algorithm_1: '',
           datasets: {
             train: [],
-            test: []
+            test: [],
           },
           meta: false,
           cv: '',
@@ -347,15 +347,15 @@ export default class Predictors extends Vue {
         // process download/server case
         if (
           current == 'download' &&
-          currentFilter[0].items[currentFilter[0].selected as number].fieldToBe ==
-            'download' &&
+          currentFilter[0].items[currentFilter[0].selected as number]
+            .fieldToBe == 'download' &&
           item['download'].length
         )
           return true
         if (
           current == 'download' &&
-          currentFilter[0].items[currentFilter[0].selected as number].fieldToBe ==
-            'server' &&
+          currentFilter[0].items[currentFilter[0].selected as number]
+            .fieldToBe == 'server' &&
           item['server'].length
         )
           return true
@@ -369,12 +369,16 @@ export default class Predictors extends Vue {
       if (currentFilter[0].type === 'autocomplete') {
         // if nothing selected
         if (!(currentFilter[0].selected as string[]).length) return true
-        if ((currentFilter[0].selected as string[]).some(el => item[current].includes(el)))
+        if (
+          (currentFilter[0].selected as string[]).some((el) =>
+            item[current].includes(el)
+          )
+        )
           return true
         if (
           !(currentFilter[0].selected as string[]).includes(
             item[current] as string
-          )          
+          )
         )
           return false
       }
@@ -442,7 +446,8 @@ export default class Predictors extends Vue {
         //@ts-ignore
         (filter.range[1] == filter.max ? 'max' : filter.range[1])
       )
-    if (filter.type === 'chip') return filter.items[filter.selected as number].label
+    if (filter.type === 'chip')
+      return filter.items[filter.selected as number].label
     //@ts-ignore
     if (filter.type === 'autocomplete') return filter.selected.join(', ')
   }
@@ -451,7 +456,7 @@ export default class Predictors extends Vue {
     // set correct sidebar size (25 characters)
     this.$vuetify.theme.themes.light.sidebar_size = '30ch'
 
-    document.title = "Predictors | datasets project"
+    document.title = 'Predictors | datasets project'
 
     getPredictors().then((response) => {
       this.data = response
@@ -477,7 +482,7 @@ export default class Predictors extends Vue {
               this.data
                 .map((el: Predictor) => el[fieldName].split(','))
                 .flat(1)
-                .map(e => e.trim())
+                .map((e) => e.trim())
                 .filter((e) => e)
                 .sort()
             )

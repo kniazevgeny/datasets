@@ -132,11 +132,15 @@
                   outlined,
                   hint='A permanent link to that set of mutations',
                   persistent-hint,
-                  :success='isLinkToMutationSetCopied',
+                  :success='isLFinkToMutationSetCopied',
                   :success-messages='isLinkToMutationSetCopied ? "Copied!" : ""'
                 )
                   template(v-slot:append)
-                    v-btn.mt-n1(@click='copyLinkToMutationSet', icon, color='primary')
+                    v-btn.mt-n1(
+                      @click='copyLinkToMutationSet',
+                      icon,
+                      color='primary'
+                    )
                       v-icon mdi-link-variant
                 v-btn(
                   block,
@@ -360,13 +364,15 @@ export default class Mutations extends Vue {
   isLinkToMutationSetCopied = false
   copyLinkToMutationSet() {
     if (!this.downloadMenu) return
-    let textfield = document.getElementById('linkToMutationSet') as HTMLTextAreaElement
+    let textfield = document.getElementById(
+      'linkToMutationSet'
+    ) as HTMLTextAreaElement
     // Select the text field
-    textfield.select();
-    textfield.setSelectionRange(0, 99999); // For mobile devices
+    textfield.select()
+    textfield.setSelectionRange(0, 99999) // For mobile devices
 
     // Copy the text inside the text field
-    navigator.clipboard.writeText(textfield.value);
+    navigator.clipboard.writeText(textfield.value)
 
     // Display success message
     this.isLinkToMutationSetCopied = true
