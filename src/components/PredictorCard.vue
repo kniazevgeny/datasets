@@ -12,11 +12,11 @@ v-card(flat, outlined)
   //-     ) {{ title }}
   //-   v-card.white()
   //-     //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
-  v-card-title.mb-0(v-if='typeof externalLink == "undefined"')
-    v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
+  v-card-title.mb-0()
+    v-simple-checkbox.mt-1(v-model='selected' disabled color='primary' @click='onCardSelected')
     a(:href='`/datasets/predictor/${title}`' target="_blank") {{ title }}
-  v-card-title(v-else)
-    a.external-link(:href='externalLink') {{ title }}
+  //- v-card-title(v-else)
+    //- a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
     v-col(v-if='!showSkeleton').black--text
@@ -51,10 +51,10 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
       v-row
         span.pr-2(v-if='datasets.train.length' ).text-left Trained on:&nbsp;
-        a.pr-2(v-if='datasets.train.length' v-for='train in datasets.train' :href='"https://ivankovlab.ru/datasets/dataset/" + train._id' target='_blank').text-left {{ train }}
+        a.pr-2(v-if='datasets.train.length' v-for='train in datasets.train' :href='"https://ivankovlab.ru/datasets/dataset/" + train' target='_blank').text-left {{ train }}
       v-row
         span.pr-2(v-if='datasets.test.length' ).text-left Tested on:&nbsp;
-        a.pr-2(v-if='datasets.test.length' v-for='test in datasets.test' :href='"https://ivankovlab.ru/datasets/dataset/" + test._id' target='_blank').text-left {{ test }}
+        a.pr-2(v-if='datasets.test.length' v-for='test in datasets.test' :href='"https://ivankovlab.ru/datasets/dataset/" + test' target='_blank').text-left {{ test }}
       v-row
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
     v-col(v-else)
@@ -121,6 +121,8 @@ export default class PredictorCard extends Vue {
 
   dialog = false
 
+  selected = false
+
   get doiProcessed() {
     if(this.doi.includes('dx.doi')) return decodeURIComponent(this.doi.slice(19, ))
     return this.doi.slice(16, )
@@ -129,6 +131,10 @@ export default class PredictorCard extends Vue {
   get authorProcessed() {
     if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1) return this.author
     return this.author + ' et al.'
+  }
+
+  onCardSelected() {
+    this.$emit('cardSelected', this._id)
   }
 
   closeDialog() {
