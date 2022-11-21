@@ -208,10 +208,6 @@ a:not(.no-link-decoration):visited,
   // color: rgba(0, 0, 0, 0.8) !important;
 }
 
-.v-btn-toggle > .v-btn--active::before {
-  display: none;
-}
-
 button.v-btn {
   border: 4px #fff !important;
 }

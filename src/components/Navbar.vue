@@ -1,13 +1,13 @@
 <template lang="pug">
 v-app-bar(fixed, color='#fff', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
-    v-btn(icon, x-large, :disabled='toggle == 0', rounded, @click='$router.push(`/datasets?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
+    v-btn(icon, x-large, rounded, @click='$router.push(`/datasets?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
       v-icon() mdi-home
-    v-btn(text, x-large, :disabled='toggle == 1', rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
+    v-btn(text, x-large, rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
       a.no-link-decoration(href='/datasets/browse') browse mutations
-    v-btn.ml-2(text, x-large, :disabled='toggle == 2', @click='$router.push(`/datasets/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') 
+    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/datasets/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') 
       a.no-link-decoration(href='/datasets/datasets') datasets
-    v-btn.ml-2(text, x-large, :disabled='toggle == 3', @click='$router.push(`/datasets/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') 
+    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/datasets/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') 
       a.no-link-decoration(href='/datasets/predictors') predictors
 </template>
 <script lang="ts">
