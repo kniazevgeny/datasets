@@ -405,12 +405,12 @@ export default class Mutations extends Vue {
     // split 13k dataset into smaller parts and filter them async
     // https://www.uptech.team/blog/filter-1gb-json-on-frontend-and-not-crash-browser
 
-    if (search == null || search == '0') result = true
+    if (this.search == null || this.search == '0') result = true
     else
       result = Object.values(item)
         .filter((el) => typeof el == typeof '')
         .some((el) => {
-          return el.toLowerCase().includes(search.toLowerCase())
+          return el.toLowerCase().includes(this.search.toLowerCase())
         })
 
     if (!this.showFilters) return result
