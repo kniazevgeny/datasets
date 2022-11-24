@@ -1,9 +1,9 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-container.ml-0.mr-0(fluid style='padding-right: 256px')
+  v-container.ml-0.mr-0(fluid style='padding-right: 256px; position: initial')
     v-row.ma-4.d-flex.align-center
       span.text-h2.float-left
-        span.font-weight-bold {{ predictor.predictor }}
+        span.font-weight-bold#predictor-name {{ predictor.predictor }}
         //- span ({{ predictor.fileSize }})
       v-spacer
       //- v-btn.ml-2(
@@ -65,6 +65,7 @@ import { Dataset } from '@/models/Dataset'
 import DatasetOverview from '@/views/DatasetOverview.vue'
 import { namespace } from 'vuex-class'
 import { Predictor } from '@/models/Predictor'
+import { Watch } from 'vue-property-decorator'
 const AppStore = namespace('AppStore')
 const ActionStore = namespace('ActionStore')
 const SnackbarStore = namespace('SnackbarStore')
@@ -136,12 +137,6 @@ export default class PredictorOverview extends Vue {
     if (navSection) startingPos = this.contents.indexOf('Test') + 1
     const currentPos = parseInt(navClass.slice(-1))
     this.currentSection = startingPos + currentPos
-    this.scrollContentsIntoView()
-  }
-
-  scrollContentsIntoView() {
-    const el = document.getElementById('list-item-' + this.currentSection)
-    if (typeof el != null) (el as HTMLElement).scrollIntoView()
   }
 
   scrollToContent(scrollToSection: number) {
@@ -179,6 +174,9 @@ export default class PredictorOverview extends Vue {
   mounted() {
     if (typeof this.predictorByName != typeof undefined)
       this.predictor = this.predictorByName as Predictor
+    // Page jumps to (y: ~2400px), while new content is loading.
+    // So we have to restore initial position (y: 0px)  
+    this.$vuetify.goTo('#predictor-name', {offset: 400})
   }
 }
 </script>
