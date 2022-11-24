@@ -176,7 +176,7 @@ export default class PredictorOverview extends Vue {
       this.predictor = this.predictorByName as Predictor
     // Page jumps to (y: ~2400px), while new content is loading.
     // So we have to restore initial position (y: 0px)  
-    this.$vuetify.goTo('#predictor-name', {offset: 400})
+    window.setTimeout(() => {this.$vuetify.goTo('#predictor-name', {offset: 9999})}, 350)
   }
 }
 </script>

@@ -102,7 +102,7 @@
   v-container.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2.pl-0.pr-0
-        v-row.pa-2.mb-1.justify-space-between
+        v-row(v-if='selectable').pa-2.mb-1.justify-space-between
           div
           v-menu(
             v-if='dataVisible.length',
@@ -160,7 +160,7 @@
           single-line,
           hide-details,
           filled,
-          autofocus,
+          :autofocus='autofocus',
           color='primary',
           clearable
         )
@@ -328,6 +328,10 @@ interface Filter {
       type: Boolean,
       default: false,
     },
+    autofocus: {
+      type: Boolean,
+      default: true,
+    },
   },
 })
 export default class Mutations extends Vue {
@@ -338,6 +342,7 @@ export default class Mutations extends Vue {
   filters!: Filter[]
   showFilters!: boolean
   selectable!: boolean
+  autofocus!: boolean
 
   downloadMenu = false
 
