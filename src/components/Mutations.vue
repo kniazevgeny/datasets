@@ -4,7 +4,7 @@
     v-if='showFilters && filters.length',
     permanent,
     width='420',
-    style='position: sticky; height: 100vh',
+    style='position: sticky; height: 100vh; min-width: 280px;',
     absolute=false
   )
     //- Filters
@@ -132,7 +132,7 @@
                   outlined,
                   hint='A permanent link to that set of mutations',
                   persistent-hint,
-                  :success='isLFinkToMutationSetCopied',
+                  :success='isLinkToMutationSetCopied',
                   :success-messages='isLinkToMutationSetCopied ? "Copied!" : ""'
                 )
                   template(v-slot:append)
@@ -396,6 +396,9 @@ export default class Mutations extends Vue {
 
   customFilter(value: any, search: String | null, item: object) {
     let result = false
+    // TODO: use web-workers to acheive faster filtering
+    // split 13k dataset into smaller parts and filter them async
+    // https://www.uptech.team/blog/filter-1gb-json-on-frontend-and-not-crash-browser
 
     if (search == null || search == '0') result = true
     else
