@@ -193,7 +193,8 @@
         checkbox-color='primary',
         multi-sort,
         calculate-widths,
-        style='overflow-x: auto; overflow-y: hidden'
+        style='overflow-x: auto; overflow-y: hidden',
+        @toggle-select-all='selectAllRows()'
       )
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
@@ -348,7 +349,14 @@ export default class Mutations extends Vue {
 
   search: String = ''
 
-  selected = []
+  selected: Array<Object> = []
+  selectAllRows() {
+    // originally, button affects only 5-10-15 visible elements
+    this.selected = this.selected.length === this.dataVisible.length
+        ? []
+        : this.dataVisible
+  }
+
   isDownloadRequested = false
   requestDownloadSelected() {
     this.isDownloadRequested = false

@@ -81,9 +81,9 @@ export default class Browse extends Vue {
 
   mounted() {
     getMutations().then((response) => {
-      // rm duplicates
-      this.data = [...new Set(response)]
-      //@ts-ignore
+      this.data = response
+
+      // @ts-ignore
       this.filters[
         this.filters.findIndex((el) => el.value == 'organism')
       ].items = [
@@ -93,7 +93,9 @@ export default class Browse extends Vue {
       // set border values
       this.filters.forEach((filter, i) => {
         if (filter.type == 'range') {
-          const values = this.data.filter(el => !!el[filter.value]).map(el => parseFloat(el[filter.value]))
+          const values = this.data
+            .filter((el) => !!el[filter.value])
+            .map((el) => parseFloat(el[filter.value]))
           this.filters[i].min = values.reduce((prev, current) => {
             if (prev < current) return prev
             else return current
@@ -102,9 +104,12 @@ export default class Browse extends Vue {
             if (prev > current) return prev
             else return current as number
           }, -10)
-          this.filters[i].range = [this.filters[i].min as number, this.filters[i].max as number] 
+          this.filters[i].range = [
+            this.filters[i].min as number,
+            this.filters[i].max as number,
+          ]
         }
-      }) 
+      })
     })
   }
 
@@ -152,7 +157,7 @@ export default class Browse extends Vue {
       type: 'autocomplete',
       items: [],
       selected: [],
-    }
+    },
   ]
 
   selected = []
