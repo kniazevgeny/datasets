@@ -1,6 +1,5 @@
 <template lang="pug">
 v-app(:style='cssProps', style='height: 100%')
-  Navbar
   Snackbar
   v-layout.Cookie.Cookie--bottom()
     v-flex(xs1 sm2 md4)
@@ -15,7 +14,7 @@ v-app(:style='cssProps', style='height: 100%')
   //- v-img.h-4.aspect-square(alt="Vue logo" :src="require('./assets/logo.png')")
   //- HelloWorld(msg="Welcome to Your Vue.js + TypeScript App")
   transition(:name='transitionName')
-    router-view.view.mt-12.pt-12(fluid)
+    router-view.view(fluid)
   CustomFooter
 </template>
 
@@ -23,7 +22,6 @@ v-app(:style='cssProps', style='height: 100%')
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import Navbar from './components/Navbar.vue'
 import Snackbar from './components/Snackbar.vue'
 import CustomFooter from './components/CustomFooter.vue'
 
@@ -37,7 +35,6 @@ const SnackbarStore = namespace('SnackbarStore')
 
 @Component({
   components: {
-    Navbar,
     Snackbar,
     CustomFooter,
     CookieLaw,

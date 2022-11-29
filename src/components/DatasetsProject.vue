@@ -1,0 +1,52 @@
+<template lang="pug">
+div
+  Navbar
+  transition(:name='transitionName')
+    router-view.view.mt-12.pt-12(fluid)
+</template>
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Watch } from 'vue-property-decorator'
+import Navbar from './Navbar.vue'
+
+@Component({
+  components: { Navbar },
+})
+export default class DatasetsProject extends Vue {
+  transitionName: String = 'slide-left'
+
+  @Watch('$route')
+  onRouteChange(to, from) {
+    let routes: Array<String> = [
+      '/datasets', // for animation to work correctly
+      '/datasets/browse',
+      '/datasets/datasets',
+      '/datasets/predictors',
+    ]
+    let toPath = to.path
+    let fromPath = from.path
+
+    // Fix '/' in the end of the line
+    if (toPath[toPath.length - 1] === '/') toPath = toPath.slice(0, -1)
+    if (fromPath[fromPath.length - 1] === '/') fromPath = fromPath.slice(0, -1)
+
+    // Process reload (F5)
+    if (fromPath === '') {
+      // console.log('empty')
+      this.transitionName = 'fade'
+      return 1
+    }
+
+    let depthTo: Number = routes.indexOf(toPath)
+    let depthFrom: Number = routes.indexOf(fromPath)
+
+    // Process 404
+    if (depthFrom < 0) depthFrom = 99
+    if (depthTo < 0) depthTo = 99
+
+    // console.log(fromPath, toPath, depthFrom, depthTo)
+    this.transitionName = depthTo < depthFrom ? 'slide-right' : 'slide-left'
+  }
+}
+</script>

@@ -8,6 +8,7 @@ import Home from '@/views/Home.vue'
 import store from '@/store'
 import Root from '@/views/Root.vue'
 import PredictorOverview from '@/views/PredictorOverview.vue'
+import DatasetsProject from '@/components/DatasetsProject.vue'
 
 Vue.use(Router)
 
@@ -21,39 +22,46 @@ const router = new Router({
     },
     {
       path: '/datasets',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/datasets/browse',
-      name: 'browse',
-      component: Browse,
-    },
-    {
-      path: '/datasets/datasets',
       name: 'datasets',
-      component: Datasets,
-    },
-    {
-      path: '/datasets/dataset/:name',
-      name: 'dataset-overview',
-      component: DatasetOverview,
-    },
-    {
-      path: '/datasets/predictors',
-      name: 'predictors',
-      component: Predictors,
-    },
-    {
-      path: '/datasets/predictor/:name',
-      name: 'predictors-overview',
-      component: PredictorOverview,
-    },
-    {
-      path: '/datasets/*',
-      name: 'notFound',
-      component: () =>
-        import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
+      component: DatasetsProject,
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: Home,
+        },
+        {
+          path: 'browse',
+          name: 'browse',
+          component: Browse,
+        },
+        {
+          path: 'datasets',
+          name: 'datasets',
+          component: Datasets,
+        },
+        {
+          path: 'dataset/:name',
+          name: 'dataset-overview',
+          component: DatasetOverview,
+        },
+        {
+          path: 'predictors',
+          name: 'predictors',
+          component: Predictors,
+        },
+        {
+          path: 'predictor/:name',
+          name: 'predictors-overview',
+          component: PredictorOverview,
+        },
+        {
+          path: '*',
+          name: 'notFound',
+          component: () =>
+            import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
+        },
+      ],
     },
   ],
 })
@@ -80,7 +88,7 @@ router.beforeEach((to, from, next) => {
     // May be solved in vue3 router
     next({
       path: to.path,
-      query: to.query
+      query: to.query,
     })
     return
   }
