@@ -22,7 +22,6 @@ const router = new Router({
     },
     {
       path: '/datasets',
-      name: 'datasets',
       component: DatasetsProject,
       children: [
         {
