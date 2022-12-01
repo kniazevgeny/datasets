@@ -5,7 +5,7 @@ v-footer(dark bottom padless).mt-12
       a(href="https://t.me/kniazevgeny")
         v-btn.mx-4.white--text(@click='')
           v-img(:src='require("@/assets/telegram.svg")')
-          span &nbsp;&nbsp;Join our telergam channel
+          span &nbsp;&nbsp;Contact Us
     v-card-text.white--text.pt-0.pb-0 A Skoltech project 
     v-card-text.white--text.pt-0 Made with ❤️ by kniazevgeny
     v-divider
@@ -17,12 +17,5 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component
-export default class CustomFoter extends Vue {
-  icons = [
-    'mdi-facebook',
-    'mdi-twitter',
-    'mdi-linkedin',
-    'mdi-instagram',
-  ]
-}
+export default class CustomFoter extends Vue {}
 </script>
