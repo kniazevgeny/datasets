@@ -4,7 +4,7 @@
     v-if='showFilters && filters.length',
     permanent,
     width='420',
-    style='position: sticky; height: 100vh; min-width: 280px;',
+    style='position: sticky; height: 100vh; min-width: 280px',
     absolute=false
   )
     //- Filters
@@ -32,6 +32,7 @@
           )
           v-range-slider.mt-n11(
             v-model='filter.range',
+            @end='filterData()',
             :step='filter.step',
             :max='filter.max',
             :min='filter.min',
@@ -42,6 +43,7 @@
           v-layout.mt-n11
             v-text-field.pa-2(
               v-model='filter.range[0]',
+              @input='filterData()',
               hide-details,
               filled,
               dense,
@@ -51,6 +53,7 @@
             )
             v-text-field.pa-2(
               v-model='filter.range[1]',
+              @input='filterData()',
               hide-details,
               filled,
               dense,
@@ -67,6 +70,7 @@
         div(v-if='data.length')
           v-chip-group(
             v-model='filter.selected',
+            @input='filterData()',
             mandatory,
             active-class='v-chip--dark'
           )
@@ -87,6 +91,7 @@
         div(v-if='data.length')
           v-autocomplete(
             v-model='filter.selected',
+            @input='filterData()',
             :items='filter.items',
             auto-select-first,
             chips,
@@ -102,7 +107,7 @@
   v-container.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2.pl-0.pr-0
-        v-row(v-if='selectable').pa-2.mb-1.justify-space-between
+        v-row.pa-2.mb-1.justify-space-between(v-if='selectable')
           div
           v-menu(
             v-if='dataVisible.length',
@@ -155,6 +160,7 @@
 
         v-text-field(
           v-model='search',
+          @input='filterData()',
           prepend-inner-icon='mdi-magnify',
           label='Type mutation id, protein...',
           single-line,
@@ -183,12 +189,11 @@
     v-card-text
       v-data-table(
         v-model='selected',
-        :loading='!data.length',
+        :loading='!data.length || isFiltering',
         :headers='headers',
-        :items='data',
+        :items='dataVisible',
         item-key='hash',
         :search='stringFilterFlag',
-        :custom-filter='customFilter',
         :show-select='selectable',
         checkbox-color='primary',
         multi-sort,
@@ -339,6 +344,11 @@ export default class Mutations extends Vue {
   @SnackbarStore.Mutation setSnackbar!: (snackbarStore: object) => void
 
   data!: Array<Object>
+  chunks: Array<Array<Object>> = []
+  chunksNum: number = 4
+  dataVisible: Array<Object> = []
+  isFiltering = false
+
   headers!: Array<Object>
   filters!: Filter[]
   showFilters!: boolean
@@ -351,10 +361,8 @@ export default class Mutations extends Vue {
 
   selected: Array<Object> = []
   selectAllRows() {
-    // originally, button affects only 5-10-15 visible elements
-    this.selected = this.selected.length === this.dataVisible.length
-        ? []
-        : this.dataVisible
+    this.selected =
+      this.selected.length === this.dataVisible.length ? [] : this.dataVisible
   }
 
   isDownloadRequested = false
@@ -380,14 +388,11 @@ export default class Mutations extends Vue {
     let textfield = document.getElementById(
       'linkToMutationSet'
     ) as HTMLTextAreaElement
-    // Select the text field
     textfield.select()
-    textfield.setSelectionRange(0, 99999) // For mobile devices
+    textfield.setSelectionRange(0, 99999)
 
-    // Copy the text inside the text field
     navigator.clipboard.writeText(textfield.value)
 
-    // Display success message
     this.isLinkToMutationSetCopied = true
     window.setTimeout(() => {
       this.isLinkToMutationSetCopied = false
@@ -399,62 +404,97 @@ export default class Mutations extends Vue {
     return this.filterChangeFlag.toString()
   }
 
-  get dataVisible() {
-    let result = this.data.filter((item) =>
-      this.customFilter('', this.search, item)
+  async filterData() {
+    if (!this.chunks || !this.chunks.length) return []
+
+    // @ts-ignore
+    const actions = Array.apply(null, { length: this.chunksNum }).map(
+      (_, index) => {
+        return {
+          message: `func${index}`,
+          func: (chunk, search, filters, showFilters) => {
+            let result = chunk
+
+            if (!(search == null || search == '0' || search == ''))
+              result = result.filter((el) =>
+                Object.values(el).some((_el) => {
+                  if (typeof _el != typeof '') return false
+                  // @ts-ignore
+                  return _el.toLowerCase().includes(search.toLowerCase())
+                })
+              )
+
+            if (!showFilters) return result
+
+            filters.forEach((filter) => {
+              switch (filter.type) {
+                case 'range':
+                  if (
+                    filter.min < filter.range[0] ||
+                    filter.max > filter.range[1]
+                  )
+                    result = result.filter(
+                      (el) =>
+                        el[filter.value] > filter.range[0] &&
+                        el[filter.value] < filter.range[1]
+                    )
+                  break
+                case 'chip':
+                  if (filter.selected != 0)
+                    result = result.filter(
+                      (el) =>
+                        el[filter.value] ==
+                        filter[0].items[filter[0].selected as number].fieldToBe
+                    )
+                  break
+                case 'autocomplete':
+                  if ((filter.selected as string[]).length)
+                    result = result.filter((el) =>
+                      (filter.selected as string[]).includes(
+                        el[filter.value] as string
+                      )
+                    )
+                  break
+
+                default:
+                  break
+              }
+            })
+
+            return result
+          },
+        }
+      },
+      Number
     )
 
-    return result
-  }
+    /**
+     * We can use filtering function just in one thread
+     * But using web-workers time-to-see-first-results is 2-3x lower
+     * So that service appear to work faster
+     */
 
-  customFilter(value: any, search: String | null, item: object) {
-    let result = false
-    // TODO: use web-workers to acheive faster filtering
-    // split 13k dataset into smaller parts and filter them async
-    // https://www.uptech.team/blog/filter-1gb-json-on-frontend-and-not-crash-browser
+    // @ts-ignore
+    let worker = this.$worker.create(actions)
+    this.dataVisible = []
+    this.isFiltering = true
 
-    if (this.search == null || this.search == '0') result = true
-    else
-      result = Object.values(item)
-        .filter((el) => typeof el == typeof '')
-        .some((el) => {
-          return el.toLowerCase().includes(this.search.toLowerCase())
-        })
-
-    if (!this.showFilters) return result
-
-    return Object.keys(item).reduce((prev, current) => {
-      if (prev === false) return false
-      let currentFilter = this.filters.filter((f) => f.value === current)
-      if (currentFilter.length == 0) return true
-      if (currentFilter[0].type === 'range' && currentFilter[0].range)
-        if (
-          parseFloat(item[current]) < currentFilter[0]?.range[0] ||
-          parseFloat(item[current]) > currentFilter[0]?.range[1]
-        )
-          return false
-      if (currentFilter[0].type === 'chip') {
-        if (currentFilter[0].selected == 0) return true
-        if (
-          currentFilter[0].items &&
-          currentFilter[0].selected &&
-          item[current] !=
-            currentFilter[0].items[currentFilter[0].selected as number]
-              .fieldToBe
-        )
-          return false
-      }
-      if (currentFilter[0].type === 'autocomplete') {
-        if (!(currentFilter[0].selected as string[]).length) return true
-        if (
-          !(currentFilter[0].selected as string[]).includes(
-            item[current] as string
-          )
-        )
-          return false
-      }
-      return true
-    }, result)
+    let result = []
+    for (let i = 0; i < this.chunksNum; i++) {
+      worker
+        .postMessage(`func${i}`, [
+          this.chunks[i],
+          this.search,
+          this.filters,
+          this.showFilters,
+        ])
+        // @ts-ignore
+        .then((filtered) => result.push(...filtered))
+        .catch(console.error)
+    }
+    worker = null
+    this.isFiltering = false
+    this.dataVisible = result
   }
 
   getGradient(min, max, range, step) {
@@ -473,7 +513,7 @@ export default class Mutations extends Vue {
 
   get filterChips() {
     return this.filters.filter((item) => {
-      if (item.type === 'range' && item.min && item.max && item.range) {
+      if (item.type === 'range' && item.range) {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
@@ -529,6 +569,25 @@ export default class Mutations extends Vue {
   @Watch('filters')
   onFiltersChange() {
     this.filterChangeFlag += 1
+    console.log('filters changed!')
+    this.filterData()
+  }
+
+  @Watch('data')
+  onDataChange(prev, current) {
+    if (prev != current && this.data.length) {
+      const chunkSize = Math.round(this.data.length / this.chunksNum + 1)
+      for (let i = 0; i < this.chunksNum; i++)
+        this.chunks.push(
+          this.data.slice(
+            chunkSize * i,
+            chunkSize * (i + 1) < this.data.length
+              ? chunkSize * (i + 1)
+              : this.data.length
+          )
+        )
+      this.filterData()
+    }
   }
 }
 </script>
