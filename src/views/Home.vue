@@ -8,7 +8,7 @@ v-layout(column, style='width: 100vw; min-height: 90vh')
     v-flex.mt-12(xs10, sm8)
       transition(name='fade', appear, appear-active-class='fade-enter-active')
         v-col(style='flex-wrap: nowrap')
-          span.text-h3.black--text Datasets project&nbsp;
+          span.text-h3.black--text ProDDG&nbsp;
           span.text-h3.black--text – browse mutations and analyze datasets
       v-row.justify-center.pt-3
         p.mt-0.mb-0(style='width: 100%')
@@ -27,7 +27,7 @@ v-layout(column, style='width: 100vw; min-height: 90vh')
             x-large,
             block,
             color='primary',
-            @click='$router.push(`/datasets/datasets?type=click&btn_id=greeting_btn&timestamp=${Date.now()}`)'
+            @click='$router.push(`/proddg/datasets?type=click&btn_id=greeting_btn&timestamp=${Date.now()}`)'
           ) Get Started
         v-flex(xs0, sm2)
     v-flex(xs1, sm2)
@@ -65,7 +65,7 @@ export default class Home extends Vue {
   }
 
   mounted() {
-    document.title = "Home page | datasets project"
+    document.title = "Home page | " + this.$t('title')
 
     window.setTimeout(() => {
       this.loaded = true

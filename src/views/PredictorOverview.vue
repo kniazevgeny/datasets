@@ -172,8 +172,10 @@ export default class PredictorOverview extends Vue {
   }
 
   mounted() {
-    if (typeof this.predictorByName != typeof undefined)
+    if (typeof this.predictorByName != typeof undefined){
       this.predictor = this.predictorByName as Predictor
+      this.setTitle()
+    }
     // Page jumps to (y: ~2400px), while new content is loading.
     // So we have to restore initial position (y: 0px)  
     window.setTimeout(() => {this.$vuetify.goTo('#predictor-name', {offset: 9999})}, 350)

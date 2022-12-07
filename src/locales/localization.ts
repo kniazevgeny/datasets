@@ -4,7 +4,7 @@ export const messages = {
     notFound: 'Страница не найдена',
   },
   en: {
-    title: 'Datasets project',
+    title: 'ProDDG',
     notFound: 'Page not found',
     cookieMessage: 'We are using cookies',
     cookieButton: 'Fine👌',

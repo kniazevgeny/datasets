@@ -10,7 +10,7 @@ v-card(flat, outlined)
   //-     v-card-title.mb-0.link(
   //-       v-bind='attrs',
   //-       v-on='on',
-  //-       @click.middle='$router.push(`/datasets/datasets/${_id}`)'
+  //-       @click.middle='$router.push(`/proddg/proddg/${_id}`)'
         
   //-       :class='fileName ? "" : "v-btn--disabled disabled"'
   //-     ) {{ name }}
@@ -18,7 +18,7 @@ v-card(flat, outlined)
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
   v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "v-btn--disabled disabled"')
     v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
-    a(:href='`/datasets/dataset/${name}`' target="_blank") {{ name }}
+    a(:href='`/proddg/dataset/${name}`' target="_blank") {{ name }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
@@ -40,10 +40,10 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
       v-row
         span.pr-2(v-if='predictors.train.length' ).text-left Used for train:&nbsp;
-        a.pr-2(v-if='predictors.train.length' v-for='train in predictors.train' :href='"https://ivankovlab.ru/datasets/predictor/" + train.predictor' target='_blank').text-left {{ train.predictor }}
+        a.pr-2(v-if='predictors.train.length' v-for='train in predictors.train' :href='"https://ivankovlab.ru/proddg/predictor/" + train.predictor' target='_blank').text-left {{ train.predictor }}
       v-row
         span.pr-2(v-if='predictors.test.length' ).text-left Used for test:&nbsp;
-        a.pr-2(v-if='predictors.test.length' v-for='test in predictors.test' :href='"https://ivankovlab.ru/datasets/predictor/" + test.predictor' target='_blank').text-left {{ test.predictor }}
+        a.pr-2(v-if='predictors.test.length' v-for='test in predictors.test' :href='"https://ivankovlab.ru/proddg/predictor/" + test.predictor' target='_blank').text-left {{ test.predictor }}
       v-row
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
     v-col(v-else)

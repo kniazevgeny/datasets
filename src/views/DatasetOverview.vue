@@ -9,7 +9,7 @@ v-layout(style='width: 100%')
         v-btn.ml-2(
           outlined,
           large,
-          :href='`/datasets/datasets/${datasetId}`',
+          :href='`/proddg/datasets/${datasetId}`',
           @click='expandDataset()',
           target='_blank',
           text

@@ -8,7 +8,7 @@ import Home from '@/views/Home.vue'
 import store from '@/store'
 import Root from '@/views/Root.vue'
 import PredictorOverview from '@/views/PredictorOverview.vue'
-import DatasetsProject from '@/components/DatasetsProject.vue'
+import ProDDG from '@/components/ProDDG.vue'
 
 Vue.use(Router)
 
@@ -21,8 +21,8 @@ const router = new Router({
       component: Root,
     },
     {
-      path: '/datasets',
-      component: DatasetsProject,
+      path: '/proddg',
+      component: ProDDG,
       children: [
         {
           path: '/',

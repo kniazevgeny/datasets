@@ -13,16 +13,16 @@ import Navbar from './Navbar.vue'
 @Component({
   components: { Navbar },
 })
-export default class DatasetsProject extends Vue {
+export default class ProDDG extends Vue {
   transitionName: String = 'slide-left'
 
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
-      '/datasets', // for animation to work correctly
-      '/datasets/browse',
-      '/datasets/datasets',
-      '/datasets/predictors',
+      '/proddg', // for animation to work correctly
+      '/proddg/browse',
+      '/proddg/datasets',
+      '/daproddgtasets/predictors',
     ]
     let toPath = to.path
     let fromPath = from.path

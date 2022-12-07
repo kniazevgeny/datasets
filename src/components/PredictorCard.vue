@@ -14,7 +14,7 @@ v-card(flat, outlined)
   //-     //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
   v-card-title.mb-0()
     v-simple-checkbox.mt-1(v-model='selected' disabled color='primary' @click='onCardSelected')
-    a(:href='`/datasets/predictor/${title}`' target="_blank") {{ title }}
+    a(:href='`/proddg/predictor/${title}`' target="_blank") {{ title }}
   //- v-card-title(v-else)
     //- a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
@@ -51,10 +51,10 @@ v-card(flat, outlined)
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
       v-row
         span.pr-2(v-if='datasets.train.length' ).text-left Trained on:&nbsp;
-        a.pr-2(v-if='datasets.train.length' v-for='train in datasets.train' :href='"https://ivankovlab.ru/datasets/dataset/" + train' target='_blank').text-left {{ train }}
+        a.pr-2(v-if='datasets.train.length' v-for='train in datasets.train' :href='"https://ivankovlab.ru/proddg/dataset/" + train' target='_blank').text-left {{ train }}
       v-row
         span.pr-2(v-if='datasets.test.length' ).text-left Tested on:&nbsp;
-        a.pr-2(v-if='datasets.test.length' v-for='test in datasets.test' :href='"https://ivankovlab.ru/datasets/dataset/" + test' target='_blank').text-left {{ test }}
+        a.pr-2(v-if='datasets.test.length' v-for='test in datasets.test' :href='"https://ivankovlab.ru/proddg/dataset/" + test' target='_blank').text-left {{ test }}
       v-row
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
     v-col(v-else)

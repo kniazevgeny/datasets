@@ -77,10 +77,10 @@ export default class App extends Vue {
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
-      '/datasets', // for animation to work correctly
-      '/datasets/browse',
-      '/datasets/datasets',
-      '/datasets/predictors',
+      '/proddg', // for animation to work correctly
+      '/proddg/browse',
+      '/proddg/datasets',
+      '/proddg/predictors',
     ]
     let toPath = to.path
     let fromPath = from.path

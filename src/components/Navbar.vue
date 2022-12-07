@@ -1,14 +1,14 @@
 <template lang="pug">
 v-app-bar(fixed, color='#fff', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
-    v-btn(icon, x-large, rounded, @click='$router.push(`/datasets?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
+    v-btn(icon, x-large, rounded, @click='$router.push(`/proddg?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
       v-icon() mdi-home
-    v-btn(text, x-large, rounded, @click='$router.push(`/datasets/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
-      a.no-link-decoration(href='/datasets/browse') browse mutations
-    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/datasets/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') 
-      a.no-link-decoration(href='/datasets/datasets') datasets
-    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/datasets/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') 
-      a.no-link-decoration(href='/datasets/predictors') predictors
+    v-btn(text, x-large, rounded, @click='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)') 
+      a.no-link-decoration(href='/proddg/browse') browse mutations
+    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)') 
+      a.no-link-decoration(href='/proddg/datasets') datasets
+    v-btn.ml-2(text, x-large, rounded, @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)') 
+      a.no-link-decoration(href='/proddg/predictors') predictors
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -26,10 +26,10 @@ export default class Navbar extends Vue {
   @Watch('$route')
   onRouteChange(to, from) {
     let routes: Array<String> = [
-      '/datasets',
-      '/datasets/browse',
-      '/datasets/datasets',
-      '/datasets/predictors',
+      '/proddg',
+      '/proddg/browse',
+      '/proddg/datasets',
+      '/proddg/predictors',
     ]
     let path = this.$router.currentRoute.path
     if (path[path.length - 1] === '/') path = path.slice(0, -1)

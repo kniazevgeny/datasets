@@ -75,6 +75,10 @@ export default class Root extends Vue {
       (e) => e.type == 'publications'
     )[0].publications.length
   ).fill(false)
+
+  mounted() {
+    document.title = this.$t('laboratoryName').toString()
+  }
 }
 </script>
 <style scoped>
