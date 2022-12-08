@@ -54,13 +54,13 @@ const router = new Router({
           name: 'predictors-overview',
           component: PredictorOverview,
         },
-        {
-          path: '*',
-          name: 'notFound',
-          component: () =>
-            import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
-        },
       ],
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: () =>
+        import(/* webpackChunkName: "about" */ '../views/NotFound.vue'),
     },
   ],
 })
