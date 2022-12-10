@@ -45,7 +45,7 @@ export const messages = {
           { title: 'Dmitriy Ivankov', subtitle: 'Superviser', image: require('../assets/POE_0177.webp') },
           { title: 'Natalia Sivitskaia', subtitle: 'PhD–1', image: require('../assets/IMG_8017.webp') },
           { title: 'Marina Pak', subtitle: 'PhD–3', image: require('../assets/IMG_8597.webp') },
-          { title: 'Egor Bulavko', subtitle: 'MSc–2', image: require('../assets/POE_0177.webp') },
+          { title: 'Egor Bulavko', subtitle: 'MSc–2', image: require('../assets/avatar.svg') },
           {
             title: 'Maria Carolina',
             subtitle: 'MSc–2',
