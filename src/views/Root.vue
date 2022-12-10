@@ -79,6 +79,7 @@ import Component from 'vue-class-component'
 @Component
 export default class Root extends Vue {
   isPublicationOpen: boolean[] = new Array<boolean>(
+    // @ts-ignore
     this.$t('laboratory').filter(
       (e) => e.type == 'publications'
     )[0].publications.length
