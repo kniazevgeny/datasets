@@ -16,7 +16,7 @@ export const messages = {
         title: 'About Us',
         type: 'paragraphs',
         paragraphs: [
-          'The lab is based at Center for Molecular and Cellular Biology of Skolkovo Institute of Science and Technology. Our main research areas are protein bioinformatics, physics, and evolution.',
+          'The lab is based at <a class="no-link-decoration" href="https://crei.skoltech.ru/cls" target="_blank">Center for Molecular and Cellular Biology</a> of <a class="no-link-decoration" href="http://www.skoltech.ru/en" target="_blank">Skolkovo Institute of Science and Technology</a>. Our main research areas are protein bioinformatics, physics, and evolution.',
           'One research direction of the lab is to improve prediction of protein stability change upon single mutation by combining machine learning and protein physics. Related topics are computational construction of more stable proteins and prediction of protein folding kinetics from protein three-dimensional structure. Another research direction is theoretical investigation of evolution with focus on multi-dimensional epistasis. More specifically, the lab develops computational methods and algorithms to find epistasis in experimental data and to estimate abundance of uni- and multi-dimensional epistasis in protein evolution.',
         ],
       },
@@ -42,21 +42,16 @@ export const messages = {
         title: 'Members',
         type: 'cards',
         cards: [
-          { title: 'Dmitriy Ivankov', subtitle: 'Superviser', image: '' },
+          { title: 'Dmitriy Ivankov', subtitle: 'Superviser', image: require('../assets/POE_0177.webp') },
+          { title: 'Natalia Sivitskaia', subtitle: 'PhD–1', image: require('../assets/IMG_8017.webp') },
+          { title: 'Marina Pak', subtitle: 'PhD–3', image: require('../assets/IMG_8597.webp') },
+          { title: 'Egor Bulavko', subtitle: 'MSc–2', image: require('../assets/POE_0177.webp') },
           {
-            title: 'Ekaterina Alaniia',
-            subtitle: 'Research Intern',
-            image: '',
-          },
-          { title: 'Natalia Sivitskaia', subtitle: 'PhD–1', image: '' },
-          { title: 'Marina Pak', subtitle: 'PhD–2', image: '' },
-          { title: 'Egor Bulavko', subtitle: 'MSc–1', image: '' },
-          {
-            title: 'Maria Carolina \r Erazo Muñoz',
+            title: 'Maria Carolina',
             subtitle: 'MSc–2',
-            image: '',
+            image: require('../assets/IMG_3223.webp'),
           },
-          { title: 'Evgenii Zorin', subtitle: 'MSc–2', image: '' },
+          { title: 'Denis Khamitov', subtitle: 'MSc–2', image: require('../assets/IMG_2648.webp') },
         ],
       },
       {

@@ -15,7 +15,10 @@ v-row.pt-12(style='background-color: #f7f7f7')
     )
       h2.sf.section-title.pb-10 {{ section.title }}
       div(v-if='section.type == "paragraphs"') 
-        p.paragraph(v-for='paragraph in section.paragraphs') {{ paragraph }}
+        p.sf.paragraph(
+          v-for='paragraph in section.paragraphs',
+          v-html='paragraph'
+        )
       div(v-if='section.type == "blocks"') 
         v-row(dense)
           v-col.pr-10.justify-space-between(
@@ -23,7 +26,7 @@ v-row.pt-12(style='background-color: #f7f7f7')
             :key='b_id'
           )
             v-card.block(flat)
-              v-img.white--text.align-end(height='200px')
+              v-img.white--text.align-end
               v-card-title.block-title {{ block.title }}
               v-card-text.block-description {{ block.description }}
       #cards.d-flex(v-if='section.type == "cards"')
@@ -33,9 +36,9 @@ v-row.pt-12(style='background-color: #f7f7f7')
           v-for='(card, c_id) in section.cards',
           :key='c_id'
         )
-          v-img.white--text.align-end(height='150px')
-          v-card-title.ml-2.sf {{ card.title }}
-          v-card-subtitle.ml-2.mb-2.sf {{ card.subtitle }}
+          v-img.white--text.align-end(:src='card.image')
+            v-card-title.ml-2.sf {{ card.title }}
+            v-card-subtitle.ml-2.mb-2.sf {{ card.subtitle }}
       div(v-if='section.type == "publications"')
         .publication.mb-8(
           v-for='(publication, p_id) in section.publications',
@@ -53,8 +56,14 @@ v-row.pt-12(style='background-color: #f7f7f7')
               span See More
               v-icon(v-if='!isPublicationOpen[p_id]', color='#95CEC9') mdi-menu-right
               v-icon(v-else, color='#95CEC9') mdi-menu-down
-          p.mt-8.mb-2.publication-description.sf(v-if='isPublicationOpen[p_id]') {{ publication.description }}
-          a.sf(v-if='isPublicationOpen[p_id]' :href='publication.url' target="_blank") {{ publication.url }}
+          p.mt-8.mb-2.publication-description.sf(
+            v-if='isPublicationOpen[p_id]'
+          ) {{ publication.description }}
+          a.sf(
+            v-if='isPublicationOpen[p_id]',
+            :href='publication.url',
+            target='_blank'
+          ) {{ publication.url }}
         span(v-if='isPublicationOpen[0]') {{ isPublicationOpen }}
     div 
       h2.section-title Contacts
@@ -70,7 +79,6 @@ import Component from 'vue-class-component'
 @Component
 export default class Root extends Vue {
   isPublicationOpen: boolean[] = new Array<boolean>(
-    // @ts-ignore
     this.$t('laboratory').filter(
       (e) => e.type == 'publications'
     )[0].publications.length
@@ -81,6 +89,22 @@ export default class Root extends Vue {
   }
 }
 </script>
+<style>
+p.paragraph > a.no-link-decoration {
+  font-family: 'SF Pro Display', sans-serif;
+  color: #3b3d3c !important;
+  font-size: 22px;
+  font-weight: 500;
+  text-decoration: none;
+}
+#cards > * > .v-image > .v-image__image {
+  filter: grayscale(1);
+}
+#cards > * > .v-image > .v-responsive__content {
+  /* override default width:768px; */
+  width: 100% !important;
+}
+</style>
 <style scoped>
 #laboratory-name {
   font-style: normal;
@@ -160,8 +184,7 @@ export default class Root extends Vue {
   text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
-.paragraph {
-  font-family: 'SF Pro Display';
+p.paragraph {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -169,11 +192,10 @@ export default class Root extends Vue {
   max-width: 875px;
   /* or 160% */
 
-  display: flex;
   align-items: center;
 
   /* theme/text */
-  color: #3b3d3c;
+  color: #3b3d3c !important;
 
   filter: drop-shadow(-2px 2px 8px rgba(0, 0, 0, 0.25));
 }
@@ -240,6 +262,7 @@ export default class Root extends Vue {
 #cards > * {
   aspect-ratio: 1;
   filter: drop-shadow(-1px 1px 6px rgba(0, 0, 0, 0.15));
+  align-self: center;
 }
 @media screen and (max-width: 900px) {
   #cards > * {
@@ -252,30 +275,29 @@ export default class Root extends Vue {
   }
 }
 
-#cards > * > .v-card__title {
+#cards > .v-card > .v-image > .v-responsive__content > .v-card__title {
   white-space: pre-line;
   word-break: break-word;
 
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 127%;
   /* or 20px */
-
   letter-spacing: 0.01em;
 
-  /* theme/primary */
-  color: #95cec9;
+  color: #8de7df !important;
+
+  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 }
 
-#cards > * > .v-card__subtitle {
+#cards > .v-card > .v-image > .v-responsive__content > .v-card__subtitle {
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 127%;
   /* or 15px */
 
-  /* theme/text */
-  color: #3b3d3c;
+  color: #5c5c5c;
 }
 
 .v-image__image--preload {
@@ -304,7 +326,7 @@ export default class Root extends Vue {
   font-size: 20px;
   line-height: 32px;
   /* or 160% */
-  
+
   /* theme/primary */
   color: #95cec9 !important;
 }
