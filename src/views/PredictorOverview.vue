@@ -184,7 +184,4 @@ export default class PredictorOverview extends Vue {
 </script>
 
 <style scoped>
-span.text-h6 {
-  font-family: 'Alegreya Sans' !important;
-}
 </style>

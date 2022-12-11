@@ -8,7 +8,7 @@ v-layout(column, style='width: 100vw; min-height: 90vh')
     v-flex.mt-12(xs10, sm8)
       transition(name='fade', appear, appear-active-class='fade-enter-active')
         v-col(style='flex-wrap: nowrap')
-          span.text-h3.black--text ProDDG&nbsp;
+          span.sf.text-h3.black--text ProDDG&nbsp;
           span.text-h3.black--text – browse mutations and analyze datasets
       v-row.justify-center.pt-3
         p.mt-0.mb-0(style='width: 100%')
@@ -75,7 +75,6 @@ export default class Home extends Vue {
 </script>
 <style scoped>
 span.text-h3 {
-  font-family: 'Alegreya Sans' !important;
   font-weight: 700;
 }
 .fade-enter-active,

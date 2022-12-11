@@ -10,7 +10,7 @@ v-layout(style='width: 100%')
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold.font-accent Filters
+      .text-h5.font-weight-bold Filters
     v-list.pa-4(
       color='transparent',
       v-for='filter in filters',

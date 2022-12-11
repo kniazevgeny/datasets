@@ -1,6 +1,5 @@
-$body-font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-$accent-font-family: Alegreya Sans, Inter, Avenir, Helvetica, Arial, sans-serif;
-
+$body-font-family: 'SF Pro Display', Roboto, Avenir, Helvetica, Arial, sans-serif;
+$heading-font-family: $body-font-family;
 // $primary: #a5a6f6;
 // $secondary: #F5F7FD;
 // $accent: #E7EBFA;
@@ -14,7 +13,7 @@ $chip-padding: 18px 12px;
 // );
 
 #app {
-  font-family: $body-font-family;
+  font-family: $body-font-family !important;
 }
 
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
@@ -200,7 +199,7 @@ a:not(.no-link-decoration):visited,
 }
 
 .v-btn__content {
-  font-family: $accent-font-family;
+  font-family: $body-font-family;
   font-weight: 800;
   text-transform: capitalize;
   font-size: 1.5rem;
@@ -213,9 +212,7 @@ button.v-btn {
 }
 
 button.primary:hover:not([disabled]) {
-  filter: brightness(110%);
   transition: all 250ms ease 0s;
-  box-shadow: 0px 5px hsl(261deg 99% 42%);
   padding-bottom: 6px;
   margin-bottom: 1px;
   padding-top: 7px;
@@ -223,12 +220,8 @@ button.primary:hover:not([disabled]) {
 
 button.primary:active {
   transform: translateY(4px);
-  box-shadow: 0px 0px !important;
+  // box-shadow: 0px 0px !important;
   transition: all 120ms ease 0s;
-}
-
-.font-accent {
-  font-family: $accent-font-family !important;
 }
 
 .sf {
@@ -239,15 +232,14 @@ button.primary:active {
   font-size: 1.5rem !important;
   font-weight: 400;
   line-height: 2rem;
-  font-family: $accent-font-family !important;
+  font-family: $body-font-family !important;
 }
 
 .v-application {
   .text-h5 {
     color: #1e1e1e;
-    font-family: $accent-font-family, sans-serif !important;
   }
-  font-family: $body-font-family, sans-serif !important;
+  font-family: $body-font-family !important;
 }
 
 .unavailable > div {
@@ -259,7 +251,6 @@ button.primary:active {
 
 .unavailable::before {
   filter: none !important;
-  font-family: $accent-font-family;
   font-weight: bold;
   font-size: 1.5rem;
   content: 'Coming soon\A\A join our channel to be notified\A when we launch new features';

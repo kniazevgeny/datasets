@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout.justify-center.align-center(column style='min-height: 90vh')
-  h1.font-accent {{ $t('notFound') }}
+  h1 {{ $t('notFound') }}
   router-link(to="/proddg") ProDDG project
   router-link(to="/") About Ivankov Lab
 </template>
