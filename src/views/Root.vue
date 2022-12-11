@@ -6,9 +6,14 @@ v-row.pt-12(style='background-color: #f7f7f7')
       h1#laboratory-name.sf {{ $t('laboratoryName') }}
       #laboratory-slogan
         h2.sf.text-md-h2.text-sm-h3(v-html='$t("laboratorySlogan")')
-        v-btn#contact.no-scale.mt-11(text, x-large, dark, depressed)
-          span.sf.font-weight-regular Contact us
-          v-icon.pl-2 mdi-arrow-right-circle
+        span.d-flex.mt-11(row)
+          v-btn#contact.no-scale(@click='$router.push("/proddg")', text, x-large, dark, depressed)
+            span.sf.font-weight-regular Visit ProDDG service
+            v-icon.pl-2 mdi-arrow-right-circle
+          p.pl-8.pt-1.grey--text
+            span Browse mutations 
+            br
+            span and analyze datasets  
     .pt-11.mt-11.pb-11.mb-11(
       v-for='(section, s_id) in $t("laboratory")',
       :key='s_id'
@@ -56,14 +61,15 @@ v-row.pt-12(style='background-color: #f7f7f7')
               span See More
               v-icon(v-if='!isPublicationOpen[p_id]', color='#95CEC9') mdi-menu-right
               v-icon(v-else, color='#95CEC9') mdi-menu-down
-          p.mt-8.mb-2.publication-description.sf(
-            v-if='isPublicationOpen[p_id]'
-          ) {{ publication.description }}
-          a.sf(
-            v-if='isPublicationOpen[p_id]',
-            :href='publication.url',
-            target='_blank'
-          ) {{ publication.url }}
+          transition(name="fadeHeight" mode="in-out")
+            p.mb-2.publication-description.sf(
+              v-if='isPublicationOpen[p_id]'
+            ) {{ publication.description }}
+            a.sf(
+              v-if='isPublicationOpen[p_id]',
+              :href='publication.url',
+              target='_blank'
+            ) {{ publication.url }}
         span(v-if='isPublicationOpen[0]') {{ isPublicationOpen }}
     div 
       h2.section-title Contacts
@@ -107,6 +113,27 @@ p.paragraph > a.no-link-decoration {
 }
 </style>
 <style scoped>
+* {
+  will-change: height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.fadeHeight-enter-active,
+.fadeHeight-leave-active {
+  transition-property: opacity, max-height;
+  transition: 0.35s ease-in-out;
+  overflow: hidden;
+}
+.fadeHeight-enter,
+.fadeHeight-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+.publication-description {
+  max-height: 100%;
+}
 #laboratory-name {
   font-style: normal;
   font-weight: 700;
