@@ -50,8 +50,8 @@ export default class App extends Vue {
 
   get cssProps() {
     var themeColors = {}
-    Object.keys(this.$vuetify.theme.themes.light).forEach((color) => {
-      themeColors[`--v-${color}`] = this.$vuetify.theme.themes.light[color]
+    Object.keys(this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']).forEach((color) => {
+      themeColors[`--v-${color}`] = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light'][color]
     })
     return themeColors
   }
