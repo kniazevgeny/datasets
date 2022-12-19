@@ -42,8 +42,8 @@ v-row.pt-12(style='background-color: #f7f7f7')
           :key='c_id'
         )
           v-img.white--text.align-end(:src='card.image')
-            v-card-title.ml-2.sf {{ card.title }}
-            v-card-subtitle.ml-2.mb-2.sf {{ card.subtitle }}
+            v-card-title.ml-sm-2.ml-xs-0.sf {{ card.title }}
+            v-card-subtitle.ml-sm-2.ml-xs-0.mb-sm-2.mb-xs-0.sf {{ card.subtitle }}
       div(v-if='section.type == "publications"')
         .publication.mb-8(
           v-for='(publication, p_id) in section.publications',
@@ -301,9 +301,14 @@ p.paragraph {
   filter: drop-shadow(-1px 1px 6px rgba(0, 0, 0, 0.15));
   align-self: center;
 }
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 600px) {
   #cards > * {
-    flex: 0 0 33%;
+    flex: 0 0 45%;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  #cards > * {
+    flex: 0 0 30%;
   }
 }
 @media screen and (min-width: 900px) {
