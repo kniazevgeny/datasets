@@ -8,12 +8,16 @@ $btn-toggle-border-radius: 8px;
 
 $chip-padding: 18px 12px;
 
+$btn-toggle-border-radius: 8px;
+
 // @use 'vuetify/lib/styles' with (
 //   $body-font-family: $body-font-family
 // );
 
 #app {
   font-family: $body-font-family !important;
+  background: var(--v-background) !important;
+  color: var(--v-text);
 }
 
 .theme--light.v-data-table.v-data-table--fixed-header thead th {
