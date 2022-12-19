@@ -11,7 +11,7 @@
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold.font-accent.text-left Filters
+      .text-h5.font-weight-bold.text-left Filters
     v-list.pa-4(
       color='transparent',
       v-for='filter in filters',

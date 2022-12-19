@@ -99,7 +99,7 @@ export default class Root extends Vue {
 <style>
 p.paragraph > a.no-link-decoration {
   font-family: 'SF Pro Display', sans-serif;
-  color: #3b3d3c !important;
+  color: var(--v-text) !important;
   font-size: 22px;
   font-weight: 500;
   text-decoration: none;
@@ -146,7 +146,7 @@ p.paragraph > a.no-link-decoration {
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #3b3d3c;
+  color: var(--v-text);
 }
 
 #laboratory-slogan {
@@ -170,7 +170,7 @@ p.paragraph > a.no-link-decoration {
   align-items: center;
   letter-spacing: 0.02em;
 
-  color: #3b3d3c;
+  color: var(--v-text);
 
   text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
@@ -208,7 +208,7 @@ p.paragraph > a.no-link-decoration {
   letter-spacing: 0.02em;
 
   /* theme/text */
-  color: #3b3d3c;
+  color: var(--v-text);
   text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
@@ -223,7 +223,7 @@ p.paragraph {
   align-items: center;
 
   /* theme/text */
-  color: #3b3d3c !important;
+  color: var(--v-text) !important;
 
   filter: drop-shadow(-2px 2px 8px rgba(0, 0, 0, 0.25));
 }
@@ -263,7 +263,7 @@ p.paragraph {
   letter-spacing: 0.02em;
 
   /* theme/text */
-  color: #3b3d3c;
+  color: var(--v-text);
 
   word-break: break-word !important;
 }
@@ -281,7 +281,7 @@ p.paragraph {
   letter-spacing: 0.02em;
 
   /* theme/text */
-  color: #3b3d3c;
+  color: var(--v-text);
 }
 
 #cards {
@@ -338,7 +338,7 @@ p.paragraph {
   /* or 160% */
 
   /* theme/text */
-  color: #3b3d3c;
+  color: var(--v-text);
 }
 .publication > p.publication-description {
   font-size: 18px;
@@ -346,7 +346,7 @@ p.paragraph {
   /* or 178% */
 
   /* theme/text */
-  color: #3b3d3c;
+  color: var(--v-text);
 }
 
 .publication > label > a {
