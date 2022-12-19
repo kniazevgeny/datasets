@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar(fixed, color='#fff', flat, height=60)
+v-app-bar(fixed, flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
     v-btn(
       icon,
@@ -7,7 +7,7 @@ v-app-bar(fixed, color='#fff', flat, height=60)
       rounded,
       @click='$router.push(`/proddg?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
-      v-icon mdi-home
+      v-icon(color='text') mdi-home-outline
     v-btn(
       text,
       x-large,
@@ -42,7 +42,7 @@ v-app-bar(fixed, color='#fff', flat, height=60)
           xmlns='http://www.w3.org/2000/svg',
           aria-hidden='true',
           focusable='false',
-          viewBox='0 0 24 24'
+          viewBox='0 0 24 24',
           :style='$vuetify.theme.dark ? "opacity: 0" : "opacity: 1"'
         )
           path(
@@ -126,8 +126,18 @@ export default class Navbar extends Vue {
 }
 </script>
 <style scoped>
+.v-btn-toggle > .v-btn--active::before {
+  opacity: 0;
+}
+.v-btn-toggle > button.v-btn, .v-btn-toggle > button > span > a {
+  color: var(--v-text);
+  font-weight: 400;
+  opacity: 1;
+}
+.v-btn-toggle >.v-btn--active > span > a {
+  color: var(--v-primary);
+}
 button:not(.v-btn--disabled) > span > a.no-link-decoration {
-  color: #000 !important;
   text-decoration: none !important;
 }
 button.v-btn--disabled > span > a.no-link-decoration {
@@ -164,7 +174,7 @@ a.no-link-decoration:hover {
   background-color: #424242;
 }
 .theme--light .vt-switch {
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
 }
 .theme--light .vt-switch-check {
   background-color: #fff;
@@ -190,10 +200,10 @@ a.no-link-decoration:hover {
 }
 .theme--dark .vt-switch-icon svg {
   fill: darkslateblue;
-  transition: opacity .25s, fill .25s;
+  transition: opacity 0.25s, fill 0.25s;
 }
 .theme--light .vt-switch-icon svg {
   fill: burlywood;
-  transition: opacity .25s, fill .25s;
+  transition: opacity 0.25s, fill 0.25s;
 }
 </style>
