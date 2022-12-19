@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app(:style='cssProps', style='height: 100%')
+v-app(:dark='dark', :style='cssProps', style='height: 100%')
   Snackbar
   v-layout.Cookie.Cookie--bottom()
     v-flex(xs1 sm2 md4)
@@ -71,6 +71,7 @@ export default class App extends Vue {
   }
 
   mounted() {
+    (this.$vuetify.theme as any).dark = this.dark;
     this.setOrGetUid()
   }
 
@@ -115,7 +116,7 @@ export default class App extends Vue {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /* color: #2c3e50; */
   height: 100%;
 }
 
