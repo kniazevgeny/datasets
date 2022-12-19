@@ -62,15 +62,16 @@ v-row.pt-12(style='background-color: #f7f7f7')
               v-icon(v-if='!isPublicationOpen[p_id]', color='#95CEC9') mdi-menu-right
               v-icon(v-else, color='#95CEC9') mdi-menu-down
           transition(name="fadeHeight" mode="in-out")
-            p.mb-2.publication-description.sf(
-              v-if='isPublicationOpen[p_id]'
-            ) {{ publication.description }}
-            a.sf(
-              v-if='isPublicationOpen[p_id]',
-              :href='publication.url',
-              target='_blank'
-            ) {{ publication.url }}
-        span(v-if='isPublicationOpen[0]') {{ isPublicationOpen }}
+            div          
+              p.mb-2.publication-description.sf(
+                v-show='isPublicationOpen[p_id]'
+              ) {{ publication.description }}
+              a.sf(
+                v-show='isPublicationOpen[p_id]',
+                :href='publication.url',
+                target='_blank'
+              ) {{ publication.url }}
+        span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
     div 
       h2.section-title Contacts
       span.text-h5.sf E-Mail: d.ivankov@skoltech.ru
@@ -348,7 +349,7 @@ p.paragraph {
   /* theme/text */
   color: var(--v-text);
 }
-.publication > p.publication-description {
+.publication > * >  p.publication-description {
   font-size: 18px;
   line-height: 32px;
   /* or 178% */
@@ -366,7 +367,7 @@ p.paragraph {
   /* theme/primary */
   color: #95cec9 !important;
 }
-.publication > a {
+.publication > div > a {
   font-size: 16px;
   text-decoration: none;
   color: #95cec9 !important;
