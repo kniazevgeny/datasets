@@ -81,9 +81,14 @@ v-row.pt-12(style='background-color: #f7f7f7')
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import { namespace } from 'vuex-class'
+
+const AppStore = namespace('AppStore')
 
 @Component
 export default class Root extends Vue {
+  @AppStore.Mutation setDark!: (dark: boolean) => void
+
   isPublicationOpen: boolean[] = new Array<boolean>(
     // @ts-ignore
     this.$t('laboratory').filter(
@@ -92,7 +97,10 @@ export default class Root extends Vue {
   ).fill(false)
 
   mounted() {
-    document.title = this.$t('laboratoryName').toString()
+    document.title = this.$t('laboratoryName').toString();
+    
+    // Main page is always light
+    this.setDark(false)
   }
 }
 </script>
