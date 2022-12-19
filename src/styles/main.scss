@@ -57,6 +57,10 @@ $btn-toggle-border-radius: 8px;
   }
 }
 
+.v-text {
+  color: var(--v-text);
+}
+
 .v-data-table,
 .v-data-table__wrapper {
   border-radius: $border-radius-root !important;

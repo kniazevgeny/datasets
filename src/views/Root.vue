@@ -10,7 +10,7 @@ v-row.pt-12(style='background-color: #f7f7f7')
           v-btn#contact.no-scale(@click='$router.push("/proddg")', text, x-large, dark, depressed)
             span.sf.font-weight-regular Visit ProDDG service
             v-icon.pl-2 mdi-arrow-right-circle
-          p.pl-8.pt-1.grey--text
+          p.pl-8.pt-1.v-text
             span Browse mutations 
             br
             span and analyze datasets  

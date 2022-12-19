@@ -66,8 +66,8 @@ export default class Browse extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    let color = this.$vuetify.theme.themes.light['primary']
-    let colorDisabled = 'DimGray'
+    let color = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary']
+    let colorDisabled = '#d9ebe9'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     let gradient: Array<String> = []
     for (let i = min; i < max; i += step) {

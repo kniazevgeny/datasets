@@ -17,7 +17,7 @@ v-layout(style='width: 100%')
       :key='filter.title'
     )
       v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
-      small.grey--text.text--darken-2 {{ filter.subtitle }}
+      small.v-text.text--darken-2 {{ filter.subtitle }}
       v-list-item-content(v-if='filter.type === "range"')
         div(v-if='data.length')
           v-sparkline(
@@ -34,9 +34,9 @@ v-layout(style='width: 100%')
             :step='filter.step',
             :max='filter.max',
             :min='filter.min',
-            track-color='DimGray',
-            track-fill-color='black',
-            color='black'
+            track-color='#d9ebe9',
+            track-fill-color='text',
+            color='text'
           )
           v-layout.mt-n11
             v-text-field.pa-2(
@@ -46,7 +46,7 @@ v-layout(style='width: 100%')
               dense,
               label='min',
               type='number',
-              color='black'
+              color='text'
             )
             v-text-field.pa-2(
               v-model='filter.range[1]',
@@ -55,7 +55,7 @@ v-layout(style='width: 100%')
               dense,
               label='max',
               type='number',
-              color='black'
+              color='text'
             )
         v-skeleton-loader.mx-auto(
           v-else,
@@ -301,8 +301,8 @@ export default class Predictors extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    let color = this.$vuetify.theme.themes.light['primary']
-    let colorDisabled = 'DimGray'
+    let color = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary']
+    let colorDisabled = '#d9ebe9'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     // if (min == -10) console.log(range)
 
@@ -454,7 +454,7 @@ export default class Predictors extends Vue {
 
   mounted() {
     // set correct sidebar size (25 characters)
-    this.$vuetify.theme.themes.light.sidebar_size = '30ch'
+    this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light'].sidebar_size = '30ch'
 
     document.title = 'Predictors | ' + this.$t('title')
 

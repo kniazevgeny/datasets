@@ -485,8 +485,7 @@ export default class Datasets extends Vue {
     if (typeof resp.data == typeof undefined) return
     this.amkTable = resp.amkTable
     this.chartData.labels = resp.ddg.headers
-    this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes
-      .light['primary'] as string
+    this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary'] as string
     //@ts-ignore
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     //@ts-ignore

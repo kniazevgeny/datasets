@@ -19,7 +19,7 @@ v-card(flat, outlined)
     //- a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
-    v-col(v-if='!showSkeleton').black--text
+    v-col(v-if='!showSkeleton').v-text
       v-row
         span.pr-2 Input: {{ input }}
         span.pr-2 •
