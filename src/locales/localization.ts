@@ -47,7 +47,7 @@ export const messages = {
           { title: 'Marina Pak', subtitle: 'PhD–3', image: require('../assets/IMG_8597.webp') },
           { title: 'Egor Bulavko', subtitle: 'MSc–2', image: require('../assets/avatar.svg') },
           {
-            title: 'Maria Carolina',
+            title: 'Maria Minkevich',
             subtitle: 'MSc–2',
             image: require('../assets/IMG_3223.webp'),
           },
