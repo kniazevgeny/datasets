@@ -2,15 +2,18 @@
 v-row.pt-12
   v-flex(xs1)
   v-flex.text-left.ml-sm-8(xs10)
+    v-row(style='position: relative; z-index: 99')
+      v-spacer
+      ThemeSwitcher
     #first(style='height: 78vh')
       h1#laboratory-name.sf {{ $t('laboratoryName') }}
       #laboratory-slogan
         h2.sf.text-md-h2.text-sm-h3(v-html='$t("laboratorySlogan")')
-        span.d-flex.mt-11(row)
+        span.d-flex.mt-11(:style='$vuetify.breakpoint.mobile ? "flex-direction: column" : "flex-direction: row"')
           v-btn#contact.no-scale(@click='$router.push("/proddg")', text, x-large, dark, depressed)
             span.sf.font-weight-regular Visit ProDDG service
             v-icon.pl-2 mdi-arrow-right-circle
-          p.pl-8.pt-1.v-text
+          p.pl-xs-0.pl-sm-8.pt-1.v-text
             span Browse mutations 
             br
             span and analyze datasets  
@@ -86,9 +89,15 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { namespace } from 'vuex-class'
 
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
+
 const AppStore = namespace('AppStore')
 
-@Component
+@Component({
+  components: {
+    ThemeSwitcher
+  }
+})
 export default class Root extends Vue {
   @AppStore.Mutation setDark!: (dark: boolean) => void
 
@@ -210,7 +219,7 @@ p.paragraph > a.no-link-decoration {
 .section-title {
   font-style: normal;
   font-weight: 800;
-  font-size: 4rem;
+  font-size: min(4rem, 48px);
   line-height: 127%;
   /* or 81px */
 
