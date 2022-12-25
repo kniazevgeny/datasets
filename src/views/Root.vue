@@ -9,14 +9,22 @@ v-row.pt-12
       h1#laboratory-name.sf {{ $t('laboratoryName') }}
       #laboratory-slogan
         h2.sf.text-md-h2.text-sm-h3(v-html='$t("laboratorySlogan")')
-        span.d-flex.mt-11(:style='$vuetify.breakpoint.mobile ? "flex-direction: column" : "flex-direction: row"')
-          v-btn#contact.no-scale(@click='$router.push("/proddg")', text, x-large, dark, depressed)
+        span.d-flex.mt-11(
+          :style='$vuetify.breakpoint.mobile ? "flex-direction: column" : "flex-direction: row"'
+        )
+          v-btn#contact.no-scale(
+            @click='$router.push("/proddg")',
+            text,
+            x-large,
+            dark,
+            depressed
+          )
             span.sf.font-weight-regular Visit ProDDG service
             v-icon.pl-2 mdi-arrow-right-circle
           p.pl-xs-0.pl-sm-8.pt-1.v-text
-            span Browse mutations 
+            span Browse mutations
             br
-            span and analyze datasets  
+            span and analyze datasets
     .pt-11.mt-11.pb-11.mb-11(
       v-for='(section, s_id) in $t("laboratory")',
       :key='s_id'
@@ -62,10 +70,10 @@ v-row.pt-12
           label(:for='"p-" + p_id') 
             a.sf 
               span See More
-              v-icon(v-if='!isPublicationOpen[p_id]', color='#95CEC9') mdi-menu-right
-              v-icon(v-else, color='#95CEC9') mdi-menu-down
-          transition(name="fadeHeight" mode="in-out")
-            div          
+              v-icon(v-if='!isPublicationOpen[p_id]', color='primary') mdi-menu-right
+              v-icon(v-else, color='primary') mdi-menu-down
+          transition(name='fadeHeight', mode='in-out')
+            div 
               p.mb-2.publication-description.sf(
                 v-show='isPublicationOpen[p_id]'
               ) {{ publication.description }}
@@ -75,10 +83,29 @@ v-row.pt-12
                 target='_blank'
               ) {{ publication.url }}
         span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
+      div(v-if='section.type == "annual"')
+        .year(v-for='(year, y_id) in getYearsForAnnual(section.data)')
+          input(
+            v-model='isYearOpen[y_id]',
+            type='checkbox',
+            :id='"a-" + y_id',
+            style='display: none'
+          )
+          label(:for='"a-" + y_id') 
+            span()
+              span.sf.pt-6 {{ year }}
+              v-icon.pt-5(x-large, v-if='!isYearOpen[y_id]') mdi-menu-right
+              v-icon.pt-5(x-large, v-else) mdi-menu-down
+          transition(name='fadeHeight', mode='in-out')
+            div
+              div.pt-5.pb-2(v-show='isYearOpen[y_id]' v-for='thesis in getAnnualByYear(section.data, year)')
+                .thesis-title {{thesis.title}}
+                .thesis-description {{thesis.description}}
+
     div 
       h2.section-title Contacts
       span 
-        span E-Mail: 
+        span E-Mail:
         a(href='mailto:d.ivankov@skoltech.ru') d.ivankov@skoltech.ru
     //- router-link(to='/datasets') Datasets project
   v-flex(xs1)
@@ -87,20 +114,15 @@ v-row.pt-12
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { namespace } from 'vuex-class'
 
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 
-const AppStore = namespace('AppStore')
-
 @Component({
   components: {
-    ThemeSwitcher
-  }
+    ThemeSwitcher,
+  },
 })
 export default class Root extends Vue {
-  @AppStore.Mutation setDark!: (dark: boolean) => void
-
   isPublicationOpen: boolean[] = new Array<boolean>(
     // @ts-ignore
     this.$t('laboratory').filter(
@@ -108,11 +130,26 @@ export default class Root extends Vue {
     )[0].publications.length
   ).fill(false)
 
+  isYearOpen: boolean[] = Array.prototype.concat(
+    true,
+    ...new Array<boolean>(
+    // @ts-ignore
+      this.$t('laboratory').filter((e) => e.type == 'annual')[0].data.length - 1
+    ).fill(false)
+  )
+
+  getYearsForAnnual(data: object[]) {
+    // @ts-ignore
+    const years = new Set(data.map((el) => el.year))
+    return [...years.values()]
+  }
+
+  getAnnualByYear(data, year) {
+    return data.filter((el) => el.year == year)
+  }
+
   mounted() {
-    document.title = this.$t('laboratoryName').toString();
-    
-    // Main page is always light
-    this.setDark(false)
+    document.title = this.$t('laboratoryName').toString()
   }
 }
 </script>
@@ -365,7 +402,7 @@ p.paragraph {
   /* theme/text */
   color: var(--v-text);
 }
-.publication > * >  p.publication-description {
+.publication > * > p.publication-description {
   font-size: 18px;
   line-height: 32px;
   /* or 178% */
@@ -387,5 +424,45 @@ p.paragraph {
   font-size: 16px;
   text-decoration: none;
   color: var(--v-primary) !important;
+}
+
+.year > label > span {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 127%;
+  /* identical to box height, or 51px */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  /* theme/text */
+  color: var(--v-text);
+}
+.year > label > span:hover {
+  cursor: pointer;
+}
+
+.thesis-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 127%;
+  /* or 30px */
+
+  letter-spacing: 0.02em;
+
+  /* theme/primary */
+  color: var(--v-primary);
+}
+.thesis-description {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  /* identical to box height, or 160% */
+
+  /* theme/primary */
+  color: var(--v-text);
 }
 </style>

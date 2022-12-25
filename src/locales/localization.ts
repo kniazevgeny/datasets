@@ -42,16 +42,36 @@ export const messages = {
         title: 'Members',
         type: 'cards',
         cards: [
-          { title: 'Dmitriy Ivankov', subtitle: 'Superviser', image: require('../assets/POE_0177.webp') },
-          { title: 'Natalia Sivitskaia', subtitle: 'PhD–1', image: require('../assets/IMG_8017.webp') },
-          { title: 'Marina Pak', subtitle: 'PhD–3', image: require('../assets/IMG_8597.webp') },
-          { title: 'Egor Bulavko', subtitle: 'MSc–2', image: require('../assets/avatar.svg') },
+          {
+            title: 'Dmitriy Ivankov',
+            subtitle: 'Superviser',
+            image: require('../assets/POE_0177.webp'),
+          },
+          {
+            title: 'Natalia Sivitskaia',
+            subtitle: 'PhD–1',
+            image: require('../assets/IMG_8017.webp'),
+          },
+          {
+            title: 'Marina Pak',
+            subtitle: 'PhD–3',
+            image: require('../assets/IMG_8597.webp'),
+          },
+          {
+            title: 'Egor Bulavko',
+            subtitle: 'MSc–2',
+            image: require('../assets/avatar.svg'),
+          },
           {
             title: 'Maria Minkevich',
             subtitle: 'MSc–2',
             image: require('../assets/IMG_3223.webp'),
           },
-          { title: 'Denis Khamitov', subtitle: 'MSc–2', image: require('../assets/IMG_2648.webp') },
+          {
+            title: 'Denis Khamitov',
+            subtitle: 'MSc–2',
+            image: require('../assets/IMG_2648.webp'),
+          },
         ],
       },
       {
@@ -75,36 +95,69 @@ export const messages = {
           {
             title:
               'Zorin, E. M., Erazo, C. M., & Ivankov, D. N. (2022). Composite mutations give an extra insight into epistasis.',
-            description: 'The intricate genotype-phenotype relationship has been a long-standing issue in biology, important both from the fundamental and applied points of view. One of the major irregularities hindering progress in establishing these links is epistasis – the complex and elusive interaction between mutations. Despite the vast accumulated genetic data and progress in this area, epistasis is still far from being completely understood. Epistasis can be studied quantitatively in combinatorially complete datasets, which form hypercubes in protein sequence space, where connected sequences are one mutation away from each other. However, this might be insufficient to portray the full picture of epistatic interactions. To extend the repertoire of the methods for exploring epistasis, we propose here to consider hyperrectangles, where some edges connect sequences being two or more mutations away from each other. The present work formalizes the theoretical knowledge about these novel structures and compares the amount of epistasis identified in hypercubes and hyperrectangles constructed from experimental datasets. A new algorithm, CuboidME, was developed for calculating hyperrectangles, which were then compared to hypercubes. In the experimental datasets, there were four orders of magnitude more hyperrectangles than hypercubes for the same sample size. Subsequently, we showed that for the studied datasets there is an increase in epistasis measured by epistatic coefficients in hyperrectangles compared to hypercubes. For the same datasets, hyperrectangles could find more sign epistasis than using hypercubes alone. We also show that there is a trend for increase in epistasis with increasing number of mutations being considered in a hyperrectangle. The results indicate that hyperrectangles can be used to reveal more information on epistasis in a fitness landscape, especially if it is combinatorially incomplete.',
+            description:
+              'The intricate genotype-phenotype relationship has been a long-standing issue in biology, important both from the fundamental and applied points of view. One of the major irregularities hindering progress in establishing these links is epistasis – the complex and elusive interaction between mutations. Despite the vast accumulated genetic data and progress in this area, epistasis is still far from being completely understood. Epistasis can be studied quantitatively in combinatorially complete datasets, which form hypercubes in protein sequence space, where connected sequences are one mutation away from each other. However, this might be insufficient to portray the full picture of epistatic interactions. To extend the repertoire of the methods for exploring epistasis, we propose here to consider hyperrectangles, where some edges connect sequences being two or more mutations away from each other. The present work formalizes the theoretical knowledge about these novel structures and compares the amount of epistasis identified in hypercubes and hyperrectangles constructed from experimental datasets. A new algorithm, CuboidME, was developed for calculating hyperrectangles, which were then compared to hypercubes. In the experimental datasets, there were four orders of magnitude more hyperrectangles than hypercubes for the same sample size. Subsequently, we showed that for the studied datasets there is an increase in epistasis measured by epistatic coefficients in hyperrectangles compared to hypercubes. For the same datasets, hyperrectangles could find more sign epistasis than using hypercubes alone. We also show that there is a trend for increase in epistasis with increasing number of mutations being considered in a hyperrectangle. The results indicate that hyperrectangles can be used to reveal more information on epistasis in a fitness landscape, especially if it is combinatorially incomplete.',
             url: 'https://doi.org/10.1101/2022.06.16.496391',
           },
           {
             title:
               'Pak, M. A., Markhieva, K. A., Novikova, M. S., Petrov, D. S., Vorobyev, I. S., Maksimova, E. S., Kondrashov, F. A., & Ivankov, D. N. (2021). Using AlphaFold to predict the impact of single mutations on protein stability and function. ',
-            description: 'AlphaFold changed the field of structural biology by achieving three-dimensional (3D) structure prediction from protein sequence at experimental quality. The astounding success even led to claims that the protein folding problem is “solved”. However, protein folding problem is more than just structure prediction from sequence. Presently, it is unknown if the AlphaFold-triggered revolution could help to solve other problems related to protein folding. Here we assay the ability of AlphaFold to predict the impact of single mutations on protein stability (ΔΔG) and function. To study the question we extracted metrics from AlphaFold predictions before and after single mutation in a protein and correlated the predicted change with the experimentally known ΔΔG values. Additionally, we correlated the AlphaFold predictions on the impact of a single mutation on structure with a large scale dataset of single mutations in GFP with the experimentally assayed levels of fluorescence. We found a very weak or no correlation between AlphaFold output metrics and change of protein stability or fluorescence. Our results imply that AlphaFold cannot be immediately applied to other problems or applications in protein folding.',
+            description:
+              'AlphaFold changed the field of structural biology by achieving three-dimensional (3D) structure prediction from protein sequence at experimental quality. The astounding success even led to claims that the protein folding problem is “solved”. However, protein folding problem is more than just structure prediction from sequence. Presently, it is unknown if the AlphaFold-triggered revolution could help to solve other problems related to protein folding. Here we assay the ability of AlphaFold to predict the impact of single mutations on protein stability (ΔΔG) and function. To study the question we extracted metrics from AlphaFold predictions before and after single mutation in a protein and correlated the predicted change with the experimentally known ΔΔG values. Additionally, we correlated the AlphaFold predictions on the impact of a single mutation on structure with a large scale dataset of single mutations in GFP with the experimentally assayed levels of fluorescence. We found a very weak or no correlation between AlphaFold output metrics and change of protein stability or fluorescence. Our results imply that AlphaFold cannot be immediately applied to other problems or applications in protein folding.',
             url: 'https://doi.org/10.1101/2021.09.19.460937',
           },
           {
             title:
               'Ivankov, D. N., & Finkelstein, A. V. (2020). Solution of Levinthal’s Paradox and a Physical Theory of Protein Folding Times. Biomolecules, 10(2), 250.',
-            description: '“How do proteins fold?” Researchers have been studying different aspects of this question for more than 50 years. The most conceptual aspect of the problem is how protein can find the global free energy minimum in a biologically reasonable time, without exhaustive enumeration of all possible conformations, the so-called “Levinthal’s paradox.” Less conceptual but still critical are aspects about factors defining folding times of particular proteins and about perspectives of machine learning for their prediction. We will discuss in this review the key ideas and discoveries leading to the current understanding of folding kinetics, including the solution of Levinthal’s paradox, as well as the current state of the art in the prediction of protein folding times.',
+            description:
+              '“How do proteins fold?” Researchers have been studying different aspects of this question for more than 50 years. The most conceptual aspect of the problem is how protein can find the global free energy minimum in a biologically reasonable time, without exhaustive enumeration of all possible conformations, the so-called “Levinthal’s paradox.” Less conceptual but still critical are aspects about factors defining folding times of particular proteins and about perspectives of machine learning for their prediction. We will discuss in this review the key ideas and discoveries leading to the current understanding of folding kinetics, including the solution of Levinthal’s paradox, as well as the current state of the art in the prediction of protein folding times.',
             url: 'https://doi.org/10.3390/biom10020250',
           },
           {
             title:
               'Esteban, L. A., Lonishin, L. R., Bobrovskiy, D., Leleytner, G., Bogatyreva, N. S., Kondrashov, F. A., & Ivankov, D. N. (2019). HypercubeME: two hundred million combinatorially complete datasets from a single experiment. Bioinformatics. ',
-            description: 'Motivation\rEpistasis, the context-dependence of the contribution of an amino acid substitution to fitness, is common in evolution. To detect epistasis, fitness must be measured for at least four genotypes: the reference genotype, two different single mutants and a double mutant with both of the single mutations. For higher-order epistasis of the order n, fitness has to be measured for all 2n genotypes of an n-dimensional hypercube in genotype space forming a ‘combinatorially complete dataset’. So far, only a handful of such datasets have been produced by manual curation. Concurrently, random mutagenesis experiments have produced measurements of fitness and other phenotypes in a high-throughput manner, potentially containing a number of combinatorially complete datasets.\rResults\rWe present an effective recursive algorithm for finding all hypercube structures in random mutagenesis experimental data. To test the algorithm, we applied it to the data from a recent HIS3 protein dataset and found all 199 847 053 unique combinatorially complete genotype combinations of dimensionality ranging from 2 to 12. The algorithm may be useful for researchers looking for higher-order epistasis in their high-throughput experimental data.',
+            description:
+              'Motivation\rEpistasis, the context-dependence of the contribution of an amino acid substitution to fitness, is common in evolution. To detect epistasis, fitness must be measured for at least four genotypes: the reference genotype, two different single mutants and a double mutant with both of the single mutations. For higher-order epistasis of the order n, fitness has to be measured for all 2n genotypes of an n-dimensional hypercube in genotype space forming a ‘combinatorially complete dataset’. So far, only a handful of such datasets have been produced by manual curation. Concurrently, random mutagenesis experiments have produced measurements of fitness and other phenotypes in a high-throughput manner, potentially containing a number of combinatorially complete datasets.\rResults\rWe present an effective recursive algorithm for finding all hypercube structures in random mutagenesis experimental data. To test the algorithm, we applied it to the data from a recent HIS3 protein dataset and found all 199 847 053 unique combinatorially complete genotype combinations of dimensionality ranging from 2 to 12. The algorithm may be useful for researchers looking for higher-order epistasis in their high-throughput experimental data.',
             url: 'https://doi.org/10.1093/bioinformatics/btz841',
           },
           {
             title:
               'Pokusaeva, V. O., Usmanova, D. R., Putintseva, E. V., Espinar, L., Sarkisyan, K. S., Mishin, A. S., Bogatyreva, N. S., Ivankov, D. N., Akopyan, A. V., Avvakumov, S. Ya., Povolotskaya, I. S., Filion, G. J., Carey, L. B., & Kondrashov, F. A. (2019). An experimental assay of the interactions of amino acids from orthologous sequences shaping a complex fitness landscape. PLOS Genetics, 15(4), e1008079.',
-            description: 'Characterizing the fitness landscape, a representation of fitness for a large set of genotypes, is key to understanding how genetic information is interpreted to create functional organisms. Here we determined the evolutionarily-relevant segment of the fitness landscape of His3, a gene coding for an enzyme in the histidine synthesis pathway, focusing on combinations of amino acid states found at orthologous sites of extant species. Just 15% of amino acids found in yeast His3 orthologues were always neutral while the impact on fitness of the remaining 85% depended on the genetic background. Furthermore, at 67% of sites, amino acid replacements were under sign epistasis, having both strongly positive and negative effect in different genetic backgrounds. 46% of sites were under reciprocal sign epistasis. The fitness impact of amino acid replacements was influenced by only a few genetic backgrounds but involved interaction of multiple sites, shaping a rugged fitness landscape in which many of the shortest paths between highly fit genotypes are inaccessible.',
+            description:
+              'Characterizing the fitness landscape, a representation of fitness for a large set of genotypes, is key to understanding how genetic information is interpreted to create functional organisms. Here we determined the evolutionarily-relevant segment of the fitness landscape of His3, a gene coding for an enzyme in the histidine synthesis pathway, focusing on combinations of amino acid states found at orthologous sites of extant species. Just 15% of amino acids found in yeast His3 orthologues were always neutral while the impact on fitness of the remaining 85% depended on the genetic background. Furthermore, at 67% of sites, amino acid replacements were under sign epistasis, having both strongly positive and negative effect in different genetic backgrounds. 46% of sites were under reciprocal sign epistasis. The fitness impact of amino acid replacements was influenced by only a few genetic backgrounds but involved interaction of multiple sites, shaping a rugged fitness landscape in which many of the shortest paths between highly fit genotypes are inaccessible.',
             url: 'https://doi.org/10.1371/journal.pgen.1008079',
           },
         ],
       },
-      { title: 'Thesis Defenses', type: 'annual' },
+      {
+        title: 'Thesis Defenses',
+        type: 'annual',
+        data: [
+          {
+            title: 'Evgenii Zorin, MSc',
+            description: 'Investigation of epistasis using composite mutations',
+            year: 2022,
+          },
+          {
+            title: 'Carolina Erazo, MSc',
+            description:
+              'Analysis of epistasis in combinatorially complete datasets with focus on evolutionary models',
+            year: 2022,
+          },
+          {
+            title: 'Natalia Sivitskaia, MSc',
+            description:
+              'Search for amino acid substitutions stabilizing human ribonuclease inhibitor',
+            year: 2021,
+          },
+          {
+            title: 'Marina Pak, MSc',
+            description:
+              'Study of influence of homology modeling on the prediction of protein stability change upon mutation',
+            year: 2020,
+          },
+        ],
+      },
       {
         title: 'Applications',
         type: 'blocks',
