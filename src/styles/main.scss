@@ -105,7 +105,10 @@ a:visited:hover,
 }
 
 span.v-chip.primary:hover {
-  background: #f41224 !important;
+  // background: #f41224 !important;
+}
+.v-chip--active::before {
+  opacity: 0 !important;
 }
 
 a:not(.no-link-decoration):visited,
