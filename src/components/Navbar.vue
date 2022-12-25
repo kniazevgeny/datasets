@@ -1,6 +1,6 @@
 <template lang="pug">
-v-app-bar(fixed, flat, height=60)
-  v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle')
+v-app-bar(color='background', fixed, flat, height=60)
+  v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle', background-color='accent')
     v-btn(
       icon,
       x-large,
@@ -165,10 +165,10 @@ a.no-link-decoration:hover {
   transition: background-color 0.25s, transform 0.25s;
 }
 .theme--dark .vt-switch-check {
-  background-color: #1c1c1c;
+  background-color: #060F1A;
 }
 .theme--dark .vt-switch {
-  background-color: #323232;
+  background-color: #0A131E;
 }
 .theme--light .vt-switch {
   background-color: #d9d9d9;
@@ -196,7 +196,7 @@ a.no-link-decoration:hover {
   transform: translate(36px);
 }
 .theme--dark .vt-switch-icon svg {
-  fill: darkslateblue;
+  fill: white;
   transition: opacity 0.25s, fill 0.25s;
 }
 .theme--light .vt-switch-icon svg {

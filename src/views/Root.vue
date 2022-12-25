@@ -1,5 +1,5 @@
 <template lang="pug">
-v-row.pt-12(style='background-color: #f7f7f7')
+v-row.pt-12
   v-flex(xs1)
   v-flex.text-left.ml-sm-8(xs10)
     #first(style='height: 78vh')
@@ -74,7 +74,9 @@ v-row.pt-12(style='background-color: #f7f7f7')
         span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
     div 
       h2.section-title Contacts
-      span.text-h5.sf E-Mail: d.ivankov@skoltech.ru
+      span 
+        span E-Mail: 
+        a(href='mailto:d.ivankov@skoltech.ru') d.ivankov@skoltech.ru
     //- router-link(to='/datasets') Datasets project
   v-flex(xs1)
 </template>
@@ -192,7 +194,7 @@ p.paragraph > a.no-link-decoration {
   height: 56px;
 
   /* theme/primary */
-  background: #95cec9;
+  background: var(--v-primary);
   box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 }
@@ -244,7 +246,7 @@ p.paragraph {
       rgba(59, 61, 60, 0) 46.88%,
       rgba(59, 61, 60, 0.25) 92.19%
     ),
-    #ffffff;
+    var(--v-accent);
   box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 }
@@ -256,7 +258,7 @@ p.paragraph {
       rgba(149, 203, 206, 0) 46.88%,
       rgba(149, 203, 206, 0.25) 92.19%
     ),
-    #ffffff;
+    var(--v-accent);
 }
 
 .block-title {
@@ -327,7 +329,7 @@ p.paragraph {
   /* or 20px */
   letter-spacing: 0.01em;
 
-  color: #8de7df !important;
+  color: var(--v-primary) !important;
 
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 }
@@ -370,11 +372,11 @@ p.paragraph {
   /* or 160% */
 
   /* theme/primary */
-  color: #95cec9 !important;
+  color: var(--v-primary) !important;
 }
 .publication > div > a {
   font-size: 16px;
   text-decoration: none;
-  color: #95cec9 !important;
+  color: var(--v-primary) !important;
 }
 </style>
