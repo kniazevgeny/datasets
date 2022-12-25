@@ -312,7 +312,7 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
   overflow: auto;
 }
 
-.v-card {
+.v-card:not(.v-sheet--outlined) {
   background-color: var(--v-background) !important;
 }
 .v-data-table.theme--dark, .v-data-table.theme--light {

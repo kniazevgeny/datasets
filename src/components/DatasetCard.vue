@@ -1,5 +1,5 @@
 <template lang="pug">
-v-card(flat, outlined)
+v-card(flat, outlined, style='background: var(--v-accent)')
   //- v-dialog(
     v-model='dialog',
     width='1000',
