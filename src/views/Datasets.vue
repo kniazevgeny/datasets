@@ -68,17 +68,16 @@ v-layout(style='width: 100%')
           v-chip-group(
             v-model='filter.selected',
             mandatory,
-            active-class='v-chip--dark'
           )
             v-tooltip(
               bottom,
-              v-for='item in filter.items',
+              v-for='(item, chip_id) in filter.items',
               :key='item.label',
               :disabled='typeof item.description == typeof undefined',
               max-width='275'
             )
               template(v-slot:activator='{ on, attrs }')
-                v-chip.pa-4(v-on='on', v-bind='attrs') {{ item.label }}
+                v-chip.pa-4(v-on='on', v-bind='attrs', :outlined='filter.selected == chip_id ? false : true', color='primary') {{ item.label }}
               span {{ item.description }}
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='chip')
@@ -742,5 +741,9 @@ li {
 }
 .scale-w-leave-active {
   position: relative;
+}
+.v-chip--filled {
+  background: var(--v-primary);
+  color: var(--v-text);
 }
 </style>
