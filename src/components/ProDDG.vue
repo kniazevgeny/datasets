@@ -1,5 +1,6 @@
 <template lang="pug">
 div
+  Navbar
   transition(:name='transitionName')
     router-view.view.mt-12.pt-12(fluid)
 </template>
