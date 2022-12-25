@@ -5,13 +5,14 @@
     permanent,
     width='420',
     style='position: sticky; height: 100vh; min-width: 280px',
-    absolute=false
+    absolute=false,
+    color='background'
   )
     //- Filters
     .pa-4(
       style='border-radius: var(--v-borderRadius) var(--v-borderRadius) 0 0'
     )
-      .text-h5.font-weight-bold.text-left Filters
+      .text-h5.font-weight-bold(style='color: var(--v-text)') Filters
     v-list.pa-4(
       color='transparent',
       v-for='filter in filters',
