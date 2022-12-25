@@ -51,7 +51,7 @@ export default new Vuetify({
         pinkComparison: '#FF4079',
         blueComparison: '#6E9DFD',
         secondary: '#e5ebff',
-        accent: '#09121D',
+        accent: '#060F1A',
         warning: '#FF7E36',
         externalLink: '#2dd65c',
         borderRadius: '15px',
