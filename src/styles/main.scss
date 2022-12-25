@@ -244,9 +244,6 @@ button.primary:active {
 }
 
 .v-application {
-  .text-h5 {
-    color: #1e1e1e;
-  }
   font-family: $body-font-family !important;
 }
 
@@ -313,4 +310,11 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
 
 .v-toolbar > .v-toolbar__content {
   overflow: auto;
+}
+
+.v-card {
+  background-color: var(--v-background) !important;
+}
+.v-data-table.theme--dark, .v-data-table.theme--light {
+  background-color: var(--v-background) !important;
 }
