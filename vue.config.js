@@ -3,7 +3,7 @@ module.exports = {
     port: 8080,
     hot: true,
   },
-  assetsDir: 'datasets',
+  assetsDir: 'proddg',
   publicPath: process.env.VUE_APP_MODE !== 'dev'
     ? '/'
     : '/',
