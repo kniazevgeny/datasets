@@ -31,7 +31,7 @@ jobs:
           git config user.name "kniazevgeny" && git config user.email "eugene.kniazev@gmail.com"
           git checkout --orphan gh-pages
           echo -e "ivankovlab.ru" >> CNAME
-          cp index.html proddg.html
+          cp ./dist/index.html ./dist/proddg.html
           git --work-tree dist add --all
           git --work-tree dist commit -m gh-pages
           git push origin HEAD:gh-pages --force
