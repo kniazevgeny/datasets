@@ -10,7 +10,7 @@ export const messages = {
     cookieButton: 'Fine👌',
     laboratoryName: 'Ivankov Lab',
     laboratorySlogan:
-      'You build scientific \r breakthroughs.\rWe make them\rstand out.',
+      'Protein bioinformatics and evolution.',
     laboratory: [
       {
         title: 'About Us',
@@ -43,7 +43,7 @@ export const messages = {
         type: 'cards',
         cards: [
           {
-            title: 'Dmitriy Ivankov',
+            title: 'Dmitry Ivankov',
             subtitle: 'Superviser',
             image: require('../assets/POE_0177.webp'),
           },
