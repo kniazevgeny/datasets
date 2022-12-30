@@ -35,7 +35,7 @@ v-row.pt-12
           v-for='paragraph in section.paragraphs',
           v-html='paragraph'
         )
-      div(v-if='section.type == "blocks"') 
+      .blocks(v-if='section.type == "blocks"') 
         v-row(dense)
           v-col.pr-10.justify-space-between(
             v-for='(block, b_id) in section.blocks',
@@ -283,6 +283,18 @@ p.paragraph {
   color: var(--v-text) !important;
 
   filter: drop-shadow(-2px 2px 8px rgba(0, 0, 0, 0.25));
+}
+
+.blocks > .row {
+  overflow-x: auto;
+    max-width: 90vw;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.blocks > .row > .col {
+  min-width: 300px;
 }
 
 .block {
