@@ -371,7 +371,7 @@ p.paragraph {
 }
 @media screen and (max-width: 600px) {
   #cards > * {
-    flex: 0 0 45%;
+    flex: 0 0 44%;
   }
 }
 @media screen and (min-width: 600px) and (max-width: 900px) {
