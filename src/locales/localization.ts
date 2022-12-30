@@ -45,31 +45,37 @@ export const messages = {
           {
             title: 'Dmitry Ivankov',
             subtitle: 'Superviser',
+            url: 'https://faculty.skoltech.ru/people/dmitryivankov',
             image: require('../assets/POE_0177.webp'),
           },
           {
             title: 'Natalia Sivitskaia',
             subtitle: 'PhD–1',
+            url: 'https://crei.skoltech.ru/cls/people/nataliasivitskaia',
             image: require('../assets/IMG_8017.webp'),
           },
           {
             title: 'Marina Pak',
             subtitle: 'PhD–3',
+            url: 'https://crei.skoltech.ru/cls/people/marinapak',
             image: require('../assets/IMG_8597.webp'),
           },
           {
             title: 'Egor Bulavko',
             subtitle: 'MSc–2',
+            url: 'https://crei.skoltech.ru/cls/people/egorbulavko',
             image: require('../assets/avatar.svg'),
           },
           {
             title: 'Maria Minkevich',
             subtitle: 'MSc–2',
+            url: 'https://crei.skoltech.ru/cls/people/mariaminkevich',
             image: require('../assets/IMG_3223.webp'),
           },
           {
             title: 'Denis Khamitov',
             subtitle: 'MSc–2',
+            url: 'https://crei.skoltech.ru/cls/people/deniskhamitov',
             image: require('../assets/IMG_2648.webp'),
           },
         ],

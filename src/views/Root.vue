@@ -52,8 +52,9 @@ v-row.pt-12
           v-for='(card, c_id) in section.cards',
           :key='c_id'
         )
-          v-img.white--text.align-end( :src='card.image')
-            v-card-title.ml-sm-2.ml-xs-0.sf {{ card.title }}
+          v-img.white--text.align-end(:src='card.image')
+            v-card-title.ml-sm-2.ml-xs-0.sf
+              a.no-link-decoration(:href='card.url' target="_blank") {{ card.title }}
             v-card-subtitle.ml-sm-2.ml-xs-0.mb-sm-2.mb-xs-0.sf {{ card.subtitle }}
       div(v-if='section.type == "publications"')
         .publication.mb-8(
@@ -387,7 +388,7 @@ p.paragraph {
 #cards > .v-card > .v-image > .v-responsive__content > .v-card__title {
   white-space: pre-line;
   word-break: break-word;
-
+  
   font-weight: 600;
   font-size: 16px;
   line-height: 127%;
@@ -395,8 +396,16 @@ p.paragraph {
   letter-spacing: 0.01em;
 
   color: var(--v-primary) !important;
-
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+#cards > .v-card > .v-image > .v-responsive__content > .v-card__title > a {
+  text-decoration: none;
+}
+
+#cards > .v-card:hover > .v-image > .v-responsive__content > .v-card__title > a {
+  color: var(--v-primary) !important;
+  text-decoration: underline;
 }
 
 #cards > .v-card > .v-image > .v-responsive__content > .v-card__subtitle {
