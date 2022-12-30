@@ -1,16 +1,19 @@
 <template lang="pug">
-v-footer(dark bottom padless).mt-12
-  v-card.lighten-1.white--text.text-center(flat, tile, style='width: 100vw')
+v-footer.mt-12(bottom, padless)
+  v-card.lighten-1.text-center(flat, tile, style='width: 100vw')
     v-card-text
-      a(href="https://t.me/kniazevgeny")
-        v-btn.mx-4.white--text(@click='')
-          v-img(:src='require("@/assets/telegram.svg")')
-          span &nbsp;&nbsp;Contact Us
-    v-card-text.white--text.pt-0.pb-0 A Skoltech project 
-    v-card-text.white--text.pt-0 Made with ❤️ by kniazevgeny
+      a.no-link-decoration(href='mailto:d.ivankov@skoltech.ru')
+        v-btn.contact-btn.mx-4(small, outlined, color='text')
+          span.font-weight-regular &nbsp;&nbsp;Contact Us Via Email 
+    v-card-text.pt-0.pb-0 A Skoltech project
+    v-card-text.pt-0 
+      span Made with ❤️ by&nbsp;
+      a(href='https://kniazevgeny.github.io') Evgeny Kniazev
+      span &nbsp;&&nbsp;
+      a Igor Abramkin
     v-divider
-    v-card-text.white--text {{ new Date().getFullYear() }} —
-      strong &nbsp;Datasets Project 
+    v-card-text {{ new Date().getFullYear() }} —
+      strong &nbsp;Datasets Project
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -19,3 +22,11 @@ import Component from 'vue-class-component'
 @Component
 export default class CustomFoter extends Vue {}
 </script>
+<style scoped>
+a.no-link-decoration {
+  text-decoration: none;
+}
+.contact-btn > .v-btn__content > span {
+  font-size: 14px;
+}
+</style>
