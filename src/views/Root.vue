@@ -61,27 +61,28 @@ v-row.pt-12
           :key='p_id'
         ) 
           p.publication-title.mb-1.sf {{ publication.title }}
-          input(
-            v-model='isPublicationOpen[p_id]',
-            type='checkbox',
-            :id='"p-" + p_id',
-            style='display: none'
-          )
-          label(:for='"p-" + p_id') 
-            a.sf 
-              span See More
-              v-icon(v-if='!isPublicationOpen[p_id]', color='primary') mdi-menu-right
-              v-icon(v-else, color='primary') mdi-menu-down
-          transition(name='fadeHeight', mode='in-out')
-            div 
-              p.mb-2.publication-description.sf(
-                v-show='isPublicationOpen[p_id]'
-              ) {{ publication.description }}
-              a.sf(
-                v-show='isPublicationOpen[p_id]',
-                :href='publication.url',
-                target='_blank'
-              ) {{ publication.url }}
+          div  
+            input(
+              v-model='isPublicationOpen[p_id]',
+              type='checkbox',
+              :id='"p-" + p_id',
+              style='display: none'
+            )
+            label(:for='"p-" + p_id') 
+              a.sf 
+                span See More
+                v-icon(v-if='!isPublicationOpen[p_id]', color='primary') mdi-menu-right
+                v-icon(v-else, color='primary') mdi-menu-down
+            transition(name='fadeHeight', mode='in-out')
+              div 
+                p.mb-2.publication-description.sf(
+                  v-show='isPublicationOpen[p_id]'
+                ) {{ publication.description }}
+                a.sf(
+                  v-show='isPublicationOpen[p_id]',
+                  :href='publication.url',
+                  target='_blank'
+                ) {{ publication.url }}
         span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
       div(v-if='section.type == "annual"')
         .year(v-for='(year, y_id) in getYearsForAnnual(section.data)')
@@ -414,25 +415,38 @@ p.paragraph {
   /* theme/text */
   color: var(--v-text);
 }
-.publication > * > p.publication-description {
+.publication > * > * > p.publication-description {
   font-size: 18px;
-  line-height: 32px;
+  line-height: 28px;
   /* or 178% */
 
   /* theme/text */
   color: var(--v-text);
 }
 
-.publication > label > a {
+.publication > div > label {
+  display: block;
+  width: 100%;
+}
+
+.publication > div > label > a {
+  display: block;
+  width: 100%;
+  
   font-weight: 400;
   font-size: 20px;
   line-height: 32px;
   /* or 160% */
-
+  
   /* theme/primary */
   color: var(--v-primary) !important;
 }
-.publication > div > a {
+
+.publication > div > label > a:hover > span {
+  /* text-decoration: underline dashed; */
+}
+
+.publication > div > div > a {
   font-size: 16px;
   text-decoration: none;
   color: var(--v-primary) !important;
