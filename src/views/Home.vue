@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout(column, style='width: 100vw; min-height: 90vh')
+v-layout(column, style='width: 100vw; min-height: 70vh')
   v-layout#home-1.justify-center.align-center(
     style='height: 70vh',
     v-intersect='onIntersect'
