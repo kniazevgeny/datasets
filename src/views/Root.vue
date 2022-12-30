@@ -52,7 +52,7 @@ v-row.pt-12
           v-for='(card, c_id) in section.cards',
           :key='c_id'
         )
-          v-img.white--text.align-end(:src='card.image')
+          v-img.white--text.align-end( :src='card.image')
             v-card-title.ml-sm-2.ml-xs-0.sf {{ card.title }}
             v-card-subtitle.ml-sm-2.ml-xs-0.mb-sm-2.mb-xs-0.sf {{ card.subtitle }}
       div(v-if='section.type == "publications"')
@@ -161,6 +161,12 @@ p.paragraph > a.no-link-decoration {
   font-size: 22px;
   font-weight: 500;
   text-decoration: none;
+}
+#cards > .v-card.theme--light > .v-image > .v-responsive__sizer {
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(38, 38, 39, 0.5) 85%, rgba(21, 22, 23, 0.9) 100%);
+}
+#cards > .v-card.theme--dark > .v-image > .v-responsive__sizer {
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(31, 40, 61, 0.5) 85%, rgba(13, 22, 33, 0.9) 100%);
 }
 #cards > * > .v-image > .v-image__image {
   filter: grayscale(1);
@@ -400,7 +406,7 @@ p.paragraph {
   line-height: 127%;
   /* or 15px */
 
-  color: #5c5c5c;
+  color: #afafaf;
 }
 
 .v-image__image--preload {
