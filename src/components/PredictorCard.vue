@@ -12,14 +12,19 @@ v-card(flat, outlined, style='background: var(--v-accent)')
   //-     ) {{ title }}
   //-   v-card.white()
   //-     //- DatasetOverview(:id='_id' @closeDialog='closeDialog')
-  v-card-title.mb-0()
-    v-simple-checkbox.mt-1(v-model='selected' disabled color='primary' @click='onCardSelected')
-    a(:href='`/proddg/predictor/${title}`' target="_blank") {{ title }}
+  v-card-title.mb-0
+    v-simple-checkbox.mt-1(
+      v-model='selected',
+      disabled,
+      color='primary',
+      @click='onCardSelected'
+    )
+    a(:href='`/proddg/predictor/${title}`', target='_blank') {{ title }}
   //- v-card-title(v-else)
     //- a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
   v-card-text.pt-0
-    v-col(v-if='!showSkeleton').v-text
+    v-col.v-text(v-if='!showSkeleton')
       v-row
         span.pr-2 Input: {{ input }}
         span.pr-2 •
@@ -42,23 +47,33 @@ v-card(flat, outlined, style='background: var(--v-accent)')
         span.pr-2 •
         span.pr-2(v-if='typeof hrm_check == "boolean"') Reverse mutation check: {{ hrm_check ? 'yes' : 'no' }}
       v-row.pt-(v-if='compared_tools.length || metrics.length')
-        span.pr-2(v-if='compared_tools.length').text-left Compared to predictors: {{ compared_tools.split(',').join(', ') }}
+        span.pr-2.text-left(v-if='compared_tools.length') Compared to predictors: {{ compared_tools.split(',').join(', ') }}
         span.pr-2 •
         span.pr-2(v-if='metrics.length') Comparison metrics: {{ metrics }}
       v-row
-        span.pr-2(v-if='typeof author == "string"').text-left {{ authorProcessed }}
+        span.pr-2.text-left(v-if='typeof author == "string"') {{ authorProcessed }}
         span.pr-2 •
-        span.pr-2(v-if='typeof year == "number"').text-left {{year}}
+        span.pr-2.text-left(v-if='typeof year == "number"') {{ year }}
       v-row
-        span.pr-2(v-if='datasets.train.length' ).text-left Trained on:&nbsp;
-        a.pr-2(v-if='datasets.train.length' v-for='train in datasets.train' :href='"https://ivankovlab.ru/proddg/dataset/" + train' target='_blank').text-left {{ train }}
+        span.pr-2.text-left(v-if='datasets.train.length') Trained on:&nbsp;
+        a.pr-2.text-left(
+          v-if='datasets.train.length',
+          v-for='train in datasets.train',
+          :href='"https://ivankovlab.ru/proddg/dataset/" + train',
+          target='_blank'
+        ) {{ train }}
       v-row
-        span.pr-2(v-if='datasets.test.length' ).text-left Tested on:&nbsp;
-        a.pr-2(v-if='datasets.test.length' v-for='test in datasets.test' :href='"https://ivankovlab.ru/proddg/dataset/" + test' target='_blank').text-left {{ test }}
+        span.pr-2.text-left(v-if='datasets.test.length') Tested on:&nbsp;
+        a.pr-2.text-left(
+          v-if='datasets.test.length',
+          v-for='test in datasets.test',
+          :href='"https://ivankovlab.ru/proddg/dataset/" + test',
+          target='_blank'
+        ) {{ test }}
       v-row
-        a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
+        a.pr-2.text-left(v-if='typeof doi == "string"', :href='doi', target='_blank') {{ doiProcessed }}
     v-col(v-else)
-      v-skeleton-loader.mx-auto(type='article' min-height='100px')
+      v-skeleton-loader.mx-auto(type='article', min-height='100px')
 </template>
 
 <script lang="ts">
@@ -91,8 +106,7 @@ import Component from 'vue-class-component'
     download: String,
     server: String,
   },
-  components: {
-  }
+  components: {},
 })
 export default class PredictorCard extends Vue {
   showSkeleton!: Boolean
@@ -124,12 +138,14 @@ export default class PredictorCard extends Vue {
   selected = false
 
   get doiProcessed() {
-    if(this.doi.includes('dx.doi')) return decodeURIComponent(this.doi.slice(19, ))
-    return this.doi.slice(16, )
+    if (this.doi.includes('dx.doi'))
+      return decodeURIComponent(this.doi.slice(19))
+    return this.doi.slice(16)
   }
 
   get authorProcessed() {
-    if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1) return this.author
+    if (this.author.indexOf('&') + 1 || this.author.indexOf('and') + 1)
+      return this.author
     return this.author + ' et al.'
   }
 
@@ -143,4 +159,10 @@ export default class PredictorCard extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-card {
+  padding: 8px 6px;
+  border-radius: 16px !important;
+  box-shadow: -2px 2px 24px rgba(0, 0, 0, 0.05) !important;
+}
+</style>

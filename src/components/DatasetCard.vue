@@ -16,7 +16,7 @@ v-card(flat, outlined, style='background: var(--v-accent)')
   //-     ) {{ name }}
   //-   v-card.white()
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
-  v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "v-btn--disabled disabled"')
+  v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "disabled no-underline"')
     v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
     a(:href='`/proddg/dataset/${name}`' target="_blank") {{ name }}
   v-card-title(v-else)
@@ -154,6 +154,13 @@ export default class DatasetCard extends Vue {
 
 <style scoped>
   .disabled {
-    filter: grayscale(1)
+    filter: contrast(0.5)
   }
+
+  .v-card {
+    padding: 8px 6px;
+    border-radius: 16px !important;
+    box-shadow: -2px 2px 24px rgba(0, 0, 0, 0.05) !important;
+  }
+
 </style>
