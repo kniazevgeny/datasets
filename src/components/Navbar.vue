@@ -1,5 +1,5 @@
 <template lang="pug">
-v-app-bar(color='background', fixed, flat, height=60)
+v-app-bar(color='background', flat, height=60)
   v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle', background-color='accent')
     v-btn(
       icon,
@@ -30,7 +30,7 @@ v-app-bar(color='background', fixed, flat, height=60)
     ) 
       a.no-link-decoration(href='/proddg/predictors') predictors
   v-spacer 
-  ThemeSwitcher
+  ThemeSwitcher.mr-8
 </template>
 <script lang="ts">
 import Vue from 'vue'
