@@ -101,11 +101,14 @@ v-layout(style='width: 100%')
   v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2
-        v-text-field(
+        v-text-field.search(
           v-model='searchVisible',
+          dense,
+          rounded,
           prepend-inner-icon='mdi-magnify',
           label='Type predictor name, algorithm, author...',
           single-line,
+          background-color='accent',
           hide-details,
           filled,
           autofocus,

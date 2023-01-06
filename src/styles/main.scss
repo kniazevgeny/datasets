@@ -334,3 +334,13 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
   background: var(--v-accent) !important;
 }
+
+.search {
+  background: var(--v-accent) !important;
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px !important;
+}
+.search label.v-label {
+  color: var(--v-text);
+  font-weight: 300;
+}

@@ -122,11 +122,14 @@ v-layout(style='width: 100%')
           ) 
             v-icon mdi-download-outline
             span.font-weight-regular Download
-        v-text-field(
+        v-text-field.search(
           v-model='searchVisible',
+          dense,
+          rounded,
           prepend-inner-icon='mdi-magnify',
           label='Type dataset name, year, author...',
           single-line,
+          background-color='accent' ,
           hide-details,
           filled,
           autofocus,
@@ -496,7 +499,6 @@ export default class Datasets extends Vue {
       this.filters[
         this.filters.findIndex((el) => el.value == 'author')
       ].items = [...new Set(this.data.map((el: Dataset) => el.author))]
-      console.log(this.filters)
     })
   }
 
