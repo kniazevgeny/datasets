@@ -8,6 +8,9 @@ export const messages = {
     notFound: 'Page not found',
     cookieMessage: 'We are using cookies',
     cookieButton: 'Fine👌',
+    errors: {
+      internal: 'Internal Server Error. Try again later'
+    },
     laboratoryName: 'Ivankov Lab',
     laboratorySlogan:
       'Protein bioinformatics and evolution.',
