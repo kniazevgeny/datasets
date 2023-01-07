@@ -158,12 +158,15 @@
                   v-icon mdi-download-outline
                   span Download .tsv
 
-        v-text-field(
+        v-text-field.search(
           v-model='search',
+          dense,
+          rounded,
           @input='filterData()',
           prepend-inner-icon='mdi-magnify',
           label='Type mutation id, protein...',
           single-line,
+          background-color='accent',
           hide-details,
           filled,
           :autofocus='autofocus',
