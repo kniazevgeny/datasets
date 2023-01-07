@@ -223,7 +223,7 @@ export default class Datasets extends Vue {
   }
 
   getMuationColor(n: number) {
-    let style = `background: hsl(231deg 100% 66% / ${
+    let style = `background: hsl(175deg 60% 40% / ${
       (n / this.mutationsMax) * 100
     }%)`
     if (!n) return style.concat(`;color: #888`)

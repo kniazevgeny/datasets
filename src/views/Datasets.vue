@@ -129,7 +129,7 @@ v-layout(style='width: 100%')
           prepend-inner-icon='mdi-magnify',
           label='Type dataset name, year, author...',
           single-line,
-          background-color='accent' ,
+          background-color='accent',
           hide-details,
           filled,
           autofocus,
