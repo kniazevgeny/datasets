@@ -16,7 +16,7 @@ v-card(flat, outlined, style='background: var(--v-accent)')
   //-     ) {{ name }}
   //-   v-card.white()
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
-  v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='fileName ? "" : "disabled no-underline"')
+  v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='typeof fileName != typeof undefined ? "" : "v-btn--disabled disabled no-underline"')
     v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
     a(:href='`/proddg/dataset/${name}`' target="_blank") {{ name }}
   v-card-title(v-else)
@@ -92,7 +92,7 @@ export default class DatasetCard extends Vue {
 
   name!: String
   _id!: String
-  fileName?: String
+  fileName?: String | undefined
   externalLink?: string
   originalPredictor?: String
   origin?: String
