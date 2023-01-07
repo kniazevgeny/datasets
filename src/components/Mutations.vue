@@ -284,11 +284,13 @@
             :href='`https://alphafold.ebi.ac.uk/entry/${item.uniprot}`',
             target='_blank'
           ) {{ item.uniprot }}
+        template(v-slot:item.organism='{ item }')
+          span(style='display: block; min-width: 200px') {{ item.organism }}
         template(v-slot:item.mutation='{ item }')
           v-chip.primary--text.text--accent-2.font-weight-bold(
             outlined,
             label,
-            color='blue lighten-1'
+            color='primary'
           ) {{ item.mutation }}
 </template>
 <script lang="ts">

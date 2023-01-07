@@ -115,7 +115,7 @@ a:visited:hover,
 }
 
 span.v-chip.primary:hover {
-  // background: #f41224 !important;
+  background: var(--v-red) !important;
 }
 .v-chip--active::before {
   opacity: 0 !important;
@@ -343,4 +343,13 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
 .search label.v-label {
   color: var(--v-text);
   font-weight: 300;
+}
+
+.v-chip.v-chip--outlined {
+  border-width: 1.5px !important;
+  border-radius: 8px !important;
+  padding: 14px 10px !important;
+}
+.v-chip.v-chip--outlined > .v-chip__content { 
+  font-weight: 500;
 }
