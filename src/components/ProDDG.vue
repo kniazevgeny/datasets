@@ -2,7 +2,7 @@
 div
   Navbar
   transition(:name='transitionName')
-    router-view.view.mt-12.pt-12(fluid)
+    router-view.view.mt-12.pt-12.ml-4.pr-4(fluid)
 </template>
 <script lang="ts">
 import Vue from 'vue'
