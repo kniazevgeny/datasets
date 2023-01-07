@@ -2,7 +2,7 @@ export interface Dataset {
   showSkeleton: boolean,
   name: string
   _id: string
-  fileName: string
+  fileName: string | undefined
   externalLink?: string
   originalPredictor?: string
   origin: string

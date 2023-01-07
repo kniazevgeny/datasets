@@ -31,7 +31,8 @@ v-layout(style='width: 100%')
           v-icon mdi-close
     v-row.ma-4.d-flex.align-center(v-else)
       span.text-h4.float-left
-        span.font-weight-bold {{ dataset.fileName }}
+        span(v-if='dataset.fileName').font-weight-bold {{ dataset.fileName }}
+        span(v-else).font-weight-bold {{ dataset.name }}
         //- span ({{ dataset.fileSize }})
       v-spacer
       v-btn.ml-2(
@@ -40,6 +41,7 @@ v-layout(style='width: 100%')
         :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
         text,
         @click='download()'
+        :disabled='!dataset.fileName'
       )
         span Download
         v-icon mdi-download-outline
@@ -130,8 +132,8 @@ export default class Datasets extends Vue {
   dataset: Dataset = {
     showSkeleton: false,
     _id: '63232465f613478fd2aa8c29',
-    name: 'I-Mutant-S1615',
-    fileName: '',
+    name: 'not found',
+    fileName: undefined,
     origin: 'original',
     size: 1615,
     source: 'Protherm',
@@ -229,7 +231,7 @@ export default class Datasets extends Vue {
   }
 
   geterateMutationsSample() {
-    // enable if backend if unavailable
+    // enable if backend is unavailable
     return
     for (let i = 0; i < 20; i++) {
       let arr: number[] = []
@@ -525,6 +527,7 @@ export default class Datasets extends Vue {
         this.filters.findIndex((el) => el.value == 'organism')
       ].items = [...new Set(this.data_sample.data.map((el: any) => el.organism))]
     })
+    console.log(this.dataset)
     this.geterateMutationsSample()
   }
 }
