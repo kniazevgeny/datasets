@@ -6,7 +6,7 @@ import Browse from '../views/Browse.vue'
 import Predictors from '../views/Predictors.vue'
 import Home from '@/views/Home.vue'
 import store from '@/store'
-import Root from '@/views/Root.vue'
+import Landing from '@/views/Landing.vue'
 import PredictorOverview from '@/views/PredictorOverview.vue'
 import ProDDG from '@/components/ProDDG.vue'
 
@@ -17,8 +17,8 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'root',
-      component: Root,
+      name: 'landing',
+      component: Landing,
     },
     {
       path: '/proddg',

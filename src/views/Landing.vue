@@ -124,7 +124,7 @@ import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
     ThemeSwitcher,
   },
 })
-export default class Root extends Vue {
+export default class Landing extends Vue {
   isPublicationOpen: boolean[] = new Array<boolean>(
     // @ts-ignore
     this.$t('laboratory').filter(
