@@ -269,6 +269,8 @@
             template(v-slot:activator='{ on, attrs }')
               span(v-on='on', v-bind='attrs') {{ header.text }}
             span {{ header.description }}
+        template(v-slot:item.protein='{ item }')
+          span(style='display: block; min-width: 150px') {{ item.protein }}
         template(v-slot:item.pdb='{ item }')
           a(
             :href='`https://www.rcsb.org/structure/${item.pdb}`',
