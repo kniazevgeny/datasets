@@ -1,9 +1,9 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  v-container.ml-0.mr-0(fluid style='padding-right: 256px; position: initial')
+  v-container.ml-0.mr-0(fluid, style='padding-right: 256px; position: initial')
     v-row.ma-4.d-flex.align-center
       span.text-h2.float-left
-        span.font-weight-bold#predictor-name {{ predictor.predictor }}
+        span#predictor-name.font-weight-bold {{ predictor.predictor }}
         //- span ({{ predictor.fileSize }})
       v-spacer
       //- v-btn.ml-2(
@@ -30,19 +30,19 @@ v-layout(style='width: 100%')
         :class='"test-" + i + ` section-${i + predictor.datasets.train.length + 2}`',
         v-intersect='{ handler: onIntersect }'
       )
-  v-navigation-drawer(
+  v-navigation-drawer.accent(
     clipped,
     fixed,
     floating,
     permanent,
     right,
     tag='nav',
-    style='z-index: 0; top: 64px',
+    style='z-index: 0; top: 64px; box-shadow: -2px 2px 24px rgba(0, 0, 0, 0.05); border-radius: 16px;'
   )
     template(v-slot:prepend)
-      div.d-flex
-        span.pl-4.text-h6.font-weight-medium.text-left Contents
-    v-list(v-if='predictor.datasets', dense)
+      .d-flex.pa-4
+        span#contents.pl-4.text-left.sf Contents
+    v-list.pa-4.pt-0(v-if='predictor.datasets', dense)
       //- v-subheader Train
       v-list-item-group(v-model='currentSection', color='primary')
         v-list-item(
@@ -155,7 +155,6 @@ export default class PredictorOverview extends Vue {
         predictor.predictor == this.$router.currentRoute.path.split('/').pop()
     )[0]
   }
-  
 
   download() {
     this.pushAction({
@@ -172,16 +171,22 @@ export default class PredictorOverview extends Vue {
   }
 
   mounted() {
-    if (typeof this.predictorByName != typeof undefined){
+    if (typeof this.predictorByName != typeof undefined) {
       this.predictor = this.predictorByName as Predictor
       this.setTitle()
     }
-    // Page jumps to (y: ~2400px), while new content is loading.
-    // So we have to restore initial position (y: 0px)  
-    window.setTimeout(() => {this.$vuetify.goTo('#predictor-name', {offset: 9999})}, 350)
+    window.setTimeout(() => {
+      this.$vuetify.goTo('#predictor-name', { offset: 9999 })
+    }, 350)
   }
 }
 </script>
 
 <style scoped>
+#contents {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+}
 </style>
