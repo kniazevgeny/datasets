@@ -13,7 +13,7 @@ v-footer.mt-12(bottom, padless)
       a Igor Abramkin
     v-divider
     v-card-text {{ new Date().getFullYear() }} —
-      strong &nbsp;Datasets Project
+      strong &nbsp;Ivankov Lab
 </template>
 <script lang="ts">
 import Vue from 'vue'
