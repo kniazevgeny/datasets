@@ -70,7 +70,7 @@ v-row.pt-12
               style='display: none'
             )
             label(:for='"p-" + p_id') 
-              a.sf 
+              a.sf.no-link-decaration 
                 span See More
                 v-icon(v-if='!isPublicationOpen[p_id]', color='primary') mdi-menu-right
                 v-icon(v-else, color='primary') mdi-menu-down
@@ -506,4 +506,13 @@ p.paragraph {
   /* theme/primary */
   color: var(--v-text);
 }
+
+.no-link-decaration:hover {
+  text-decoration: none;
+  filter: brightness(1.1);
+}
+
+.no-link-decaration:hover > * {
+  text-decoration: none;
+} 
 </style>
