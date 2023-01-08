@@ -310,6 +310,10 @@ aside.v-navigation-drawer {
   margin-right: -20px;
 }
 
+.view {
+  width: 100vw;
+}
+
 .view:has(aside.v-navigation-drawer) > div {
   width: calc(100vw - var(--v-sidebar_size) - 1rem);
   flex: 1 1 calc(100vw - var(--v-sidebar_size) - 1rem);

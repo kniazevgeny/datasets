@@ -23,7 +23,7 @@ v-layout(column, style='width: 100vw; min-height: 70vh')
       v-row.justify-center.pt-12
         v-flex(xs0, sm2)
         v-flex(xs12, sm8)
-          v-btn.white--text#greeting-btn(
+          v-btn.white--text#greeting-btn.no-link-decaration(
             x-large,
             block,
             color='primary',
@@ -85,5 +85,11 @@ span.text-h3 {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+a#greeting-btn:hover {
+  color: white !important;
+  text-decoration: none;
+
 }
 </style>

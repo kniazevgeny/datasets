@@ -50,3 +50,19 @@ export default class ProDDG extends Vue {
   }
 }
 </script>
+<style>
+.slide-left-enter,
+.slide-right-leave-active,
+.slide-left-enter-active {
+  opacity: 0;
+  -webkit-transform: translate(100px, 0);
+  transform: translate(100px, 0);
+}
+.slide-left-leave-active,
+.slide-right-enter,
+.slide-right-enter-active {
+  opacity: 0;
+  -webkit-transform: translate(-100px, 0);
+  transform: translate(-100px, 0);
+}
+</style>
