@@ -111,6 +111,7 @@
           div
           v-menu(
             v-if='dataVisible.length',
+            background-color='accent'
             offset-y,
             v-model='downloadMenu',
             transition='slide-y-transition',
