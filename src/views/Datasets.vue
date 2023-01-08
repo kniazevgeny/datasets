@@ -476,7 +476,8 @@ export default class Datasets extends Vue {
 
   mounted() {
     // set correct sidebar size (42 characters)
-    this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light'].sidebar_size = '42ch'
+    this.$vuetify.theme.themes['light'].sidebar_size = '42ch'
+    this.$vuetify.theme.themes['dark'].sidebar_size = '42ch'
 
     document.title = 'Datasets | ' + this.$t('title')
 

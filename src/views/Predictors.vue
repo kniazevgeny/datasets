@@ -457,7 +457,8 @@ export default class Predictors extends Vue {
 
   mounted() {
     // set correct sidebar size (25 characters)
-    this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light'].sidebar_size = '30ch'
+    this.$vuetify.theme.themes['light'].sidebar_size = '30ch'
+    this.$vuetify.theme.themes['dark'].sidebar_size = '30ch'
 
     document.title = 'Predictors | ' + this.$t('title')
 
