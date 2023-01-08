@@ -27,7 +27,7 @@ function setSnackbar(err) {
     message = 'Internal Server Error' // will be replaced at Snackbar
   
   // check for internet connection
-  if (!window.navigator.onLine) message = 'Looks like you`re offline'
+  if (!window.navigator.onLine) message = '🌐 Looks like you\'re offline'
   console.log(message)
   store.commit(
     'SnackbarStore/setSnackbar',
