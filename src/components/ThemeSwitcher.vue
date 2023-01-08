@@ -68,6 +68,8 @@ export default class ThemeSwitcher extends Vue {
   toggleMode() {
     this.setDark(!this.dark)
     ;(this.$vuetify.theme as any).dark = this.dark
+    document.getElementsByTagName('html')[0].classList.remove(!this.dark ? 'theme--dark' : 'theme--light')
+    document.getElementsByTagName('html')[0].classList.add(this.dark ? 'theme--dark' : 'theme--light')
   }
 }
 </script>

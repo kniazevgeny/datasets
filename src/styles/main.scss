@@ -68,6 +68,7 @@ html {
 .v-data-table,
 .v-data-table__wrapper {
   border-radius: $border-radius-root !important;
+  max-width: calc(100vw - var(--v-sidebar_size) - 12ch)
 }
 
 a.no-underline, div.no-underline > a {
@@ -367,16 +368,40 @@ Customize scrollbar
 */
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 15px;
+}
+.theme--light ::-webkit-scrollbar {
+  background-color: #F7F7F7;
+}
+
+.theme--dark ::-webkit-scrollbar {
+  background-color: #0D1621;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--v-text);
-  border-radius: 20px;
-  border: 6px solid transparent;
+  border-radius: 12px;
   background-clip: content-box;
 }
 
+.theme--light ::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 70%); 
+  border: 4px solid #F7F7F7;
+}
+.theme--dark ::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 70%); 
+  border: 4px solid #0D1621;
+}
+
+
+#app ::-webkit-scrollbar {
+  width: 16px;
+}
+
+#app ::-webkit-scrollbar-thumb {
+  background-color: hsl(0, 0%, 70%); 
+  border: 5px solid transparent;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--v-accent);
+  background-color: hsl(0, 0%, 55%);
 }
