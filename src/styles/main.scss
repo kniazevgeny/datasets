@@ -207,6 +207,10 @@ a:not(.no-link-decoration):visited,
   transform: rotate(-90deg);
 }
 
+.v-data-table tbody tr.v-data-table__selected {
+  background-color: var(--v-accent) !important;
+}
+
 .v-btn {
   border-radius: 4px;
   transform: none;
