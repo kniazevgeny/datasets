@@ -285,7 +285,7 @@
             target='_blank'
           ) {{ item.uniprot }}
         template(v-slot:item.organism='{ item }')
-          span(style='display: block; min-width: 200px') {{ item.organism }}
+          span(style='display: block; min-width: 250px') {{ item.organism }}
         template(v-slot:item.mutation='{ item }')
           v-chip.primary--text.text--accent-2.font-weight-bold(
             outlined,
