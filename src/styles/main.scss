@@ -216,7 +216,7 @@ a:not(.no-link-decoration):visited,
   transform: none;
 }
 
-.v-btn:not(.no-scale):hover {
+.v-btn.scale:hover {
   transform: scale(1.1);
 }
 
@@ -227,10 +227,13 @@ a:not(.no-link-decoration):visited,
 .v-btn__content {
   font-family: $body-font-family;
   font-weight: 400;
-  text-transform: capitalize;
+  text-transform: none;
   font-size: 1.25rem;
   letter-spacing: 0px;
   // color: rgba(0, 0, 0, 0.8) !important;
+}
+.v-btn__content:first-letter, .v-btn__content > a:first-letter {
+  text-transform: uppercase;
 }
 
 button.v-btn {
