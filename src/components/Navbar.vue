@@ -1,36 +1,37 @@
 <template lang="pug">
 v-app-bar.ml-4.mr-4(color='background', flat, height=60)
-  v-btn-toggle.mb-n2.pb-0(ref='navToggle', v-model='toggle', background-color='accent')
+  v-btn-toggle.pb-0(ref='navToggle', v-model='toggle', background-color='accent', dense)
     v-btn(
       icon,
-      x-large,
+      height=36,
       rounded,
       @click='$router.push(`/proddg?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
       v-icon(color='text') mdi-home-outline
-    v-btn(
+    v-btn.px-3(
       text,
-      x-large,
+      min-height=36,
       rounded,
       @click='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/browse') browse mutations
-    v-btn.ml-2(
+    v-btn.px-3.ml-2(
       text,
-      x-large,
+      min-height=36,
       rounded,
       @click='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/datasets') datasets
-    v-btn.ml-2(
+    v-btn.px-3.ml-2(
       text,
-      x-large,
+      min-height=36,
       rounded,
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/predictors') predictors
   v-spacer 
   ThemeSwitcher.mr-4
+  v-btn#visit-our-website(color='primary') Visit our website
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -86,5 +87,15 @@ button.v-btn--disabled > span > a.no-link-decoration {
 }
 a.no-link-decoration:hover {
   color: #000;
+}
+#visit-our-website {
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+#visit-our-website > .v-btn__content {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  
 }
 </style>
