@@ -23,7 +23,7 @@ v-layout(column, style='width: 100vw; min-height: 70vh')
       v-row.justify-center.pt-12
         v-flex(xs0, sm2)
         v-flex(xs12, sm8)
-          v-btn.white--text#greeting-btn.no-link-decaration(
+          v-btn.scale.white--text#greeting-btn.no-link-decaration(
             x-large,
             block,
             color='primary',
