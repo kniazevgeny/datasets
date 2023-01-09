@@ -15,23 +15,23 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       @click='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/browse') browse mutations
-    v-btn.px-3.ml-2(
+    v-btn.px-3(
       text,
       min-height=36,
       rounded,
       @click='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/datasets') datasets
-    v-btn.px-3.ml-2(
+    v-btn.px-3(
       text,
       min-height=36,
       rounded,
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       a.no-link-decoration(href='/proddg/predictors') predictors
-  v-spacer 
+  v-spacer(style='min-width: 60px')
   ThemeSwitcher.mr-4
-  v-btn#visit-our-website(color='primary') Visit our website
+  v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Visit our website
 </template>
 <script lang="ts">
 import Vue from 'vue'
@@ -91,11 +91,12 @@ a.no-link-decoration:hover {
 #visit-our-website {
   box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
+  color: white !important;
+  text-decoration: none !important;
 }
 #visit-our-website > .v-btn__content {
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
-  
 }
 </style>

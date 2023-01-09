@@ -335,6 +335,7 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
 
 .v-toolbar > .v-toolbar__content {
   overflow: auto;
+  overflow-y: hidden;
 }
 
 .v-card:not(.v-sheet--outlined) {
