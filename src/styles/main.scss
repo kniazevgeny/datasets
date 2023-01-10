@@ -358,12 +358,12 @@ aside.v-navigation-drawer > .v-navigation-drawer__content {
   font-weight: 300;
 }
 
-.v-chip.v-chip--outlined {
+.v-chip {
   border-width: 1.5px !important;
   border-radius: 8px !important;
   padding: 14px 10px !important;
 }
-.v-chip.v-chip--outlined > .v-chip__content { 
+.v-chip > .v-chip__content { 
   font-weight: 500;
 }
 
