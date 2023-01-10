@@ -90,6 +90,7 @@ v-layout(style='width: 100%')
             auto-select-first,
             chips,
             clearable,
+            dense,
             deletable-chips,
             filled,
             multiple,
@@ -137,6 +138,7 @@ v-layout(style='width: 100%')
             v-model='select',
             clearable,
             outlined,
+            dense,
             label='Sort by',
             :items='headers.filter((item) => item.sortable != false)',
             @input='sortItems'

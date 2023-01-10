@@ -96,6 +96,7 @@
             auto-select-first,
             chips,
             clearable,
+            dense,
             deletable-chips,
             filled,
             multiple,
