@@ -115,15 +115,13 @@ v-layout(style='width: 100%')
                 ) mdi-checkbox-outline
                 v-icon(v-else) mdi-checkbox-blank-outline
                 span.font-weight-regular Select all
-              v-btn.text-left(
+              v-btn.text-left.ma-1(
                 v-if='dataVisible.length',
                 :disabled='!selected.filter((el) => el.isSelected == true).length',
-                outlined,
                 color='primary',
                 @click='downloadSelected'
               ) 
-                v-icon mdi-download-outline
-                span.font-weight-regular Download
+                span.font-weight-regular Download selected
             v-text-field.search(
               v-model='searchVisible',
               dense,
@@ -160,6 +158,7 @@ v-layout(style='width: 100%')
                 v-model='select',
                 clearable,
                 outlined,
+                small,
                 label='Sort by',
                 :items='headers.filter((item) => item.sortable != false)',
                 @input='sortItems'
