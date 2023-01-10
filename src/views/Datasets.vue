@@ -422,7 +422,7 @@ export default class Datasets extends Vue {
 
   get filterChips() {
     return this.filters.filter((item) => {
-      if (item.type === 'range' && item.min && item.max && item.range) {
+      if (item.type === 'range' && item.max && item.range) {
         if (item.min < item.range[0]) return true
         if (item.range[1] < item.max) return true
       }
