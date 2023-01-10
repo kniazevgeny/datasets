@@ -133,7 +133,7 @@ v-layout(style='width: 100%')
                 ) 
                   span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                   span.pl-1 {{ getFilterDescription(filter) }}
-        v-card.mt-3.float-right(flat, width='250')
+        v-card.mt-3.float-right(flat, width='200')
           v-select(
             v-model='select',
             clearable,

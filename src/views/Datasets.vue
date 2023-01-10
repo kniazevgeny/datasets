@@ -104,26 +104,17 @@ v-layout(style='width: 100%')
       v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
         v-card-title.pb-2
           v-col.pb-2
-            v-row.pa-2.mb-1.justify-space-between
+            v-row.ma-1.pb-1.justify-space-between
+              span Datasets List
               v-btn.text-left(
-                v-if='dataVisible.length',
-                @click='selectVisible()',
-                outlined,
-                :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
-              ) 
-                v-icon(
-                  v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-                ) mdi-checkbox-outline
-                v-icon(v-else) mdi-checkbox-blank-outline
-                span.font-weight-regular Select all
-              v-btn.text-left.ma-1(
                 v-if='dataVisible.length',
                 :disabled='!selected.filter((el) => el.isSelected == true).length',
                 color='primary',
-                @click='downloadSelected'
+                @click='downloadSelected',
+                width='200'
               ) 
                 span.font-weight-regular Download selected
-            v-text-field.search(
+            v-text-field.search.ma-1(
               v-model='searchVisible',
               dense,
               rounded,
@@ -138,34 +129,46 @@ v-layout(style='width: 100%')
               @input='updateSearchReal',
               clearable
             )
-            //- Mirror filters in v-chips
-            v-expand-transition
-              v-card.mx-auto.mt-3.float-left(flat)
-                v-chip-group(column)
-                  TransitionGroup(name='scale-w', mode='out-in', tag='div')
-                    v-chip(
-                      color='primary',
-                      v-for='(filter, i) in filterChips',
-                      :key='i',
-                      clearable,
-                      @click='resetFilterByChipId(i)',
-                      @click:close='resetFilterByChipId(i)',
-                      close
-                    )
-                      span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
-                      span.pl-1 {{ getFilterDescription(filter) }}
-            v-card.mt-3.mb-n6.float-right(flat, width='250')
-              v-select(
-                v-model='select',
-                clearable,
-                outlined,
-                dense,
-                label='Sort by',
-                :items='headers.filter((item) => item.sortable != false)',
-                @input='sortItems'
-              )
-                template(v-slot:prepend)
-                  v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
+            v-row.ma-1.justify-space-between.flex-nowrap.align-center
+              v-btn.text-left(
+                  v-if='dataVisible.length',
+                  @click='selectVisible()',
+                  outlined,
+                  :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
+                ) 
+                  v-icon(
+                    v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
+                  ) mdi-checkbox-outline
+                  v-icon(v-else) mdi-checkbox-blank-outline
+                  span.font-weight-regular Select all
+              //- Mirror filters in v-chips
+              v-expand-transition
+                v-card.mx-auto.mt-3.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
+                  v-chip-group(column)
+                    TransitionGroup(name='scale-w', mode='out-in', tag='div').d-flex(row).flex-wrap
+                      v-chip(
+                        color='primary',
+                        v-for='(filter, i) in filterChips',
+                        :key='i',
+                        clearable,
+                        @click='resetFilterByChipId(i)',
+                        @click:close='resetFilterByChipId(i)',
+                        close
+                      )
+                        span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
+                        span.pl-1 {{ getFilterDescription(filter) }}
+              v-card.mt-3.mb-n6.float-right(flat, width='200')
+                v-select(
+                  v-model='select',
+                  clearable,
+                  outlined,
+                  dense,
+                  label='Sort by',
+                  :items='headers.filter((item) => item.sortable != false)',
+                  @input='sortItems'
+                )
+                  template(v-slot:prepend)
+                    v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
         v-card-text.pb-2.pt-0.mt-0
           v-col
             span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
@@ -479,8 +482,8 @@ export default class Datasets extends Vue {
 
   mounted() {
     // set correct sidebar size (42 characters)
-    this.$vuetify.theme.themes['light'].sidebar_size = '42ch'
-    this.$vuetify.theme.themes['dark'].sidebar_size = '42ch'
+    this.$vuetify.theme.themes['light'].sidebar_size = '40ch'
+    this.$vuetify.theme.themes['dark'].sidebar_size = '40ch'
 
     document.title = 'Datasets | ' + this.$t('title')
 
