@@ -98,99 +98,102 @@ v-layout(style='width: 100%')
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
-  v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
-    v-card-title.pb-2
-      v-col.pb-2
-        v-row.pa-2.mb-1.justify-space-between
-          v-btn.text-left(
-            v-if='dataVisible.length',
-            @click='selectVisible()',
-            outlined,
-            :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
-          ) 
-            v-icon(
-              v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-            ) mdi-checkbox-outline
-            v-icon(v-else) mdi-checkbox-blank-outline
-            span.font-weight-regular Select all
-          v-btn.text-left(
-            v-if='dataVisible.length',
-            :disabled='!selected.filter((el) => el.isSelected == true).length',
-            outlined,
-            color='primary',
-            @click='downloadSelected'
-          ) 
-            v-icon mdi-download-outline
-            span.font-weight-regular Download
-        v-text-field.search(
-          v-model='searchVisible',
-          dense,
-          rounded,
-          prepend-inner-icon='mdi-magnify',
-          label='Type dataset name, year, author...',
-          single-line,
-          background-color='accent',
-          hide-details,
-          filled,
-          autofocus,
-          color='primary',
-          @input='updateSearchReal',
-          clearable
-        )
-        //- Mirror filters in v-chips
-        v-expand-transition
-          v-card.mx-auto.mt-3.float-left(flat)
-            v-chip-group(column)
-              TransitionGroup(name='scale-w', mode='out-in', tag='div')
-                v-chip(
-                  color='primary',
-                  v-for='(filter, i) in filterChips',
-                  :key='i',
-                  clearable,
-                  @click='resetFilterByChipId(i)',
-                  @click:close='resetFilterByChipId(i)',
-                  close
-                )
-                  span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
-                  span.pl-1 {{ getFilterDescription(filter) }}
-        v-card.mt-3.mb-n6.float-right(flat, width='250')
-          v-select(
-            v-model='select',
-            clearable,
-            outlined,
-            label='Sort by',
-            :items='headers.filter((item) => item.sortable != false)',
-            @input='sortItems'
-          )
-            template(v-slot:prepend)
-              v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
-    v-card-text.pb-2.pt-0.mt-0
-      v-col
-        span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
-        //- id should be id, not name
-        DatasetCard.mb-2(
-          v-for='card in dataVisible',
-          :key='card._id',
-          :showSkeleton='card.showSkeleton',
-          :name='card.name',
-          :_id='card._id',
-          :fileName='card.fileName',
-          :externalLink='card.externalLink',
-          :originalPredictor='card.originalPredictor',
-          :origin='card.origin',
-          :size='card.size',
-          :symmetrized='card.symmetrized',
-          :source='card.source',
-          :mutations='card.mutations',
-          :proteins='card.proteins',
-          :predictors='card.predictors',
-          :year='card.year',
-          :author='card.author',
-          :doi='card.doi',
-          :reference='card.reference',
-          :_selected='getIsSelected(card._id)',
-          @cardSelected='cardSelected'
-        )
+  .d-flex
+    v-flex(xs12, sm7, md7, lg8)
+      v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
+        v-card-title.pb-2
+          v-col.pb-2
+            v-row.pa-2.mb-1.justify-space-between
+              v-btn.text-left(
+                v-if='dataVisible.length',
+                @click='selectVisible()',
+                outlined,
+                :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
+              ) 
+                v-icon(
+                  v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
+                ) mdi-checkbox-outline
+                v-icon(v-else) mdi-checkbox-blank-outline
+                span.font-weight-regular Select all
+              v-btn.text-left(
+                v-if='dataVisible.length',
+                :disabled='!selected.filter((el) => el.isSelected == true).length',
+                outlined,
+                color='primary',
+                @click='downloadSelected'
+              ) 
+                v-icon mdi-download-outline
+                span.font-weight-regular Download
+            v-text-field.search(
+              v-model='searchVisible',
+              dense,
+              rounded,
+              prepend-inner-icon='mdi-magnify',
+              label='Type dataset name, year, author...',
+              single-line,
+              background-color='accent',
+              hide-details,
+              filled,
+              autofocus,
+              color='primary',
+              @input='updateSearchReal',
+              clearable
+            )
+            //- Mirror filters in v-chips
+            v-expand-transition
+              v-card.mx-auto.mt-3.float-left(flat)
+                v-chip-group(column)
+                  TransitionGroup(name='scale-w', mode='out-in', tag='div')
+                    v-chip(
+                      color='primary',
+                      v-for='(filter, i) in filterChips',
+                      :key='i',
+                      clearable,
+                      @click='resetFilterByChipId(i)',
+                      @click:close='resetFilterByChipId(i)',
+                      close
+                    )
+                      span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
+                      span.pl-1 {{ getFilterDescription(filter) }}
+            v-card.mt-3.mb-n6.float-right(flat, width='250')
+              v-select(
+                v-model='select',
+                clearable,
+                outlined,
+                label='Sort by',
+                :items='headers.filter((item) => item.sortable != false)',
+                @input='sortItems'
+              )
+                template(v-slot:prepend)
+                  v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
+        v-card-text.pb-2.pt-0.mt-0
+          v-col
+            span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
+            DatasetCard.mb-2(
+              v-for='card in dataVisible',
+              :key='card._id',
+              :showSkeleton='card.showSkeleton',
+              :name='card.name',
+              :_id='card._id',
+              :fileName='card.fileName',
+              :externalLink='card.externalLink',
+              :originalPredictor='card.originalPredictor',
+              :origin='card.origin',
+              :size='card.size',
+              :symmetrized='card.symmetrized',
+              :source='card.source',
+              :mutations='card.mutations',
+              :proteins='card.proteins',
+              :predictors='card.predictors',
+              :year='card.year',
+              :author='card.author',
+              :doi='card.doi',
+              :reference='card.reference',
+              :_selected='getIsSelected(card._id)',
+              @cardSelected='cardSelected'
+            )
+    v-flex(xs0, sm5, md5, lg4)
+      //- Comparison
 </template>
 
 <script lang="ts">
