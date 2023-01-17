@@ -6,7 +6,7 @@ import router from '@/router'
 import { Predictor } from '@/models/Predictor'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.211.155:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
 
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}

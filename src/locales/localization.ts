@@ -275,5 +275,13 @@ export const messages = {
         sortable: true,
       },
     ],
+    rowsToCompareInDatasets: [
+      'origin',
+      'size',
+      'symmetrized',
+      'mutations',
+      'proteins',
+      'year'
+    ]
   },
 }

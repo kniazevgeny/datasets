@@ -99,114 +99,118 @@ v-layout(style='width: 100%')
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
       v-divider.mt-4
-  .d-flex
-    v-flex(xs12, sm7, md7, lg8)
-      v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
-        v-card-title.pb-2
-          v-col.pb-2
-            v-row.ma-1.pb-1.justify-space-between
-              span Datasets List
-              v-btn.text-left(
-                v-if='dataVisible.length',
-                :disabled='!selected.filter((el) => el.isSelected == true).length',
-                color='primary',
-                @click='downloadSelected',
-                width='200'
-              ) 
-                span.font-weight-regular Download selected
-            v-text-field.search.ma-1(
-              v-model='searchVisible',
+  v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
+    v-card-title.pb-2.d-flex(row)
+      v-flex(xs12, sm12, md6, lg7).pb-2
+        v-row.ma-1.mr-5.pb-1.justify-space-between
+          span Datasets List
+          v-btn.text-left(
+            v-if='dataVisible.length',
+            :disabled='!selected.filter((el) => el.isSelected == true).length',
+            color='primary',
+            @click='downloadSelected',
+            width='200'
+          ) 
+            span.font-weight-regular Download selected
+        v-text-field.search.ma-1.mr-5(
+          v-model='searchVisible',
+          dense,
+          rounded,
+          prepend-inner-icon='mdi-magnify',
+          label='Type dataset name, year, author...',
+          single-line,
+          background-color='accent',
+          hide-details,
+          filled,
+          autofocus,
+          color='primary',
+          @input='updateSearchReal',
+          clearable
+        )
+        v-row.ma-1.mr-5.justify-space-between.flex-nowrap.align-center
+          v-btn.text-left(
+              v-if='dataVisible.length',
+              @click='selectVisible()',
+              outlined,
+              :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
+            ) 
+              v-icon(
+                v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
+              ) mdi-checkbox-outline
+              v-icon(v-else) mdi-checkbox-blank-outline
+              span.font-weight-regular Select all
+          //- Mirror filters in v-chips
+          v-expand-transition
+            v-card.mx-auto.mt-3.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
+              v-chip-group(column)
+                TransitionGroup(name='scale-w', mode='out-in', tag='div').d-flex(row).flex-wrap
+                  v-chip(
+                    color='primary',
+                    v-for='(filter, i) in filterChips',
+                    :key='i',
+                    clearable,
+                    @click='resetFilterByChipId(i)',
+                    @click:close='resetFilterByChipId(i)',
+                    close
+                  )
+                    span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
+                    span.pl-1 {{ getFilterDescription(filter) }}
+          v-card.mt-3.mb-n6.float-right(flat, width='200')
+            v-select(
+              v-model='select',
+              clearable,
+              outlined,
               dense,
-              rounded,
-              prepend-inner-icon='mdi-magnify',
-              label='Type dataset name, year, author...',
-              single-line,
-              background-color='accent',
-              hide-details,
-              filled,
-              autofocus,
-              color='primary',
-              @input='updateSearchReal',
-              clearable
+              label='Sort by',
+              :items='headers.filter((item) => item.sortable != false)',
+              @input='sortItems'
             )
-            v-row.ma-1.justify-space-between.flex-nowrap.align-center
-              v-btn.text-left(
-                  v-if='dataVisible.length',
-                  @click='selectVisible()',
-                  outlined,
-                  :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
-                ) 
-                  v-icon(
-                    v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-                  ) mdi-checkbox-outline
-                  v-icon(v-else) mdi-checkbox-blank-outline
-                  span.font-weight-regular Select all
-              //- Mirror filters in v-chips
-              v-expand-transition
-                v-card.mx-auto.mt-3.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
-                  v-chip-group(column)
-                    TransitionGroup(name='scale-w', mode='out-in', tag='div').d-flex(row).flex-wrap
-                      v-chip(
-                        color='primary',
-                        v-for='(filter, i) in filterChips',
-                        :key='i',
-                        clearable,
-                        @click='resetFilterByChipId(i)',
-                        @click:close='resetFilterByChipId(i)',
-                        close
-                      )
-                        span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
-                        span.pl-1 {{ getFilterDescription(filter) }}
-              v-card.mt-3.mb-n6.float-right(flat, width='200')
-                v-select(
-                  v-model='select',
-                  clearable,
-                  outlined,
-                  dense,
-                  label='Sort by',
-                  :items='headers.filter((item) => item.sortable != false)',
-                  @input='sortItems'
-                )
-                  template(v-slot:prepend)
-                    v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
-        v-card-text.pb-2.pt-0.mt-0
-          v-col
-            span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
-            DatasetCard.mb-2(
-              v-for='card in dataVisible',
-              :key='card._id',
-              :showSkeleton='card.showSkeleton',
-              :name='card.name',
-              :_id='card._id',
-              :fileName='card.fileName',
-              :externalLink='card.externalLink',
-              :originalPredictor='card.originalPredictor',
-              :origin='card.origin',
-              :size='card.size',
-              :symmetrized='card.symmetrized',
-              :source='card.source',
-              :mutations='card.mutations',
-              :proteins='card.proteins',
-              :predictors='card.predictors',
-              :year='card.year',
-              :author='card.author',
-              :doi='card.doi',
-              :reference='card.reference',
-              :_selected='getIsSelected(card._id)',
-              @cardSelected='cardSelected'
-            )
-    v-flex(xs0, sm5, md5, lg4)
-      //- Comparison
+              template(v-slot:prepend)
+                v-icon(@click='flipSortOrder()', v-if='select', color='DarkGray') {{ isSortDescending ? 'mdi-arrow-down' : 'mdi-arrow-up' }}
+      v-flex(hidden-sm-and-down, xs0, sm0, md6, lg5)
+
+    v-card-text.pb-2.pt-0.mt-0.d-flex
+      v-flex(xs12, sm12, md6, lg7).mr-6
+        span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
+        DatasetCard.mb-2(
+          v-for='card in dataVisible',
+          :key='card._id',
+          :showSkeleton='card.showSkeleton',
+          :name='card.name',
+          :_id='card._id',
+          :fileName='card.fileName',
+          :externalLink='card.externalLink',
+          :originalPredictor='card.originalPredictor',
+          :origin='card.origin',
+          :size='card.size',
+          :symmetrized='card.symmetrized',
+          :source='card.source',
+          :mutations='card.mutations',
+          :proteins='card.proteins',
+          :predictors='card.predictors',
+          :year='card.year',
+          :author='card.author',
+          :doi='card.doi',
+          :reference='card.reference',
+          :_selected='getIsSelected(card._id)',
+          @cardSelected='cardSelected',
+          :color='getCardColor(card._id)'
+        )
+      v-flex(hidden-sm-and-down, xs0, sm0, md6, lg5)
+        //- Comparison
+        ComparisonCard(:items='comparisonSelected', @swap='swapComparisonSelected')
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import DatasetCard from '@/components/DatasetCard.vue'
+import ComparisonCard from '@/components/ComparisonCard.vue'
 
 import { downloadDataset, getDatasets } from '@/utils/api'
 import { Dataset } from '@/models/Dataset'
 import { namespace } from 'vuex-class'
+import { Watch } from 'vue-property-decorator'
 
 const AppStore = namespace('AppStore')
 
@@ -219,6 +223,7 @@ interface Selection {
   props: {},
   components: {
     DatasetCard,
+    ComparisonCard
   },
 })
 export default class Datasets extends Vue {
@@ -230,6 +235,7 @@ export default class Datasets extends Vue {
   select = 0
 
   selected: Selection[] = []
+  comparisonSelected: Selection[] = []
   getIsSelected(_id) {
     if (!this.selected.length) return false
     if (this.selected.filter((el) => el._id == _id).length)
@@ -240,6 +246,22 @@ export default class Datasets extends Vue {
       this.selected.filter((el) => el._id == _id)[0]
     )
     this.selected[i].isSelected = !this.selected[i].isSelected
+    this.updateComparisonSelected(_id)
+  }
+  updateComparisonSelected(last_id: string) {
+    // we need _id of the last selected to better react to user's actions
+    // if not provided, the default order would be always descending
+    if (!this.selected.length) return;
+    if (this.selected.filter(el => el.isSelected).length == 2)
+      {
+        this.comparisonSelected = this.selected.filter(el => el.isSelected)
+        if (this.comparisonSelected[1]._id != last_id) this.swapComparisonSelected()
+      }
+    else
+      this.comparisonSelected = []
+  }
+  swapComparisonSelected() {
+    this.comparisonSelected = this.comparisonSelected.reverse()
   }
   selectVisible() {
     let toBe = false
@@ -254,6 +276,7 @@ export default class Datasets extends Vue {
       )
       if (dataElement.fileName) this.selected[i].isSelected = toBe
     })
+    this.updateComparisonSelected('')
   }
   downloadSelected() {
     downloadDataset(
@@ -262,6 +285,11 @@ export default class Datasets extends Vue {
         .map((el) => el._id)
         .join(',')
     )
+  }
+  getCardColor(_id: string) {
+    if (!this.comparisonSelected.length) return 'text'
+    if (this.comparisonSelected[0]._id == _id) return 'blueComparison'
+    if (this.comparisonSelected[1]._id == _id) return 'pinkComparison'
   }
 
   isSortDescending = true

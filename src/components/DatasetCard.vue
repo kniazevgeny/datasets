@@ -17,8 +17,8 @@ v-card(flat, outlined, style='background: var(--v-accent)')
   //-   v-card.white()
   //-     DatasetOverview(:id='_id' :name='name' :fileName='fileName' @closeDialog='closeDialog')
   v-card-title.mb-0(v-if='typeof externalLink == "undefined"' :class='typeof fileName != typeof undefined ? "" : "v-btn--disabled disabled no-underline"')
-    v-simple-checkbox.mt-1(v-model='selected' color='primary' @click='onCardSelected')
-    a(:href='`/proddg/dataset/${name}`' target="_blank") {{ name }}
+    v-simple-checkbox.mt-1(v-model='selected' :color='color != "text" ? color : "primary"' @click='onCardSelected')
+    a.no-link-decoration(:href='`/proddg/dataset/${name}`' target="_blank", :style="'color:var(--v-'+color+')'") {{ name }}
   v-card-title(v-else)
     a.external-link(:href='externalLink') {{ name }}
     v-icon(small) mdi-open-in-new
@@ -80,6 +80,7 @@ const ActionStore = namespace('ActionStore')
     doi: String,
     reference: String,
     _selected: Boolean,
+    color: String,
   },
   components: {
     DatasetOverview
@@ -107,6 +108,7 @@ export default class DatasetCard extends Vue {
   doi?: String
   reference?: String
   _selected?: Boolean
+  color!: String
 
   dialog = false
 
