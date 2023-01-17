@@ -418,3 +418,7 @@ Customize scrollbar
 .v-list.v-select-list.v-sheet {
   background-color: var(--v-accent);
 }
+
+.v-sheet {
+  border-width: 0px !important;
+}
