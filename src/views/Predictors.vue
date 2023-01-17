@@ -139,6 +139,7 @@ v-layout(style='width: 100%')
             clearable,
             outlined,
             dense,
+            hide-details,
             label='Sort by',
             :items='headers.filter((item) => item.sortable != false)',
             @input='sortItems'

@@ -127,7 +127,7 @@ v-layout(style='width: 100%')
           @input='updateSearchReal',
           clearable
         )
-        v-row.ma-1.mr-5.justify-space-between.flex-nowrap.align-center
+        v-row.ma-1.mr-5.mt-3.justify-space-between.flex-nowrap.align-center
           v-btn.text-left(
               v-if='dataVisible.length',
               @click='selectVisible()',
@@ -144,7 +144,7 @@ v-layout(style='width: 100%')
               span(v-else).font-weight-regular Select all
           //- Mirror filters in v-chips
           v-expand-transition
-            v-card.mx-auto.mt-3.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
+            v-card.mx-auto.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
               v-chip-group(column)
                 TransitionGroup(name='scale-w', mode='out-in', tag='div').d-flex(row).flex-wrap
                   v-chip(
@@ -158,12 +158,14 @@ v-layout(style='width: 100%')
                   )
                     span.font-weight-light(v-if='filter') {{ filter.title + ': ' }}
                     span.pl-1 {{ getFilterDescription(filter) }}
-          v-card.mt-3.mb-n6.float-right(flat, width='200')
+          v-card.float-right(flat, width='200')
             v-select(
               v-model='select',
               clearable,
               outlined,
               dense,
+              hide-details,
+              height=36,
               label='Sort by',
               :items='headers.filter((item) => item.sortable != false)',
               @input='sortItems'
