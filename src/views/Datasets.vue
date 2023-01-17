@@ -132,13 +132,16 @@ v-layout(style='width: 100%')
               v-if='dataVisible.length',
               @click='selectVisible()',
               outlined,
-              :color='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length ? "primary" : "text"'
+              color='text'
             ) 
               v-icon(
                 v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-              ) mdi-checkbox-outline
+              ) mdi-minus-box-outline
               v-icon(v-else) mdi-checkbox-blank-outline
-              span.font-weight-regular Select all
+              span(
+                v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
+              ).font-weight-regular Deselect
+              span(v-else).font-weight-regular Select all
           //- Mirror filters in v-chips
           v-expand-transition
             v-card.mx-auto.mt-3.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
