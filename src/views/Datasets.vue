@@ -102,7 +102,7 @@ v-layout(style='width: 100%')
   v-card.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2.d-flex(row)
       v-flex(xs12, sm12, md6, lg7).pb-2
-        v-row.ma-1.mr-5.pb-1.justify-space-between
+        v-row.ma-1.mr-5.pb-2.justify-space-between
           span Datasets List
           v-btn.text-left(
             v-if='dataVisible.length',
