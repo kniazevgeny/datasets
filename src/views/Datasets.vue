@@ -292,7 +292,7 @@ export default class Datasets extends Vue {
     )
   }
   getCardColor(_id: string) {
-    if (!this.comparisonSelected.length) return 'text'
+    if (!this.comparisonSelected.length) return ''
     if (this.comparisonSelected[0]._id == _id) return 'blueComparison'
     if (this.comparisonSelected[1]._id == _id) return 'pinkComparison'
   }
