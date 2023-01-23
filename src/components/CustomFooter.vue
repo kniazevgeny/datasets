@@ -8,9 +8,9 @@ v-footer.mt-12(bottom, padless)
     v-card-text.pt-0.pb-0 A Skoltech project
     v-card-text.pt-0 
       span Made with ❤️ by&nbsp;
-      a(href='https://kniazevgeny.github.io') Evgeny Kniazev
+      a(href='https://kniazevgeny.github.io' ) Evgeny Kniazev
       span &nbsp;&&nbsp;
-      a Igor Abramkin
+      a(href='https://t.me/igorabramkin') Igor Abramkin
     v-divider
     v-card-text {{ new Date().getFullYear() }} —
       strong &nbsp;Ivankov Lab
