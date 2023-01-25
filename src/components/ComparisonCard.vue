@@ -24,8 +24,8 @@ v-card(color='accent', id='comparison')
       span.mt-3(v-if='isDatasetsReady')
         span.font-weight-bold.blueComparison--text {{ dataset1.name }}&nbsp;
         span overlaps with
-        span.font-weight-bold.pinkComparison--text &nbsp;{{ dataset2.name }}&nbsp;
-        span at
+        span.font-weight-bold.pinkComparison--text &nbsp;{{ dataset2.name }}
+        span &nbsp;at
         #pident.px-1
           v-text-field(v-model='pident', dense, outlined, hide-details, @change='resetOverlaps')
         span sequence identity
@@ -34,7 +34,7 @@ v-card(color='accent', id='comparison')
           span(v-if='all_overlap') All data overlap at {{pident}} cutoff.
           span(v-if='no_overlap') No overlap at {{pident}} cutoff.
           span(v-if='!all_overlap && !no_overlap') Percent of overlapping data: {{percent_of_overlapping}}
-        span(v-if='overlappingProteinsLength') Overlapping proteins: {{ overlappingProteinsLength }}
+        span(v-if='overlappingProteinsLength != 0') Overlapping proteins: {{ overlappingProteinsLength }}
         a(v-if='showOverlapsBtn', :href='`${base}/download_overlap?_id=${overlap_id}`') Download dataset without overlaps
         a(v-if='overlappingProteinsLength', :href='`${base}/download_overlapping_proteins?_id=${overlap_id}`') Download overlapping proteins
       v-btn.mt-2.mb-6(v-else, small, dense, width='25ch', color='primary', @click='calculateOverlaps') Calculate overlaps
@@ -105,7 +105,8 @@ export default class ComparisonCard extends Vue {
     this.all_overlap = response.all_overlap
     this.no_overlap = response.no_overlap
     this.percent_of_overlapping = response.percent_of_overlapping
-    this.overlappingProteinsLength = response.overlapping_proteins.length
+    if (typeof response.overlapping_proteins != typeof undefined)
+      this.overlappingProteinsLength = response.overlapping_proteins.length
     if (response.dataset1_data_no_overlap_hashes.length) this.showOverlapsBtn = true
     this.showOverlapsResult = true
     this.overlap_id = response._id
