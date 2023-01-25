@@ -155,3 +155,49 @@ export async function downloadDataset(id: string) {
     { root: true }
   )
 }
+
+export async function calculateOverlap(dataset1_name: string, dataset2_name: string, pident: number) {
+  return await axios
+    .put(
+      `${base}/overlaps`,
+      {
+        dataset1_name: dataset1_name,
+        dataset2_name: dataset2_name,
+        pident: pident,
+      },
+      { headers: getHeaders() }
+    )
+    .then((response) => {
+      return response
+    })
+}
+
+export async function downloadOverlap(id: string) {
+  // if (checkInternetConnection()) throw "error";
+  window.open(`${base}/download_overlap?_id=${id}`, '_blank')
+  store.commit(
+    'ActionStore/pushAction',
+    {
+      type: 'download',
+      timestamp: Number(Date.now()),
+      btn_id: '#download-overlap',
+      page_href: router.currentRoute.path,
+    },
+    { root: true }
+  )
+}
+
+export async function downloadOverlappingProteins(id: string) {
+  // if (checkInternetConnection()) throw "error";
+  window.open(`${base}/download_overlapping_proteins?_id=${id}`, '_blank')
+  store.commit(
+    'ActionStore/pushAction',
+    {
+      type: 'download',
+      timestamp: Number(Date.now()),
+      btn_id: '#download-overlapping-proteins',
+      page_href: router.currentRoute.path,
+    },
+    { root: true }
+  )
+}
