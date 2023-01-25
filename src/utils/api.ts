@@ -8,6 +8,8 @@ import { Predictor } from '@/models/Predictor'
 let base = 'https://api.ivankovlab.ru'
 if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
 
+export {base};
+
 function getHeaders() {
   if (store.state.AppStore.user == undefined) return {}
   return {
@@ -170,34 +172,4 @@ export async function calculateOverlap(dataset1_name: string, dataset2_name: str
     .then((response) => {
       return response
     })
-}
-
-export async function downloadOverlap(id: string) {
-  // if (checkInternetConnection()) throw "error";
-  window.open(`${base}/download_overlap?_id=${id}`, '_blank')
-  store.commit(
-    'ActionStore/pushAction',
-    {
-      type: 'download',
-      timestamp: Number(Date.now()),
-      btn_id: '#download-overlap',
-      page_href: router.currentRoute.path,
-    },
-    { root: true }
-  )
-}
-
-export async function downloadOverlappingProteins(id: string) {
-  // if (checkInternetConnection()) throw "error";
-  window.open(`${base}/download_overlapping_proteins?_id=${id}`, '_blank')
-  store.commit(
-    'ActionStore/pushAction',
-    {
-      type: 'download',
-      timestamp: Number(Date.now()),
-      btn_id: '#download-overlapping-proteins',
-      page_href: router.currentRoute.path,
-    },
-    { root: true }
-  )
 }
