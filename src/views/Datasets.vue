@@ -63,7 +63,7 @@ v-layout(style='width: 100%')
           type='card, actions',
           max-height='100px'
         )
-      v-list-item-content(v-if='filter.type === "chip"')
+      v-list-item-content.overflow-x(v-if='filter.type === "chip"')
         div(v-if='data.length')
           v-chip-group(
             v-model='filter.selected',
@@ -515,8 +515,8 @@ export default class Datasets extends Vue {
 
   mounted() {
     // set correct sidebar size (42 characters)
-    this.$vuetify.theme.themes['light'].sidebar_size = '40ch'
-    this.$vuetify.theme.themes['dark'].sidebar_size = '40ch'
+    this.$vuetify.theme.themes['light'].sidebar_size = '35ch'
+    this.$vuetify.theme.themes['dark'].sidebar_size = '35ch'
 
     document.title = 'Datasets | ' + this.$t('title')
 

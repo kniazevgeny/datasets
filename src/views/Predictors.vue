@@ -63,7 +63,7 @@ v-layout(style='width: 100%')
           type='card, actions',
           max-height='100px'
         )
-      v-list-item-content(v-if='filter.type === "chip"')
+      v-list-item-content.overflow-x(v-if='filter.type === "chip"')
         div(v-if='data.length')
           v-chip-group(
             v-model='filter.selected',

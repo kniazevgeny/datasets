@@ -154,6 +154,10 @@ a:not(.no-link-decoration):visited,
   transition: 0.2s ease-in;
 }
 
+.overflow-x {
+  overflow-x: auto !important;
+}
+
 .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th {
   // padding: 0 6px !important;
