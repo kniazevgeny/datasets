@@ -167,6 +167,7 @@ v-layout(style='width: 100%')
               hide-details,
               height=36,
               label='Sort by',
+              background-color='accent',
               :items='headers.filter((item) => item.sortable != false)',
               @input='sortItems'
             )
@@ -787,5 +788,15 @@ li {
 .v-chip--filled {
   background: var(--v-primary);
   color: var(--v-text);
+}
+</style>
+<style>
+.v-text-field--outlined .v-select__slot label {
+  font-size: 14px;
+  line-height: 16px;
+  padding: 0 6px;
+  margin-top: 2px;
+  opacity: 0.5;
+  color: var(--v-text)
 }
 </style>

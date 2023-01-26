@@ -158,6 +158,14 @@ a:not(.no-link-decoration):visited,
   overflow-x: auto !important;
 }
 
+fieldset {
+  border-width: 0;
+}
+
+.v-navigation-drawer > .v-navigation-drawer__border {
+  width: 0px;
+}
+
 .v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
 .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th {
   // padding: 0 6px !important;
