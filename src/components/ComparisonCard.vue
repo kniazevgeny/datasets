@@ -37,7 +37,7 @@ v-card(color='accent', id='comparison')
         span(v-if='overlappingProteinsLength != 0') Overlapping proteins: {{ overlappingProteinsLength }}
         a(v-if='showOverlapsBtn', :href='`${base}/download_overlap?_id=${overlap_id}`') Download dataset without overlaps
         a(v-if='overlappingProteinsLength', :href='`${base}/download_overlapping_proteins?_id=${overlap_id}`') Download overlapping proteins
-      v-btn.mt-2.mb-6(v-else, small, dense, width='25ch', color='primary', @click='calculateOverlaps') Calculate overlaps
+      v-btn.mt-2.mb-6(v-else, small, dense, width='25ch', color='primary', @click='calculateOverlaps', :loading='isOverlapsLoading') Calculate overlaps
 
   .d-flex.pa-4(v-else)
     //- explainer
@@ -77,6 +77,7 @@ export default class ComparisonCard extends Vue {
 
   showOverlapsResult = false 
   isDatasetsReady = false
+  isOverlapsLoading = false
 
   overlap_id = ''
 
@@ -100,14 +101,17 @@ export default class ComparisonCard extends Vue {
   }
 
   async calculateOverlaps() {
+    this.showOverlapsResult = false
+    this.isOverlapsLoading = true
     if (typeof this.dataset1 == typeof undefined || typeof this.dataset2 == typeof undefined) return;
     const response = (await calculateOverlap((this.dataset1 as Dataset).name, (this.dataset2 as Dataset).name, this.pident)).data
     this.all_overlap = response.all_overlap
     this.no_overlap = response.no_overlap
     this.percent_of_overlapping = response.percent_of_overlapping
     if (typeof response.overlapping_proteins != typeof undefined)
-      this.overlappingProteinsLength = response.overlapping_proteins.length
+    this.overlappingProteinsLength = response.overlapping_proteins.length
     if (response.dataset1_data_no_overlap_hashes.length) this.showOverlapsBtn = true
+    this.isOverlapsLoading = false
     this.showOverlapsResult = true
     this.overlap_id = response._id
   }
