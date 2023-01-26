@@ -143,7 +143,7 @@ export default class ComparisonCard extends Vue {
 <style>
 #comparison {
   position: sticky;
-  top: 15vh;
+  top: 10vh;
   box-shadow: -2px 2px 24px rgba(0, 0, 0, 0.05);
   border-radius: 16px;
 }
