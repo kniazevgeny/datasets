@@ -188,11 +188,32 @@ export const messages = {
           },
           {
             title: 'ProDDG',
-            image: '',
+            description: '',
+            url: 'https://ivankovlab.ru/proddg',
+            // image: require('../assets/ivankovlab-2-m.webp'),
           },
         ],
       },
-      { title: 'Teaching', type: 'blocks' },
+      { 
+        title: 'Teaching', 
+        type: 'blocks',
+        blocks: [
+          {
+            title: 'Introduction to Programming for Biologists',
+            url: 'http://files.skoltech.ru/data/edu/syllabuses/2020/MA030372.pdf?v=166oul',
+            description:
+            '',
+            image: '',
+          },
+          {
+            title: 'Structural Bioinformatics ',
+            url: 'http://files.skoltech.ru/data/edu/syllabuses/2020/MA060375.pdf?v=eo8ldx',
+            description:
+              '',
+            image: '',
+          },
+        ],
+       },
     ],
     mutations_headers: [
       {

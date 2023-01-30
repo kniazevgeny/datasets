@@ -42,8 +42,10 @@ v-row.pt-12
             :key='b_id'
           )
             v-card.block(flat)
-              v-img.white--text.align-end
-              v-card-title.block-title {{ block.title }}
+              v-img.white--text.align-end(:src='block.image')
+              v-card-title.block-title()
+                span(v-if='!block.url') {{ block.title }}
+                a(v-else :href='block.url') {{ block.title }}
               v-card-text.block-description {{ block.description }}
       #cards.d-flex(v-if='section.type == "cards"')
         v-card.ma-4.ml-0(
