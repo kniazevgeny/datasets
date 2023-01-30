@@ -89,6 +89,13 @@ export const messages = {
         publications: [
           {
             title:
+              'Pak, M. A., Dovidchenko, N. V., Sharma, S. M., & Ivankov, D. N. (2023). New mega dataset combined with deep neural network makes a progress in predicting impact of mutation on protein stability.',
+            description:
+              'Prediction of proteins stability change (ΔΔG) due to single mutation is important for biotechnology, medicine, and our understanding of physics underlying protein folding. Despite the recent tremendous success in 3D protein structure prediction, the apparently simpler problem of predicting the effect of mutations on protein stability has been hampered by the low amount of experimental data. With the recent high-throughput measurements of mutational effects in ‘mega’ experiment for ~850,000 mutations [Tsuboyama et al., bioRxiv, 2022] it becomes possible to apply the state-of-the-art deep learning methods. Here we explore the ability of ESM2 deep neural network architecture with added Light Attention mechanism to predict the change of protein stability due to single mutations. The resulting method ABYSSAL predicts well the data from the ‘mega’ experiment (Pearson correlation 0.85) while the prediction of ΔΔG values from previous experiments is more modest (Pearson correlation 0.50). ABYSSAL also shows a perfect satisfaction of the antisymmetry property. The ABYSSAL training demonstrated that the dataset should contain around ~100,000 data points for taking advantage of the state-of-the-art deep learning methods. Overall, our study shows great perspectives for developing the deep learning ΔΔG predictors..',
+            url: 'https://doi.org/10.1101/2022.12.31.522396',
+          },
+          {
+            title:
               'Finkelstein, A. V., Bogatyreva, N. S., Ivankov, D. N., & Garbuzynskiy, S. O. (2022). Protein folding problem: enigma, paradox, solution. Biophysical Reviews.',
             description:
               'The ability of protein chains to spontaneously form their three-dimensional structures is a long-standing mystery in molecular biology. The most conceptual aspect of this mystery is how the protein chain can find its native, “working” spatial structure (which, for not too big protein chains, corresponds to the global free energy minimum) in a biologically reasonable time, without exhaustive enumeration of all possible conformations, which would take billions of years. This is the so-called “Levinthal’s paradox.” In this review, we discuss the key ideas and discoveries leading to the current understanding of protein folding kinetics, including folding landscapes and funnels, free energy barriers at the folding/unfolding pathways, and the solution of Levinthal’s paradox. A special role here is played by the “all-or-none” phase transition occurring at protein folding and unfolding and by the point of thermodynamic (and kinetic) equilibrium between the “native” and the “unfolded” phases of the protein chain (where the theory obtains the simplest form). The modern theory provides an understanding of key features of protein folding and, in good agreement with experiments, it (i) outlines the chain length-dependent range of protein folding times, (ii) predicts the observed maximal size of “foldable” proteins and domains. Besides, it predicts the maximal size of proteins and domains that fold under solely thermodynamic (rather than kinetic) control. Complementarily, a theoretical analysis of the number of possible protein folding patterns, performed at the level of formation and assembly of secondary structures, correctly outlines the upper limit of protein folding times.',
@@ -180,7 +187,7 @@ export const messages = {
             image: '',
           },
           {
-            title: 'ΔΔG datasets and predictors',
+            title: 'ProDDG',
             image: '',
           },
         ],

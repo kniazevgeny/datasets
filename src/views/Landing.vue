@@ -105,10 +105,14 @@ v-row.pt-12
                 .thesis-description {{thesis.description}}
 
     div 
-      h2.section-title Contacts
+      h2.section-title.pb-10 Contacts
       span 
-        span E-Mail:
+        span e-mail:&nbsp;
         a(href='mailto:d.ivankov@skoltech.ru') d.ivankov@skoltech.ru
+      br
+      span 
+        span For directions on how to reach us, please see&nbsp;
+        a(href='https://www.skoltech.ru/en/about/contacts/' target="_blank") here. 
     //- router-link(to='/datasets') Datasets project
   v-flex(xs1)
 </template>
@@ -455,10 +459,6 @@ p.paragraph {
   
   /* theme/primary */
   color: var(--v-primary) !important;
-}
-
-.publication > div > label > a:hover > span {
-  /* text-decoration: underline dashed; */
 }
 
 .publication > div > div > a {
