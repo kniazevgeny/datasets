@@ -80,6 +80,8 @@ export default class Browse extends Vue {
   }
 
   mounted() {
+    document.title = 'Browse Mutations | ' + this.$t('title')
+
     return;
     getMutations().then((response) => {
       this.data = response
