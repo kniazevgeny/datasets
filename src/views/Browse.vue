@@ -1,6 +1,6 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  Mutations(
+  Mutations.unavailable(
     :headers='mutations_headers',
     :data='data',
     :filters='filters',
@@ -80,6 +80,7 @@ export default class Browse extends Vue {
   }
 
   mounted() {
+    return;
     getMutations().then((response) => {
       this.data = response
 

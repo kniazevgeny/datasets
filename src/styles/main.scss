@@ -282,12 +282,11 @@ button.primary:active {
 
 .unavailable::before {
   filter: none !important;
-  font-weight: bold;
   font-size: 1.5rem;
-  content: 'Coming soon\A\A join our channel to be notified\A when we launch new features';
+  content: 'Currently unavailable\A\A We\'re sorry for the inconvenience';
   white-space: pre;
   color: #fff;
-  background-color: #f41224;
+  background-color: var(--v-red);
   padding: 10px;
   border-radius: 5px;
   position: absolute;
@@ -295,7 +294,7 @@ button.primary:active {
   top: min(50%, 50vh);
   left: 50%;
   max-height: 70vh;
-  transform: translate(-50%, -50%) rotate(35deg);
+  transform: translate(-50%, -50%) rotate(15deg);
 }
 
 .v-chip--dark {
