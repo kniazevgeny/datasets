@@ -385,12 +385,13 @@ export default class Datasets extends Vue {
     )
     return [...valuesReduced.values()]
   }
-
+  
   getGradient(min, max, range, step) {
     let color = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary']
     let colorDisabled = '#d9ebe9'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     // if (min == -10) console.log(range)
+    if (max > 10000) step = max / 100
 
     let gradient: Array<String> = []
     for (let i = min; i < max; i += step) {
@@ -540,6 +541,29 @@ export default class Datasets extends Vue {
       this.filters[
         this.filters.findIndex((el) => el.value == 'author')
       ].items = [...new Set(this.data.map((el: Dataset) => el.author))]
+      
+      // set border values
+      this.filters.forEach((filter, i) => {
+        if (filter.type == 'range') {
+          const values = this.data
+            // @ts-ignore
+            .filter((el) => !!el[filter.value])
+            // @ts-ignore
+            .map((el) => parseFloat(el[filter.value]))
+          this.filters[i].min = values.reduce((prev, current) => {
+            if (prev < current) return prev
+            else return current
+          }, 250) as number
+          this.filters[i].max = values.reduce((prev, current) => {
+            if (prev > current) return prev
+            else return current as number
+          }, -10)
+          this.filters[i].range = [
+            this.filters[i].min as number,
+            this.filters[i].max as number,
+          ]
+        }
+      })
     })
   }
 
