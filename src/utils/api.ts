@@ -95,18 +95,20 @@ export async function getPredictors() {
   return response
 }
 
-export async function getMutations() {
+export async function getMutations(filters: object[]) {
   // if (checkInternetConnection()) throw "error";
   let response = (
     await axios
-      .get(`${base}/mutations`, {
+      .post(`${base}/mutations`, 
+        {filters: filters},
+      {
         headers: getHeaders(),
-      })
+      },)
       .catch((err) => {
         setSnackbar(err)
         return err
       })
-  ).data as object[]
+  ).data
   // c.logserv('api.balance', response)
   // response.balance = removeBackZeroes(response.balance)
   return response

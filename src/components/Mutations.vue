@@ -578,7 +578,7 @@ export default class Mutations extends Vue {
   @Watch('filters')
   onFiltersChange() {
     this.filterChangeFlag += 1
-    console.log('filters changed!')
+    if (this.showFilters) this.$emit('filterChange', this.filters)
     this.filterData()
   }
 

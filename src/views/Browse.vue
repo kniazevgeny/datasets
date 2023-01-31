@@ -1,9 +1,10 @@
 <template lang="pug">
 v-layout(style='width: 100%')
-  Mutations.unavailable(
+  Mutations(
     :headers='mutations_headers',
     :data='data',
     :filters='filters',
+    @filterChange='',
     showFilters,
     selectable
   )
@@ -22,47 +23,8 @@ import Mutations from '../components/Mutations.vue'
   },
 })
 export default class Browse extends Vue {
-  searchVisible: String = ''
-  searchReal: String = '-1'
-
   get mutations_headers() {
     return this.$t('mutations_headers')
-  }
-
-  updateSearchReal() {
-    if (this.searchVisible != '') this.searchReal = this.searchVisible
-    else this.searchReal = '-1'
-  }
-
-  randn_bm(min, max, skew) {
-    let u = 0,
-      v = 0
-    while (u === 0) u = Math.random()
-    while (v === 0) v = Math.random()
-    let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v)
-
-    num = num / 10.0 + 0.5
-    if (num > 1 || num < 0) num = this.randn_bm(min, max, skew)
-    else {
-      num = Math.pow(num, skew)
-      num *= max - min
-      num += min
-    }
-    return num
-  }
-
-  tickLabels(start: number, end: number, step: number) {
-    let rand: Array<number> = []
-    for (let i = 0; i < step * 1000; i++)
-      rand.push(Math.round(this.randn_bm(start, end, 1) * step * 2) / step / 2)
-    rand = rand.sort(function (a, b) {
-      return a - b
-    })
-    let randReduced: Map<number, Map<number, number>> = rand.reduce(
-      (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
-      new Map()
-    )
-    return [...randReduced.values()]
   }
 
   getGradient(min, max, range, step) {
@@ -79,40 +41,19 @@ export default class Browse extends Vue {
     return gradient
   }
 
+  getMutationsByFilters(filters) {
+    getMutations(filters).then((response) => {
+      console.log(response)
+      
+    })
+  }
+
   mounted() {
     document.title = 'Browse Mutations | ' + this.$t('title')
 
-    return;
-    getMutations().then((response) => {
-      this.data = response
-
-      // @ts-ignore
-      this.filters[
-        this.filters.findIndex((el) => el.value == 'organism')
-      ].items = [
-        ...new Set(this.data.map((el: any) => el.organism).filter((el) => el)),
-      ].sort()
-
-      // set border values
-      this.filters.forEach((filter, i) => {
-        if (filter.type == 'range') {
-          const values = this.data
-            .filter((el) => !!el[filter.value])
-            .map((el) => parseFloat(el[filter.value]))
-          this.filters[i].min = values.reduce((prev, current) => {
-            if (prev < current) return prev
-            else return current
-          }, 250) as number
-          this.filters[i].max = values.reduce((prev, current) => {
-            if (prev > current) return prev
-            else return current as number
-          }, -10)
-          this.filters[i].range = [
-            this.filters[i].min as number,
-            this.filters[i].max as number,
-          ]
-        }
-      })
+    getMutations(this.filters).then((response) => {
+      this.data = response.mutations
+      this.filters = response.filters
     })
   }
 
@@ -122,11 +63,11 @@ export default class Browse extends Vue {
       value: 'ddG',
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
-      min: -14,
-      max: 10,
+      min: 0,
+      max: 0,
       step: 0.1,
-      tickLabels: this.tickLabels(-10, 14, 1),
-      range: [-14, 10],
+      tickLabels: [],
+      range: [0, 0],
       hint: 'Im a hint',
     },
     {
@@ -135,10 +76,10 @@ export default class Browse extends Vue {
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
       min: 0,
-      max: 590,
+      max: 0,
       step: 1,
-      tickLabels: this.tickLabels(0, 590, 1),
-      range: [0, 590],
+      tickLabels: [],
+      range: [0, 0],
       hint: 'Im a hint',
     },
     {
@@ -146,11 +87,11 @@ export default class Browse extends Vue {
       value: 'pH',
       subtitle: 'Number of data points in a dataset.',
       type: 'range',
-      min: 1,
-      max: 12,
+      min: 0,
+      max: 0,
       step: 0.1,
-      tickLabels: this.tickLabels(1, 12, 0.1),
-      range: [1, 12],
+      tickLabels: [],
+      range: [0, 0],
       hint: 'Im a hint',
     },
     {
