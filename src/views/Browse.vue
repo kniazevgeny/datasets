@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout(style='width: 100%')
+v-layout.unavailable(style='width: 100%')
   Mutations(
     :headers='mutations_headers',
     :data='data',
