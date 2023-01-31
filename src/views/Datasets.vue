@@ -553,7 +553,7 @@ export default class Datasets extends Vue {
           this.filters[i].min = values.reduce((prev, current) => {
             if (prev < current) return prev
             else return current
-          }, 250) as number
+          }, 2022) as number
           this.filters[i].max = values.reduce((prev, current) => {
             if (prev > current) return prev
             else return current as number
