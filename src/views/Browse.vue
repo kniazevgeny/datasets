@@ -1,12 +1,14 @@
 <template lang="pug">
-v-layout.unavailable(style='width: 100%')
+v-layout(style='width: 100%')
   Mutations(
     :headers='mutations_headers',
     :data='data',
     :filters='filters',
-    @filterChange='',
-    showFilters,
-    selectable
+    @filterChange='getMutationsByFilters',
+    :customFiltrationId='customFiltrationId',
+    :mutationsCount='mutationsCount',
+    showDownloadBtn,
+    showFilters
   )
 </template>
 
@@ -23,6 +25,9 @@ import Mutations from '../components/Mutations.vue'
   },
 })
 export default class Browse extends Vue {
+  customFiltrationId = ''
+  mutationsCount = 0
+
   get mutations_headers() {
     return this.$t('mutations_headers')
   }
@@ -44,17 +49,17 @@ export default class Browse extends Vue {
   getMutationsByFilters(filters) {
     getMutations(filters).then((response) => {
       console.log(response)
-      
+      this.data = response.mutations
+      if (!!response.filters) this.filters = response.filters
+      this.customFiltrationId = response.customFiltrationId
+      this.mutationsCount = response.mutationsCount
     })
   }
 
   mounted() {
     document.title = 'Browse Mutations | ' + this.$t('title')
 
-    getMutations(this.filters).then((response) => {
-      this.data = response.mutations
-      this.filters = response.filters
-    })
+    this.getMutationsByFilters(this.filters)
   }
 
   filters = [

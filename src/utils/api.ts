@@ -6,7 +6,7 @@ import router from '@/router'
 import { Predictor } from '@/models/Predictor'
 
 let base = 'https://api.ivankovlab.ru'
-if (process.env.VUE_APP_MODE === 'dev') base = 'http://192.168.31.242:1337'
+if (process.env.VUE_APP_MODE === 'dev') base = 'http://localhost:1337'
 
 export {base};
 
@@ -129,20 +129,6 @@ export async function getDatasetOverview(id: string) {
   // c.logserv('api.balance', response)
   // response.balance = removeBackZeroes(response.balance)
   return response
-}
-
-export async function requestMutations(hashes: string[]) {
-  return await axios
-    .put(
-      `${base}/request_custom_mutations`,
-      {
-        mutations_hashes: hashes,
-      },
-      { headers: getHeaders() }
-    )
-    .then((response) => {
-      return response
-    })
 }
 
 export async function downloadDataset(id: string) {

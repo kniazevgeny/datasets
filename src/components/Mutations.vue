@@ -108,7 +108,7 @@
   v-container.ma-6.ml-md-0(width='100%', height='100%', flat)
     v-card-title.pb-2
       v-col.pb-2.pl-0.pr-0
-        v-row.pa-2.mb-1.justify-space-between(v-if='selectable')
+        v-row.pa-2.mb-1.justify-space-between(v-if='showDownloadBtn')
           div
           v-menu(
             v-if='dataVisible.length',
@@ -121,13 +121,11 @@
           )
             template(v-slot:activator='{ on: on, attrs }')
               v-btn.no-scale(
-                :disabled='!selected.length',
                 color='primary',
-                @click='requestDownloadSelected',
                 v-bind='attrs',
                 v-on='on'
               )
-                span.font-weight-regular Manage selected
+                span.font-weight-regular Manage filtered
                 v-icon mdi-menu-down-outline
             div
             v-card
@@ -152,7 +150,6 @@
                 v-btn(
                   block,
                   outlined,
-                  :loading='!isDownloadRequested',
                   link,
                   target='_blank',
                   :href='linkToMutationSet'
@@ -193,19 +190,19 @@
                   span.pl-1 {{ getFilterDescription(filter) }}
     v-card-text
       v-data-table(
-        v-model='selected',
         :loading='!data.length || isFiltering',
         :headers='headers',
         :items='dataVisible',
         item-key='hash',
         :search='stringFilterFlag',
-        :show-select='selectable',
         checkbox-color='primary',
         multi-sort,
         calculate-widths,
         style='overflow-x: auto; overflow-y: hidden',
-        @toggle-select-all='selectAllRows()'
+        :footer-props=footerPropsOps,
       )
+        template(v-slot:top='')
+          span.d-flex.ml-4.mb-3.mt-0 Showing {{dataVisible.length}} of {{ mutationsCount }} results
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
             template(v-slot:activator='{ on, attrs }')
@@ -301,7 +298,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Watch } from 'vue-property-decorator'
-import { requestMutations } from '@/utils/api'
 import { Md5 } from 'ts-md5'
 import { namespace } from 'vuex-class'
 
@@ -335,11 +331,19 @@ interface Filter {
       type: Array,
       default: () => [],
     },
+    customFiltrationId: {
+      type: String,
+      default: '',
+    },
+    mutationsCount: {
+      type: Number,
+      default: 0,
+    },
     showFilters: {
       type: Boolean,
       default: false,
     },
-    selectable: {
+    showDownloadBtn: {
       type: Boolean,
       default: false,
     },
@@ -361,34 +365,24 @@ export default class Mutations extends Vue {
   headers!: Array<Object>
   filters!: Filter[]
   showFilters!: boolean
-  selectable!: boolean
+  showDownloadBtn!: boolean
   autofocus!: boolean
+  mutationsCount!: number
+  customFiltrationId?: string
 
   downloadMenu = false
 
   search: String = ''
 
-  selected: Array<Object> = []
-  selectAllRows() {
-    this.selected =
-      this.selected.length === this.dataVisible.length ? [] : this.dataVisible
-  }
-
-  isDownloadRequested = false
-  requestDownloadSelected() {
-    this.isDownloadRequested = false
-    // @ts-ignore
-    const hashes = this.selected.map((el) => el.hash)
-    requestMutations(hashes).then((response) => {
-      this.isDownloadRequested = true
-    })
-  }
+  footerPropsOps = {'items-per-page-options': [15, 150]}
 
   get linkToMutationSet() {
-    // @ts-ignore
-    const mutation_hashes = this.selected.map((el) => el.hash)
-    const hash = Md5.hashStr(JSON.stringify(mutation_hashes.sort()))
-    return `https://api.ivankovlab.ru/download_mutations?record_hash=${hash}`
+    return `https://api.ivankovlab.ru/download_mutations?record_id=${this.customFiltrationId}`
+  }
+
+  get calcMutationsCount() {
+    if (!this.mutationsCount) return 60000
+    return this.mutationsCount
   }
 
   isLinkToMutationSetCopied = false
@@ -414,68 +408,69 @@ export default class Mutations extends Vue {
   }
 
   async filterData() {
+    this.onFiltersChange()
     if (!this.chunks || !this.chunks.length) return []
 
-    // @ts-ignore
-    const actions = Array.apply(null, { length: this.chunksNum }).map(
-      (_, index) => {
-        return {
-          message: `func${index}`,
-          func: (chunk, search, filters, showFilters) => {
-            let result = chunk
+    // // @ts-ignore
+    // const actions = Array.apply(null, { length: this.chunksNum }).map(
+    //   (_, index) => {
+    //     return {
+    //       message: `func${index}`,
+    //       func: (chunk, search, filters, showFilters) => {
+    //         let result = chunk
 
-            if (!(search == null || search == '0' || search == ''))
-              result = result.filter((el) =>
-                Object.values(el).some((_el) => {
-                  if (typeof _el != typeof '') return false
-                  // @ts-ignore
-                  return _el.toLowerCase().includes(search.toLowerCase())
-                })
-              )
+    //         if (!(search == null || search == '0' || search == ''))
+    //           result = result.filter((el) =>
+    //             Object.values(el).some((_el) => {
+    //               if (typeof _el != typeof '') return false
+    //               // @ts-ignore
+    //               return _el.toLowerCase().includes(search.toLowerCase())
+    //             })
+    //           )
 
-            if (!showFilters) return result
+    //         if (!showFilters) return result
 
-            filters.forEach((filter) => {
-              switch (filter.type) {
-                case 'range':
-                  if (
-                    filter.min < filter.range[0] ||
-                    filter.max > filter.range[1]
-                  )
-                    result = result.filter(
-                      (el) =>
-                        el[filter.value] > filter.range[0] &&
-                        el[filter.value] < filter.range[1]
-                    )
-                  break
-                case 'chip':
-                  if (filter.selected != 0)
-                    result = result.filter(
-                      (el) =>
-                        el[filter.value] ==
-                        filter[0].items[filter[0].selected as number].fieldToBe
-                    )
-                  break
-                case 'autocomplete':
-                  if ((filter.selected as string[]).length)
-                    result = result.filter((el) =>
-                      (filter.selected as string[]).includes(
-                        el[filter.value] as string
-                      )
-                    )
-                  break
+    //         filters.forEach((filter) => {
+    //           switch (filter.type) {
+    //             case 'range':
+    //               if (
+    //                 filter.min < filter.range[0] ||
+    //                 filter.max > filter.range[1]
+    //               )
+    //                 result = result.filter(
+    //                   (el) =>
+    //                     el[filter.value] > filter.range[0] &&
+    //                     el[filter.value] < filter.range[1]
+    //                 )
+    //               break
+    //             case 'chip':
+    //               if (filter.selected != 0)
+    //                 result = result.filter(
+    //                   (el) =>
+    //                     el[filter.value] ==
+    //                     filter[0].items[filter[0].selected as number].fieldToBe
+    //                 )
+    //               break
+    //             case 'autocomplete':
+    //               if ((filter.selected as string[]).length)
+    //                 result = result.filter((el) =>
+    //                   (filter.selected as string[]).includes(
+    //                     el[filter.value] as string
+    //                   )
+    //                 )
+    //               break
 
-                default:
-                  break
-              }
-            })
+    //             default:
+    //               break
+    //           }
+    //         })
 
-            return result
-          },
-        }
-      },
-      Number
-    )
+    //         return result
+    //       },
+    //     }
+    //   },
+    //   Number
+    // )
 
     /**
      * We can use filtering function just in one thread
@@ -547,6 +542,7 @@ export default class Mutations extends Vue {
       (this.filters as Filter[])[originalIndex].selected = 0
     if ((this.filters as Filter[])[originalIndex].type === 'autocomplete')
       (this.filters as Filter[])[originalIndex].selected = []
+    this.filterData()
   }
 
   resetRangeSlider(i) {
@@ -575,16 +571,19 @@ export default class Mutations extends Vue {
     this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light'].sidebar_size = '42ch'
   }
 
-  @Watch('filters')
   onFiltersChange() {
-    this.filterChangeFlag += 1
+    // this.filterChangeFlag += 1
+    console.log('onFiltersChange')
+    this.isFiltering = true
     if (this.showFilters) this.$emit('filterChange', this.filters)
-    this.filterData()
+    // this.filterData()
   }
 
   @Watch('data')
   onDataChange(prev, current) {
+    this.isFiltering = false
     if (prev != current && this.data.length) {
+      this.dataVisible = this.data
       const chunkSize = Math.round(this.data.length / this.chunksNum + 1)
       for (let i = 0; i < this.chunksNum; i++)
         this.chunks.push(
@@ -595,7 +594,7 @@ export default class Mutations extends Vue {
               : this.data.length
           )
         )
-      this.filterData()
+      // this.filterData()
     }
   }
 }
