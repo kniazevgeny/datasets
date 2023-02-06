@@ -73,6 +73,7 @@
             v-model='filter.selected',
             @input='filterData()',
             mandatory,
+            disabled
           )
             v-tooltip(
               bottom,
@@ -100,7 +101,8 @@
             deletable-chips,
             filled,
             multiple,
-            :label='filter.title'
+            :label='filter.title',
+            disabled
           )
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
@@ -170,7 +172,8 @@
           filled,
           :autofocus='autofocus',
           color='primary',
-          clearable
+          clearable,
+          disabled
         )
         //- Mirror filters in v-chips
         v-expand-transition
