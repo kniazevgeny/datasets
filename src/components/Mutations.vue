@@ -102,7 +102,6 @@
             filled,
             multiple,
             :label='filter.title',
-            disabled
           )
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='card-heading')
@@ -173,7 +172,6 @@
           :autofocus='autofocus',
           color='primary',
           clearable,
-          disabled
         )
         //- Mirror filters in v-chips
         v-expand-transition
@@ -410,98 +408,8 @@ export default class Mutations extends Vue {
     return this.filterChangeFlag.toString()
   }
 
-  async filterData() {
+  filterData() {
     this.onFiltersChange()
-    if (!this.chunks || !this.chunks.length) return []
-
-    // // @ts-ignore
-    // const actions = Array.apply(null, { length: this.chunksNum }).map(
-    //   (_, index) => {
-    //     return {
-    //       message: `func${index}`,
-    //       func: (chunk, search, filters, showFilters) => {
-    //         let result = chunk
-
-    //         if (!(search == null || search == '0' || search == ''))
-    //           result = result.filter((el) =>
-    //             Object.values(el).some((_el) => {
-    //               if (typeof _el != typeof '') return false
-    //               // @ts-ignore
-    //               return _el.toLowerCase().includes(search.toLowerCase())
-    //             })
-    //           )
-
-    //         if (!showFilters) return result
-
-    //         filters.forEach((filter) => {
-    //           switch (filter.type) {
-    //             case 'range':
-    //               if (
-    //                 filter.min < filter.range[0] ||
-    //                 filter.max > filter.range[1]
-    //               )
-    //                 result = result.filter(
-    //                   (el) =>
-    //                     el[filter.value] > filter.range[0] &&
-    //                     el[filter.value] < filter.range[1]
-    //                 )
-    //               break
-    //             case 'chip':
-    //               if (filter.selected != 0)
-    //                 result = result.filter(
-    //                   (el) =>
-    //                     el[filter.value] ==
-    //                     filter[0].items[filter[0].selected as number].fieldToBe
-    //                 )
-    //               break
-    //             case 'autocomplete':
-    //               if ((filter.selected as string[]).length)
-    //                 result = result.filter((el) =>
-    //                   (filter.selected as string[]).includes(
-    //                     el[filter.value] as string
-    //                   )
-    //                 )
-    //               break
-
-    //             default:
-    //               break
-    //           }
-    //         })
-
-    //         return result
-    //       },
-    //     }
-    //   },
-    //   Number
-    // )
-
-    /**
-     * We can use filtering function just in one thread
-     * But using web-workers time-to-see-first-results is 2-3x lower
-     * So that service appear to work faster
-     */
-
-    // @ts-ignore
-    let worker = this.$worker.create(actions)
-    this.dataVisible = []
-    this.isFiltering = true
-
-    let result = []
-    for (let i = 0; i < this.chunksNum; i++) {
-      worker
-        .postMessage(`func${i}`, [
-          this.chunks[i],
-          this.search,
-          this.filters,
-          this.showFilters,
-        ])
-        // @ts-ignore
-        .then((filtered) => result.push(...filtered))
-        .catch(console.error)
-    }
-    worker = null
-    this.isFiltering = false
-    this.dataVisible = result
   }
 
   getGradient(min, max, range, step) {
@@ -578,7 +486,7 @@ export default class Mutations extends Vue {
     // this.filterChangeFlag += 1
     console.log('onFiltersChange')
     this.isFiltering = true
-    if (this.showFilters) this.$emit('filterChange', this.filters)
+    if (this.showFilters) this.$emit('filterChange', [...this.filters, {type: 'text', text: this.search}])
     // this.filterData()
   }
 
