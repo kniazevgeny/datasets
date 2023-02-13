@@ -20,6 +20,32 @@
     )
       v-list-item-title.font-weight-bold {{ filter.title }}
       small.v-text.text--darken-2 {{ filter.subtitle }}
+      v-list-item-content(v-if='filter.type === "variation"')
+        .d-flex(v-if='data.length')
+          v-text-field.mr-2(
+            v-model='filter.from',
+            @input='filterData()',
+            clearable,
+            dense,
+            filled,
+            background-color='accent',
+            color='text',
+            hide-details,
+            :label='filter.titleFrom',
+          )
+          v-text-field.ml-2(
+            v-model='filter.to',
+            @input='filterData()',
+            clearable,
+            dense,
+            filled,
+            background-color='accent',
+            color='text',
+            hide-details,
+            :label='filter.titleTo',
+          )
+        v-layout.text-left(col, v-else)
+          v-skeleton-loader.mx-auto(type='actions')
       v-list-item-content(v-if='filter.type === "range"')
         div(v-if='data.length')
           v-sparkline(
@@ -46,6 +72,7 @@
               v-model='filter.range[0]',
               @input='filterData()',
               hide-details,
+              background-color='accent',
               filled,
               dense,
               label='min',
@@ -56,6 +83,7 @@
               v-model='filter.range[1]',
               @input='filterData()',
               hide-details,
+              background-color='accent',
               filled,
               dense,
               label='max',
@@ -101,6 +129,7 @@
             deletable-chips,
             filled,
             multiple,
+            background-color='accent',
             :label='filter.title',
           )
         v-layout.text-left(col, v-else)

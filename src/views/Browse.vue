@@ -64,6 +64,17 @@ export default class Browse extends Vue {
 
   filters = [
     {
+      title: 'Variation',
+      titleFrom: 'From',
+      titleTo: 'To',
+      value: 'mutation',
+      subtitle: '',
+      type: 'variation',
+      from: '',
+      to: '',
+      hint: 'Im a hint',
+    },
+    {
       title: 'ΔΔG',
       value: 'ddG',
       subtitle: 'Number of data points in a dataset.',
@@ -111,27 +122,6 @@ export default class Browse extends Vue {
 
   selected = []
 
-  headers = [
-    {
-      text: 'Variation',
-      align: 'start',
-      sortable: false,
-      value: 'muatation',
-    },
-    { text: 'ddg', value: 'ddG' },
-    { text: 'pdb', value: 'pdb', sortable: false, align: 'start' },
-    { text: 'Chain', value: 'chain', sortable: false, align: 'start' },
-    { text: 'Uniprot', value: 'uniprot' },
-    {
-      text: 'Protein Name',
-      value: 'protein',
-      sortable: false,
-      align: 'start',
-      width: '200',
-    },
-    { text: 'T', value: 'T' },
-    { text: 'pH', value: 'pH' },
-  ]
   data: object[] = []
 }
 </script>
