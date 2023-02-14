@@ -139,7 +139,7 @@ a:not(.no-link-decoration):visited,
 }
 
 .v-slider--horizontal {
-  min-height: 68px !important;
+  min-height: 80px !important;
 }
 .v-slider--horizontal:hover {
   cursor: pointer;
@@ -176,8 +176,8 @@ fieldset {
   // overflow: hidden;
   white-space: nowrap;
   // flex: 1;
-  height: 22px !important;
-  width: 22px !important;
+  height: 32px !important;
+  width: 32px !important;
   font-size: 0.7rem !important;
 }
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th {
@@ -185,7 +185,7 @@ fieldset {
 }
 .v-data-table--dense,
 #s-table-container {
-  min-width: min(462px, 100%);
+  min-width: min(672px, 100%);
   max-height: 70vh;
   aspect-ratio: 1;
   position: relative;
