@@ -57,7 +57,7 @@ v-layout(style='width: 100%')
           tbody
             tr(v-for='(items, i) in amkTable', :key='i')
               td {{ amkTableHeaders[i] }}
-              td.font-weight-bold(
+              td(
                 v-for='(item, j) in items',
                 :key='j',
                 :style='getMuationColor(item)'

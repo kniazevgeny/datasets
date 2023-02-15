@@ -203,7 +203,7 @@ fieldset {
 .v-data-table--dense td:hover::after { 
   background-color: var(--v-accent);
   content: '\00a0';  
-  height: 1000px;    
+  height: 5000px;    
   left: 0;
   position: absolute;  
   top: -5000px;
@@ -213,7 +213,7 @@ fieldset {
 }
 
 .v-data-table--dense > .v-data-table__wrapper {
-  background: var(--v-accent);
+  // background: var(--v-accent);
 }
 
 .v-data-table--dense > .v-data-table__wrapper::after {
