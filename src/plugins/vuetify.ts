@@ -27,7 +27,7 @@ export default new Vuetify({
         white: '#F3F8FF',
         gray: '#D9D9D9',
         tableActive: '#EDEDED',
-        lineActive: '#D9D9D9',
+        lineAccent: '#D9D9D9',
         red: '#FF4E4E',
         pinkComparison: '#FF4079',
         blueComparison: '#6E9DFD',

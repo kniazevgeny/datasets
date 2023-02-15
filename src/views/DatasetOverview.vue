@@ -98,6 +98,7 @@ import {
   LinearScale,
 } from 'chart.js'
 import Mutations from '../components/Mutations.vue'
+import { Watch } from 'vue-property-decorator'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -241,6 +242,7 @@ export default class Datasets extends Vue {
     ],
   }
   chartOptions = {
+    updater: false,
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -531,6 +533,18 @@ export default class Datasets extends Vue {
       ].items = [...new Set(this.data_sample.data.map((el: any) => el.organism))]
     })
     console.log(this.dataset)
+  }
+
+  get theme() {
+    return this.$vuetify.theme.dark
+  }
+
+  @Watch('theme') 
+  onThemeChange() {
+    /**
+     * Update chart grid color on theme change
+     */
+    this.chartOptions.updater = this.theme
   }
 }
 </script>
