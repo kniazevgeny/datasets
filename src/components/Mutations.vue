@@ -398,7 +398,8 @@ export default class Mutations extends Vue {
   showDownloadBtn!: boolean
   autofocus!: boolean
   mutationsCount!: number
-  customFiltrationId?: string
+  // default record filtration id
+  customFiltrationId?: string = '63e6010b3ec91c3c3bd713fa'
 
   downloadMenu = false
 
