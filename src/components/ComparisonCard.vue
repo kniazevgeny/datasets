@@ -44,7 +44,7 @@ v-card#comparison(color='accent')
         span.mt-3
           span(v-if='all_overlap') All data overlap at {{ pident }} cutoff.
           span(v-if='no_overlap') No overlap at {{ pident }} cutoff.
-          span(v-if='!all_overlap && !no_overlap') Percent of overlapping data: {{ percent_of_overlapping }}
+          span(v-if='!all_overlap && !no_overlap') Percent of overlapping data: {{ percent_of_overlapping }} %
         span(v-if='overlappingProteinsLength != 0') Overlapping proteins: {{ overlappingProteinsLength }}
         a(
           v-if='showOverlapsBtn',
@@ -110,7 +110,7 @@ export default class ComparisonCard extends Vue {
 
   all_overlap = false
   no_overlap = false
-  percent_of_overlapping = 0
+  percent_of_overlapping = '0'
   overlappingProteinsLength = 0
   showOverlapsBtn = false
   pident = 25
@@ -151,7 +151,7 @@ export default class ComparisonCard extends Vue {
     ).data
     this.all_overlap = response.all_overlap
     this.no_overlap = response.no_overlap
-    this.percent_of_overlapping = response.percent_of_overlapping
+    this.percent_of_overlapping = (parseFloat(response.percent_of_overlapping) * 100).toFixed(0)
     if (typeof response.overlapping_proteins != typeof undefined)
       this.overlappingProteinsLength = response.overlapping_proteins.length
     if (response.dataset1_data_no_overlap_hashes.length)
