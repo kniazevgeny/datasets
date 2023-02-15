@@ -185,11 +185,33 @@ fieldset {
 }
 .v-data-table--dense,
 #s-table-container {
-  min-width: min(672px, 100%);
+  min-width: min(662px, 100%);
   max-height: 70vh;
   aspect-ratio: 1;
   position: relative;
 }
+.v-data-table--dense table {
+  position: relative;
+  border-spacing: 0;
+  border-collapse: collapse;
+  overflow: hidden;
+  z-index: 1;
+}
+.v-data-table--dense td, .v-data-table--dense th {
+  position: relative;
+} 
+.v-data-table--dense td:hover::after { 
+  background-color: var(--v-accent);
+  content: '\00a0';  
+  height: 1000px;    
+  left: 0;
+  position: absolute;  
+  top: -5000px;
+  width: 100%;
+  /* https://stackoverflow.com/questions/1553571/html-hover-table-column */
+  z-index: -1;        
+}
+
 .v-data-table--dense > .v-data-table__wrapper::after {
   content: 'Mutatition to';
   font-family: $body-font-family;
@@ -198,7 +220,7 @@ fieldset {
   z-index: 4;
   top: -25px;
   text-align: center;
-  left: 200px;
+  left: 300px;
 }
 .v-data-table--dense > .v-data-table__wrapper::before {
   content: 'Mutatition from';
@@ -206,7 +228,7 @@ fieldset {
   color: #888;
   position: absolute;
   z-index: 4;
-  top: 220px;
+  top: 320px;
   left: -75px;
   text-align: center;
   transform: rotate(-90deg);
