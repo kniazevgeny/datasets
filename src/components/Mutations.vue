@@ -21,7 +21,7 @@
       v-list-item-title.font-weight-bold {{ filter.title }}
       small.v-text.text--darken-2 {{ filter.subtitle }}
       v-list-item-content(v-if='filter.type === "variation"')
-        .d-flex(v-if='data.length')
+        .d-flex(v-if='dataVisible.length')
           v-text-field.mr-2(
             v-model='filter.from',
             @input='filterData()',
@@ -47,7 +47,7 @@
         v-layout.text-left(col, v-else)
           v-skeleton-loader.mx-auto(type='actions')
       v-list-item-content(v-if='filter.type === "range"')
-        div(v-if='data.length')
+        div(v-if='dataVisible.length')
           v-sparkline(
             :fill='true',
             :gradient='getGradient(filter.min, filter.max, filter.range, filter.step)',
@@ -96,7 +96,7 @@
           max-height='100px'
         )
       v-list-item-content(v-if='filter.type === "chip"')
-        div(v-if='data.length')
+        div(v-if='dataVisible.length')
           v-chip-group(
             v-model='filter.selected',
             @input='filterData()',
@@ -117,7 +117,7 @@
           v-skeleton-loader.mx-auto(type='chip')
           v-skeleton-loader.mx-auto(type='chip')
       v-list-item-content(v-if='filter.type === "autocomplete"')
-        div(v-if='data.length')
+        div(v-if='dataVisible.length')
           v-autocomplete(
             v-model='filter.selected',
             @input='filterData()',
@@ -220,7 +220,7 @@
                   span.pl-1 {{ getFilterDescription(filter) }}
     v-card-text
       v-data-table(
-        :loading='!data.length || isFiltering',
+        :loading='!dataVisible.length || isFiltering',
         :headers='headers',
         :items='dataVisible',
         item-key='hash',
@@ -232,7 +232,7 @@
         :footer-props=footerPropsOps,
       )
         template(v-slot:top='')
-          span.d-flex.ml-4.mb-3.mt-0 Showing {{dataVisible.length}} of {{ mutationsCount }} results
+          span.d-flex.ml-4.mb-3.mt-0(v-if='Object.keys(dataVisible[0]).length') Showing {{dataVisible.length}} of {{ mutationsCount }} results
         template(v-slot:header.protein='{ header }')
           v-tooltip(top, max-width='475')
             template(v-slot:activator='{ on, attrs }')
@@ -512,30 +512,19 @@ export default class Mutations extends Vue {
   }
 
   onFiltersChange() {
-    // this.filterChangeFlag += 1
     console.log('onFiltersChange')
     this.isFiltering = true
     if (this.showFilters) this.$emit('filterChange', [...this.filters, {type: 'text', text: this.search}])
-    // this.filterData()
   }
 
   @Watch('data')
   onDataChange(prev, current) {
     this.isFiltering = false
+    this.dataVisible = []
     if (prev != current && this.data.length) {
       this.dataVisible = this.data
-      const chunkSize = Math.round(this.data.length / this.chunksNum + 1)
-      for (let i = 0; i < this.chunksNum; i++)
-        this.chunks.push(
-          this.data.slice(
-            chunkSize * i,
-            chunkSize * (i + 1) < this.data.length
-              ? chunkSize * (i + 1)
-              : this.data.length
-          )
-        )
-      // this.filterData()
     }
+    if (!this.data.length) this.dataVisible.push({})
   }
 }
 </script>

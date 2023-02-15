@@ -48,7 +48,6 @@ export default class Browse extends Vue {
 
   getMutationsByFilters(filters) {
     getMutations(filters).then((response) => {
-      console.log(response)
       this.data = response.mutations
       if (!!response.filters) this.filters = response.filters
       this.customFiltrationId = response.customFiltrationId
