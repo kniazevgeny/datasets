@@ -71,6 +71,10 @@ html {
   max-width: calc(100vw - var(--v-sidebar_size) - 12ch)
 }
 
+#bar-chart {
+  border-radius: $border-radius-root !important;
+}
+
 a.no-underline, div.no-underline > a {
   text-decoration: none;
 }
@@ -219,6 +223,7 @@ fieldset {
 .v-data-table--dense > .v-data-table__wrapper::after {
   content: 'Mutatition to';
   font-family: $body-font-family;
+  font-size: 16px;
   color: #888;
   position: absolute;
   z-index: 4;
@@ -229,6 +234,7 @@ fieldset {
 .v-data-table--dense > .v-data-table__wrapper::before {
   content: 'Mutatition from';
   font-family: $body-font-family;
+  font-size: 16px;
   color: #888;
   position: absolute;
   z-index: 4;

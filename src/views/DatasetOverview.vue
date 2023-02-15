@@ -249,6 +249,11 @@ export default class Datasets extends Vue {
       title: {
         display: true,
         text: 'ΔΔG (kcal/mol)',
+        font: {
+          size: 16,
+          weight: '400',
+          family: 'SF Pro Display'
+        }
       },
     },
     scales: {
