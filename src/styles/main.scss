@@ -212,6 +212,10 @@ fieldset {
   z-index: -1;        
 }
 
+.v-data-table--dense > .v-data-table__wrapper {
+  background: var(--v-accent);
+}
+
 .v-data-table--dense > .v-data-table__wrapper::after {
   content: 'Mutatition to';
   font-family: $body-font-family;

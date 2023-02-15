@@ -230,27 +230,12 @@ export default class Datasets extends Vue {
     return style
   }
 
-  geterateMutationsSample() {
-    // enable if backend is unavailable
-    return
-    for (let i = 0; i < 20; i++) {
-      let arr: number[] = []
-      const anchor = Math.round(Math.random() * 155) + 10
-      for (let j = 0; j < 20; j++) {
-        if (i == j) arr.push(-1)
-        else arr.push(Math.round(Math.random() * 20 - 10 + anchor))
-      }
-      this.amkTable.push(arr)
-    }
-    console.log(this.amkTable)
-  }
-
   chartData = {
     labels: [],
     datasets: [
       {
         label: 'Number of entries',
-        backgroundColor: '#14c',
+        borderColor: 'rgba(255,255,0,1)',
         data: [],
       },
     ],
@@ -263,6 +248,22 @@ export default class Datasets extends Vue {
         display: true,
         text: 'ΔΔG (kcal/mol)',
       },
+    },
+    scales: {
+      x: {
+        grid: {
+          color: () => {
+            return this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['lineAccent']
+          }
+        }
+      },
+      y: {
+        grid: {
+          color: () => {
+            return this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['lineAccent']
+          }
+        }
+      }
     },
   }
 
@@ -487,7 +488,9 @@ export default class Datasets extends Vue {
     if (typeof resp.data == typeof undefined) return
     this.amkTable = resp.amkTable
     this.chartData.labels = resp.ddg.headers
+    //@ts-ignore
     this.chartData.datasets[0].backgroundColor = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary'] as string
+    this.chartData.datasets[0].borderColor = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['accent'] as string
     //@ts-ignore
     this.chartData.datasets[0].data = resp.ddg.data as number[]
     //@ts-ignore
@@ -528,7 +531,6 @@ export default class Datasets extends Vue {
       ].items = [...new Set(this.data_sample.data.map((el: any) => el.organism))]
     })
     console.log(this.dataset)
-    this.geterateMutationsSample()
   }
 }
 </script>
@@ -536,5 +538,6 @@ export default class Datasets extends Vue {
 <style scoped>
 #bar-chart {
   max-width: 50vw;
+  background: var(--v-accent);
 }
 </style>
