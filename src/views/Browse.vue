@@ -65,10 +65,10 @@ export default class Browse extends Vue {
   filters = [
     {
       title: 'Variation',
+      subtitle: 'Example: From "H" will show H32L, H32S, H32Y and so on',
       titleFrom: 'From',
       titleTo: 'To',
       value: 'mutation',
-      subtitle: '',
       type: 'variation',
       from: '',
       to: '',
