@@ -36,15 +36,12 @@ v-layout(style='width: 100%')
         //- span ({{ dataset.fileSize }})
       v-spacer
       v-btn.ml-2(
-        outlined,
-        large,
         :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
-        text,
+        color='primary'
         @click='download()'
         :disabled='!dataset.fileName'
       )
-        span Download
-        v-icon mdi-download-outline
+        span.text--text.no-link-decoration Download dataset
     v-row.ma-4.d-flex
       span.text-left(v-html='sources')
     v-row.ma-4
