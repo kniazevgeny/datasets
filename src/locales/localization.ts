@@ -234,6 +234,7 @@ export const messages = {
               'Browse all ∆∆G data and filter mutations to develop your tool, or download popular training and testing sets.',
             url: 'proddg/browse',
             image: '',
+            noimage: true,
           },
           {
             title: '∆∆G data for assessment',
@@ -241,6 +242,7 @@ export const messages = {
             'Download popular validation datasets or compile your own. Use our utility to exclude data leakage in your dataset for unbiased assessment.',
             url: 'proddg/datasets',
             image: '',
+            noimage: true,
           },
           {
             title: 'Find ∆∆G predictors ',
@@ -248,6 +250,7 @@ export const messages = {
             'Check online and standalone ∆∆G predictors by algoritm, authors, antisymmetry and other specifications. ',
             url: 'proddg/predictors',
             image: '',
+            noimage: true,
           },
         ],
       },

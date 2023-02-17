@@ -16,7 +16,7 @@ v-row.pt-12
           v-for='(block, b_id) in section.blocks',
           :key='b_id'
         )
-          v-card.block(flat)
+          v-card.block(flat, :class='block.noimage ? "noimage" : ""')
             v-img.white--text.align-end(:src='block.image')
             v-card-title.block-title
               span(v-if='!block.url') {{ block.title }}
@@ -237,15 +237,19 @@ p.paragraph {
 .block {
   height: 560px;
   background: linear-gradient(
-      180deg,
-      rgba(59, 61, 60, 0) 46.88%,
-      rgba(59, 61, 60, 0.25) 92.19%
+    180deg,
+    rgba(59, 61, 60, 0) 46.88%,
+    rgba(59, 61, 60, 0.25) 92.19%
     ),
     var(--v-accent);
-  box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+    box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+.block.noimage {
+  height: auto !important;
+  min-height: 300px;
 }
-
+  
 .block:hover {
   transition: all ease-in-out 0.4s;
   background: linear-gradient(
@@ -324,7 +328,7 @@ p.paragraph {
   /* or 20px */
   letter-spacing: 0.01em;
 
-  color: var(--v-primary) !important;
+  color: var(--v-primaryThin) !important;
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -388,7 +392,7 @@ p.paragraph {
   /* or 160% */
 
   /* theme/primary */
-  color: var(--v-primary) !important;
+  color: var(--v-primaryThin) !important;
 }
 
 .publication > div > div > a {
