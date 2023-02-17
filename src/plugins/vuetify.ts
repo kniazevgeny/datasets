@@ -19,7 +19,7 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: '#6dc5be',
+        primary: '#83cec7',
         // primary: '#7FD2CB',
         // primary: '#3D5AFE',
         primaryThin: '#22988f',
