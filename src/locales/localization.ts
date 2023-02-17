@@ -215,6 +215,32 @@ export const messages = {
         ],
        },
     ],
+    proddgLanding: [
+      {
+        title: '',
+        type: 'blocks',
+        blocks: [
+          {
+            title: '∆∆G data for training and testing',
+            description:
+              'Browse all ∆∆G data and filter mutations to develop your tool, or download popular training and testing sets.',
+            image: '',
+          },
+          {
+            title: '∆∆G data for assessment',
+            description:
+              'Download popular validation datasets or compile your own. Use our utility to exclude data leakage in your dataset for unbiased assessment.',
+            image: '',
+          },
+          {
+            title: 'Find ∆∆G predictors ',
+            description:
+              'Check online and standalone ∆∆G predictors by algoritm, authors, antisymmetry and other specifications. ',
+            image: '',
+          },
+        ],
+      },
+    ],
     mutations_headers: [
       {
         text: 'protein name',

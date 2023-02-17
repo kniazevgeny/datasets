@@ -1,41 +1,29 @@
 <template lang="pug">
-v-layout(column, style='width: 100vw; min-height: 70vh')
-  v-layout#home-1.justify-center.align-center(
-    style='height: 70vh',
-    v-intersect='onIntersect'
-  )
-    v-flex(xs1, sm2)
-    v-flex.mt-12(xs10, sm8)
-      transition(name='fade', appear, appear-active-class='fade-enter-active')
-        v-col(style='flex-wrap: nowrap')
-          span.sf.text-h3.v-text ProDDG&nbsp;
-          span.text-h3.v-text – browse mutations and analyze datasets
-      v-row.justify-center.pt-3
-        p.mt-0.mb-0(style='width: 100%')
-          span.font-weight-bold Analyze&nbsp;
-          span datasets before downloading them,
-        p.mt-0.mb-0(style='width: 100%')
-          span.font-weight-bold Filter&nbsp;
-          span and merge data from different sources,
-        p(style='width: 100%') 
-          span.font-weight-bold Explore&nbsp;
-          span state-of-the-art predictors and get datasets for the ranking task
-      v-row.justify-center.pt-12
-        v-flex(xs0, sm2)
-        v-flex(xs12, sm8)
-          v-btn.scale.white--text#greeting-btn.no-link-decaration(
-            x-large,
-            block,
-            color='primary',
-            @click='$router.push(`/proddg/datasets?type=click&btn_id=greeting_btn&timestamp=${Date.now()}`)'
-          ) Get Started
-        v-flex(xs0, sm2)
-    v-flex(xs1, sm2)
-  //- v-layout.justify-center.align-center(style='height: 70vh')
-  //-   v-flex(xs0, sm2)
-  //-   v-flex.mt-12(xs12, sm8)
-  //-     p abcde
-  //-   v-flex(xs0, sm2)
+v-row.pt-12
+  v-flex(xs1)
+  v-flex.text-left(xs10)
+    #first(style='height: 50vh')
+      h1#service-name.sf.text-md-h2.text-sm-h3 ProDDG
+      #service-slogan
+        h5.sf.text-md-h5.text-sm-h6(style='display: inline-block') ProDDG is a web-service for developers, assessors and users of tools for predicting the effect of protein mutations. ProDDG provides all datasets on protein stability changes upon mutations (∆∆G) that were used for training, testing, and assessment of popular ∆∆G predictors. ProDDG allows you to access and analyze ∆∆G data, compile leakage-free datasets for evaluating predictors, and discover the latest and most accurate ∆∆G predictors.
+    ServiceDescription(itemsPath='proddgLanding')
+        //- span.d-flex.mt-11(
+        //-   :style='$vuetify.breakpoint.mobile ? "flex-direction: column" : "flex-direction: row"'
+        //- )
+        //-   v-btn#contact.no-scale(
+        //-     @click='$router.push("/proddg/browse")',
+        //-     text,
+        //-     x-large,
+        //-     dark,
+        //-     depressed
+        //-   )
+        //-     span.sf.font-weight-regular Visit ProDDG service
+        //-     v-icon.pl-2 mdi-arrow-right-circle
+        //-   p.pl-xs-0.pl-sm-8.pt-1.v-text
+        //-     span Browse mutations
+        //-     br
+        //-     span and analyze datasets
+    
 </template>
 <script lang="ts">
 import { Action } from '@/models/Action'
@@ -43,9 +31,15 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { namespace } from 'vuex-class'
 
+import ServiceDescription from '@/components/ServiceDescription.vue'
+
 const ActionStore = namespace('ActionStore')
 
-@Component
+@Component({
+  components: {
+    ServiceDescription: ServiceDescription
+  }
+})
 export default class Home extends Vue {
   @ActionStore.Mutation pushAction!: (action: object) => void
 
@@ -74,6 +68,50 @@ export default class Home extends Vue {
 }
 </script>
 <style scoped>
+#service-name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 127%;
+    /* identical to box height, or 51px */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.02em;
+
+    color: var(--v-text);
+}
+
+#service-slogan {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    align-self: center;
+    /* align-items: center; */
+    height: 60vh;
+    font-size: 28px;
+}
+
+#service-slogan > h5 {
+    white-space: pre-line;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 115%;
+    /* or 74px */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+
+    color: var(--v-text);
+
+    text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.18);
+}
+#service-slogan > h5 > a {
+  text-shadow: none;
+}
 span.text-h3 {
   font-weight: 700;
 }
