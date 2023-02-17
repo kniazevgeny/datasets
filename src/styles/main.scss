@@ -82,7 +82,7 @@ a.no-underline, div.no-underline > a {
 a:not(.no-link-decoration),
 .link {
   text-decoration: none;
-  color: var(--v-primary) !important;
+  color: var(--v-primaryThin) !important;
   border-color: 1px solid rgba(58, 124, 206, 0.3) !important;
   cursor: pointer;
   -webkit-transition: color 0.3s ease, border-color 0.3s ease;
@@ -102,13 +102,13 @@ a:visited:hover,
 .external-link:visited:hover {
   /* Reference to art.lebedev  */
   // color: #f41224;
-  color: var(--v-primary) !important;
+  color: var(--v-primaryThin) !important;
   text-decoration: underline;
   border-color: rgba(244, 18, 36, 0.3);
 }
 
-.v-chip:not(.v-chip--dark):not(.primary):not(.v-chip--outlined):hover {
-  background: var(--v-primary) !important;
+.v-chip:not(.v-chip--dark):not(.primary):not(.primaryThin):not(.v-chip--outlined):hover {
+  background: var(--v-primaryThin) !important;
   color: white !important;
 }
 

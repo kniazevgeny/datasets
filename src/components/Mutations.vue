@@ -318,10 +318,10 @@
         template(v-slot:item.organism='{ item }')
           span(style='display: block; min-width: 250px') {{ item.organism }}
         template(v-slot:item.mutation='{ item }')
-          v-chip.primary--text.text--accent-2.font-weight-bold(
+          v-chip.primaryThin--text.text--accent-2.font-weight-bold(
             outlined,
             label,
-            color='primary'
+            color='primaryThin'
           ) {{ item.mutation }}
 </template>
 <script lang="ts">

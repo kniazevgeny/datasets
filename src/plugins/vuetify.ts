@@ -22,6 +22,7 @@ export default new Vuetify({
         primary: '#6dc5be',
         // primary: '#7FD2CB',
         // primary: '#3D5AFE',
+        primaryThin: '#22988f',
         darken: '#1E1E1E',
         text: '#3c3c3c',
         background: '#F7F7F7',
@@ -42,6 +43,7 @@ export default new Vuetify({
       dark: {
         primary: '#29A89D',
         // primary: '#3D5AFE',
+        primaryThin: '#29A89D',
         darken: '#1E1E1E',
         text: '#D7DCE3',
         background: '#0D1621',
