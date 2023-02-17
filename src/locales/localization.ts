@@ -217,7 +217,15 @@ export const messages = {
     ],
     proddgLanding: [
       {
-        title: '',
+        title: 'ProDDG',
+        type: 'paragraphs',
+        paragraphs: [
+          'ProDDG is a web-service for developers, assessors and users of tools for predicting the effect of protein mutations. ProDDG provides all datasets on protein stability changes upon mutations (∆∆G) that were used for training, testing, and assessment of popular ∆∆G predictors.',
+          'ProDDG allows you to access and analyze ∆∆G data, compile leakage-free datasets for evaluating predictors, and discover the latest and most accurate ∆∆G predictors.',
+        ],
+      },
+      {
+        title: 'Features',
         type: 'blocks',
         blocks: [
           {

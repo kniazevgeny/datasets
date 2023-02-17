@@ -2,27 +2,7 @@
 v-row.pt-12
   v-flex(xs1)
   v-flex.text-left(xs10)
-    #first(style='height: 50vh')
-      h1#service-name.sf.text-md-h2.text-sm-h3 ProDDG
-      #service-slogan
-        h5.sf.text-md-h5.text-sm-h6(style='display: inline-block') ProDDG is a web-service for developers, assessors and users of tools for predicting the effect of protein mutations. ProDDG provides all datasets on protein stability changes upon mutations (∆∆G) that were used for training, testing, and assessment of popular ∆∆G predictors. ProDDG allows you to access and analyze ∆∆G data, compile leakage-free datasets for evaluating predictors, and discover the latest and most accurate ∆∆G predictors.
     ServiceDescription(itemsPath='proddgLanding')
-        //- span.d-flex.mt-11(
-        //-   :style='$vuetify.breakpoint.mobile ? "flex-direction: column" : "flex-direction: row"'
-        //- )
-        //-   v-btn#contact.no-scale(
-        //-     @click='$router.push("/proddg/browse")',
-        //-     text,
-        //-     x-large,
-        //-     dark,
-        //-     depressed
-        //-   )
-        //-     span.sf.font-weight-regular Visit ProDDG service
-        //-     v-icon.pl-2 mdi-arrow-right-circle
-        //-   p.pl-xs-0.pl-sm-8.pt-1.v-text
-        //-     span Browse mutations
-        //-     br
-        //-     span and analyze datasets
     
 </template>
 <script lang="ts">
