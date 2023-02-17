@@ -1,7 +1,7 @@
 <template lang="pug">
 v-row.pt-12
   v-flex(xs1)
-  v-flex.text-left.ml-sm-8(xs10)
+  v-flex.text-left.px-4(xs10)
     v-row(style='position: relative; z-index: 99')
       v-spacer
       ThemeSwitcher
