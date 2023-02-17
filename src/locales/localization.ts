@@ -224,18 +224,21 @@ export const messages = {
             title: '∆∆G data for training and testing',
             description:
               'Browse all ∆∆G data and filter mutations to develop your tool, or download popular training and testing sets.',
+            url: 'proddg/browse',
             image: '',
           },
           {
             title: '∆∆G data for assessment',
             description:
-              'Download popular validation datasets or compile your own. Use our utility to exclude data leakage in your dataset for unbiased assessment.',
+            'Download popular validation datasets or compile your own. Use our utility to exclude data leakage in your dataset for unbiased assessment.',
+            url: 'proddg/datasets',
             image: '',
           },
           {
             title: 'Find ∆∆G predictors ',
             description:
-              'Check online and standalone ∆∆G predictors by algoritm, authors, antisymmetry and other specifications. ',
+            'Check online and standalone ∆∆G predictors by algoritm, authors, antisymmetry and other specifications. ',
+            url: 'proddg/predictors',
             image: '',
           },
         ],
