@@ -25,7 +25,7 @@ v-row.pt-12
             span Browse mutations
             br
             span and analyze datasets
-    ServiceDescription(itemsPath='laboratory')
+    ServiceDescription.pt-12(itemsPath='laboratory')
     div 
       h2.section-title.pb-10 Contacts
       span 

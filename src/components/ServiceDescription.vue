@@ -1,5 +1,5 @@
 <template lang="pug">
-v-row.pt-12
+v-row
   .pt-11.mt-11.pb-11.mb-11(
     v-for='(section, s_id) in $t(this.itemsPath)',
     :key='s_id'

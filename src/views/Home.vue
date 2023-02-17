@@ -1,7 +1,7 @@
 <template lang="pug">
-v-row.pt-12
+v-row
   v-flex(xs1)
-  v-flex.text-left(xs10)
+  v-flex.text-left(xs10).mt-n12
     ServiceDescription(itemsPath='proddgLanding')
     
 </template>
