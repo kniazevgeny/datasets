@@ -14,21 +14,21 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       rounded,
       @click='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
-      a.no-link-decoration(href='/proddg/browse') browse mutations
+      router-link.no-link-decoration(to='/proddg/browse') browse mutations
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
       @click='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)'
     ) 
-      a.no-link-decoration(href='/proddg/datasets') datasets
+      router-link.no-link-decoration(to='/proddg/datasets') datasets
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
-      a.no-link-decoration(href='/proddg/predictors') predictors
+      router-link.no-link-decoration(to='/proddg/predictors') predictors
   v-spacer(style='min-width: 60px')
   ThemeSwitcher.mr-4
   v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Visit our website
