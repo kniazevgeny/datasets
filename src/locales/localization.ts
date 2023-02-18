@@ -247,11 +247,19 @@ export const messages = {
           {
             title: 'Find ∆∆G predictors ',
             description:
-            'Check online and standalone ∆∆G predictors by algoritm, authors, antisymmetry and other specifications. ',
+            'Check online and standalone ∆∆G predictors by algorithm, authors, antisymmetry and other specifications. ',
             url: 'proddg/predictors',
             image: '',
             noimage: true,
           },
+        ],
+      },
+      {
+        title: 'Cite us',
+        type: 'paragraphs',
+        paragraphs: [
+          'If you used ProDDG in your work, please, cite us:',
+          'Marina A. Pak, Evgeny V. Kniazev, Igor D. Abramkin, Dmitry N. Ivankov. (2023). ProDDG - database of ∆∆G datasets and predictors. Available at: https://ivankovlab.ru/proddg. ',
         ],
       },
     ],
