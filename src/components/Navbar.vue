@@ -29,7 +29,7 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/predictors') predictors
-  v-spacer(style='min-width: 60px')
+  v-spacer(style='min-width: 140px')
   ThemeSwitcher.mr-4
   v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Visit our website
 </template>
@@ -66,6 +66,11 @@ export default class Navbar extends Vue {
   }
 }
 </script>
+<style>
+.v-toolbar__content {
+  width: 100vw;
+}
+</style>
 <style scoped>
 .v-btn-toggle > .v-btn--active::before {
   opacity: 0;
