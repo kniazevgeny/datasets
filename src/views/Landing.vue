@@ -121,4 +121,19 @@ export default class Landing extends Vue {
     line-height: 32px;
 }
 
+.section-title {
+  font-style: normal;
+  font-weight: 800;
+  font-size: min(4rem, 48px);
+  line-height: 127%;
+  /* or 81px */
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  /* theme/text */
+  color: var(--v-text);
+  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
+}
 </style>
