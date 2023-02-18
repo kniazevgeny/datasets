@@ -1,6 +1,6 @@
 <template lang="pug">
 v-app-bar.ml-4.mr-4(color='background', flat, height=60)
-  v-btn-toggle.pb-0(ref='navToggle', v-model='toggle', background-color='accent', dense)
+  v-btn-toggle.pb-0(ref='navToggle', v-model='toggle', background-color='accent', dense, style='min-width: fit-content;')
     v-btn(
       icon,
       height=36,
@@ -29,8 +29,8 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/predictors') predictors
-  v-spacer(style='min-width: 140px')
-  ThemeSwitcher.mr-4
+  v-spacer()
+  ThemeSwitcher.ml-6.mr-4
   v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Visit our website
 </template>
 <script lang="ts">
