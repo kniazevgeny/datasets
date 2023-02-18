@@ -16,6 +16,9 @@ Vue.use(Vuetify, {
 })
 
 export default new Vuetify({
+  breakpoint: {
+    mobileBreakpoint: 'sm'
+  },
   theme: {
     themes: {
       light: {

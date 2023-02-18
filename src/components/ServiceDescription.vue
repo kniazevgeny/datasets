@@ -11,8 +11,9 @@ v-row
         v-html='paragraph'
       )
     .blocks(v-if='section.type == "blocks"') 
-      v-row(dense)
-        v-col.pr-10.justify-space-between(
+      .d-flex(dense, :class='$vuetify.breakpoint.mobile ? "flex-column" : "flex-row"')
+        .d-flex.pr-10.justify-space-between(
+          :class='$vuetify.breakpoint.mobile ? "flex-row" : "flex-column"',
           v-for='(block, b_id) in section.blocks',
           :key='b_id'
         )
