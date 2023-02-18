@@ -189,7 +189,7 @@ export const messages = {
           {
             title: 'ProDDG',
             description: '',
-            url: 'https://ivankovlab.ru/proddg',
+            url: 'proddg',
             // image: require('../assets/ivankovlab-2-m.webp'),
           },
         ],
