@@ -226,7 +226,7 @@ p.paragraph {
   filter: drop-shadow(-2px 2px 8px rgba(0, 0, 0, 0.25));
 }
 
-.blocks > .row {
+.blocks > .flex-row {
   overflow-x: auto;
   max-width: 90vw;
   display: inline-flex;
@@ -234,7 +234,10 @@ p.paragraph {
   flex-wrap: nowrap;
 }
 
-.blocks > .row > .col {
+.blocks > .flex-row > .flex-column {
+  min-width: 300px;
+}
+.blocks > .flex-column > .flex-row > .v-card {
   min-width: 300px;
 }
 
