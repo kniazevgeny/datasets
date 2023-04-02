@@ -22,7 +22,7 @@ v-layout(style='width: 100%')
           :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
           text,
           @click='download()',
-          :disabled='typeof dataset.fileName == undefined'
+          :disabled='!available'
         )
           span Download
           v-icon mdi-download-outline
@@ -39,7 +39,7 @@ v-layout(style='width: 100%')
         :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
         color='primary'
         @click='download()'
-        :disabled='!dataset.fileName'
+        :disabled='!dataset.available'
       )
         span.text--text.no-link-decoration Download dataset
     v-row.ma-4.d-flex

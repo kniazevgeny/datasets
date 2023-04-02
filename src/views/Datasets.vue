@@ -185,6 +185,7 @@ v-layout(style='width: 100%')
           :name='card.name',
           :_id='card._id',
           :fileName='card.fileName',
+          :available='card.available',
           :externalLink='card.externalLink',
           :originalPredictor='card.originalPredictor',
           :origin='card.origin',
@@ -408,7 +409,7 @@ export default class Datasets extends Vue {
     // So, we need some magic for user to ignore that bug
 
     let result = false
-
+    
     if (search == null) result = true
     else
       result = Object.values(item).some((el) =>
@@ -527,7 +528,7 @@ export default class Datasets extends Vue {
       this.isDataLoaded = true
       this.setDatasets(response)
       this.selected = this.data
-        .filter((el) => el.fileName)
+        .filter((el) => el.available)
         .map((el) => {
           return { _id: el._id, isSelected: false }
         })
