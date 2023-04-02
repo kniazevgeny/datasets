@@ -574,33 +574,6 @@ export default class Datasets extends Vue {
 
   filters = [
     {
-      title: 'Origin',
-      subtitle: '',
-      value: 'origin',
-      type: 'chip',
-      items: [
-        { label: 'Any', fieldToBe: undefined, description: undefined },
-        {
-          label: 'Original',
-          fieldToBe: 'original',
-          description:
-            'Original - a dataset compiled from Protherm or literature sources.',
-        },
-        {
-          label: 'Processed',
-          fieldToBe: 'processed',
-          description:
-            'Processed - original dataset(s) after processing procedure (filtration, redundancy reduction, etc.)',
-        },
-        {
-          label: 'Subset',
-          fieldToBe: 'subset',
-          description: 'Subset - a subset of existing dataset',
-        },
-      ],
-      selected: 0,
-    },
-    {
       title: 'Size',
       value: 'size',
       subtitle: 'Number of data points in a dataset.',
