@@ -542,6 +542,10 @@ export default class Datasets extends Vue {
       this.filters[
         this.filters.findIndex((el) => el.value == 'author')
       ].items = [...new Set(this.data.map((el: Dataset) => el.author))]
+      // @ts-ignore
+      this.filters[
+        this.filters.findIndex((el) => el.value == 'source')
+      ].items = [...new Set(this.data.map((el: Dataset) => el.source?.split(',').map(el => el.trim())).flat())]
       
       // set border values
       this.filters.forEach((filter, i) => {
@@ -619,8 +623,11 @@ export default class Datasets extends Vue {
     // },
     {
       title: 'Source',
+      value: 'source',
       subtitle: '',
-      type: 'select',
+      type: 'autocomplete',
+      items: [],
+      selected: [],
     },
     {
       title: 'Type of mutations',
