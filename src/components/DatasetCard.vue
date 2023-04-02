@@ -26,9 +26,6 @@ v-card(flat, outlined, style='background: var(--v-accent)')
   v-card-text.pt-0
     v-col(v-if='!showSkeleton').v-text
       v-row
-        span.pr-2(v-if='typeof origin == "string"') Origin: {{ origin }}
-        //- span.pr-2(v-if='typeof symmetrized == "boolean"') Symmetrized: {{ symmetrized ? 'yes' : 'no' }}
-        span.pr-2 •
         span.pr-2(v-if='typeof mutations == "string"') {{ mutations }} mutations
         span.pr-2 •
         span.pr-2 {{ size }} entries
