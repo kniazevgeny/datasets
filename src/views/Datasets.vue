@@ -629,7 +629,7 @@ export default class Datasets extends Vue {
       selected: 0,
     },
     {
-      title: 'Proteins',
+      title: 'Number of proteins',
       value: 'proteins',
       subtitle: 'Number of proteins in a dataset.',
       type: 'range',
@@ -685,7 +685,7 @@ export default class Datasets extends Vue {
       sortable: false,
       align: 'start',
     },
-    { text: 'Proteins', value: 'proteins' },
+    { text: 'Number of proteins', value: 'proteins' },
     { text: 'Year', value: 'year' },
     { text: 'doi', value: 'doi', sortable: false, align: 'start', width: '10' },
   ]
