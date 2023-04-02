@@ -423,7 +423,7 @@ export default class Datasets extends Vue {
       // check each type
       if (currentFilter[0].type === 'range' && currentFilter[0].range)
         if (
-          item[current] < currentFilter[0]?.range[0] ||
+          (item[current] < currentFilter[0]?.range[0] && currentFilter[0]?.range[0] != currentFilter[0]?.min) ||
           item[current] > currentFilter[0]?.range[1]
         )
           return false
