@@ -265,17 +265,25 @@ export const messages = {
     ],
     mutations_headers: [
       {
-        text: 'protein name',
+        text: 'protein',
         value: 'protein',
         description: 'Name of the protein studied in the experiment.',
         sortable: true,
         align: 'start',
       },
       {
+        text: 'Mutation (PDB)',
+        value: 'mutation_pdb',
+        description:
+          'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure.',
+        align: 'start',
+        sortable: true,
+      },
+      {
         text: 'Mutation',
         value: 'mutation',
         description:
-          'Mutation studied in the experiment. Residue numbering corresponds to that in the PDB structure. If no PDB structure is available, the residue is numbered according to the sequence specifieed in "Sequence" column.',
+          'Mutation studied in the experiment. Residue numbering corresponds to that in the sequence.',
         align: 'start',
         sortable: true,
       },
@@ -287,13 +295,7 @@ export const messages = {
         sortable: true,
       },
       {
-        text: 'Sequence',
-        value: 'sequence',
-        description: 'The sequence of the protein used in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'PDB ID',
+        text: 'PDB',
         value: 'pdb',
         description: 'PDB ID of the protein structure if available.',
         sortable: true,
@@ -309,7 +311,7 @@ export const messages = {
       {
         text: 'uniprot',
         value: 'uniprot',
-        description: 'Chain identifier of the protein structure.',
+        description: 'UNIPROT accession number.',
         sortable: true,
       },
       {
@@ -319,37 +321,8 @@ export const messages = {
         sortable: true,
       },
       { text: 'organism', value: 'organism', sortable: true, align: 'start' },
-      {
-        text: 'Temperature',
-        value: 'T',
-        description: 'Temperature of the experiment in kelvins.',
-        sortable: true,
-      },
-      {
-        text: 'pH',
-        value: 'pH',
-        description: 'pH of the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'method',
-        value: 'method',
-        description:
-          'Method of measuring the folding free energy change in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'measure',
-        value: 'measure',
-        description: 'Signal measured in the experiment.',
-        sortable: true,
-      },
-      {
-        text: 'reference',
-        value: 'doi',
-        description: 'Experiment reference.',
-        sortable: true,
-      },
+      { text: 'uniprot_id', value: 'uniprot_id', sortable: true, align: 'start' },
+      { text: 'gene', value: 'gene', sortable: true, align: 'start' },
     ],
     rowsToCompareInDatasets: [
       'origin',

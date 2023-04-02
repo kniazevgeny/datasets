@@ -67,7 +67,7 @@ export default class Browse extends Vue {
       subtitle: 'Example: From "H" will show H32L, H32S, H32Y and so on',
       titleFrom: 'From',
       titleTo: 'To',
-      value: 'mutation',
+      value: 'mutation_pdb',
       type: 'variation',
       from: '',
       to: '',
