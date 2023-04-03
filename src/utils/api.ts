@@ -97,20 +97,71 @@ export async function getPredictors() {
 
 export async function getMutations(filters: object[]) {
   // if (checkInternetConnection()) throw "error";
+
+  let fiters_copy = []
+  // @ts-ignore
+  filters.forEach(val => fiters_copy.push(Object.assign({}, val)));
+  let tmp_filters: object[] = []
+  // Preprocess filters, store unnecessary info
+  // TODO: make that code more readable and compact
+  fiters_copy.forEach(el => {
+    tmp_filters.push({
+      // @ts-ignore
+      value: el.value,
+      // @ts-ignore
+      title: el.title,
+      // @ts-ignore
+      subtitle: el.subtitle,
+      // @ts-ignore
+      hints: el.hints,
+      // @ts-ignore
+      tickLabels: el.tickLabels,
+      // @ts-ignore
+      items: el.items,
+    })
+    // @ts-ignore
+    delete el.title;
+    // @ts-ignore
+    delete el.subtitle;
+    // @ts-ignore
+    delete el.hints;
+    // @ts-ignore
+    delete el.tickLabels;
+    // @ts-ignore
+    delete el.items;
+  })
   let response = (
     await axios
-      .post(`${base}/mutations`, 
-        {filters: filters},
-      {
-        headers: getHeaders(),
+      .get(`${base}/mutations`, 
+        {
+          params: {
+            filters: JSON.stringify(fiters_copy)
+          },
+          headers: getHeaders(),
       },)
       .catch((err) => {
         setSnackbar(err)
         return err
       })
+      .then(resp => {
+        if (resp.data.filters)
+          resp.data.filters.forEach(el => {
+            // @ts-ignore
+            const id = tmp_filters.findIndex(tmp_el => el.value == tmp_el.value)
+            // @ts-ignore
+            if (!el.title) el.title = tmp_filters[id].title
+            // @ts-ignore
+            if (!el.subtitle) el.subtitle = tmp_filters[id].subtitle
+            // @ts-ignore
+            if (!el.hints) el.hints = tmp_filters[id].hints
+            // @ts-ignore
+            if (!el.tickLabels) el.tickLabels = tmp_filters[id].tickLabels
+            // @ts-ignore
+            if (!el.items) el.items = tmp_filters[id].items
+          });
+        return resp
+      })
   ).data
-  // c.logserv('api.balance', response)
-  // response.balance = removeBackZeroes(response.balance)
   return response
 }
 
