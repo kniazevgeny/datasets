@@ -515,7 +515,7 @@ export default class Mutations extends Vue {
   onFiltersChange() {
     console.log('onFiltersChange')
     this.isFiltering = true
-    if (this.showFilters) this.$emit('filterChange', [...this.filters, {type: 'text', text: this.search}])
+    if (this.showFilters) this.$emit('filterChange', [...this.filters, {type: 'text', text: this.search == null ? '' : this.search}])
   }
 
   @Watch('data')
