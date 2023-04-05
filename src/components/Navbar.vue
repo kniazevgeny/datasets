@@ -52,7 +52,7 @@ export default class Navbar extends Vue {
     this.onRouteChange({}, {})
   }
 
-  @Watch('$route')
+  @Watch('$router')
   onRouteChange(to, from) {
     let routes: Array<String> = [
       '/proddg',
