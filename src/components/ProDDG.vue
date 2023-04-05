@@ -22,7 +22,7 @@ export default class ProDDG extends Vue {
       '/proddg', // for animation to work correctly
       '/proddg/browse',
       '/proddg/datasets',
-      '/daproddgtasets/predictors',
+      '/proddg/predictors',
     ]
     let toPath = to.path
     let fromPath = from.path
@@ -55,14 +55,15 @@ export default class ProDDG extends Vue {
 .slide-right-leave-active,
 .slide-left-enter-active {
   opacity: 0;
-  -webkit-transform: translate(100px, 0);
-  transform: translate(100px, 0);
+  -webkit-transform: translate(10%, 0);
+  transform: translate(10%, 0);
 }
-.slide-left-leave-active,
+
 .slide-right-enter,
+.slide-left-leave-active,
 .slide-right-enter-active {
   opacity: 0;
-  -webkit-transform: translate(-100px, 0);
-  transform: translate(-100px, 0);
+  -webkit-transform: translate(-10%, 0);
+  transform: translate(-10%, 0);
 }
 </style>
