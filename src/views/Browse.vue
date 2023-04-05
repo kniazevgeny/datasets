@@ -76,7 +76,7 @@ export default class Browse extends Vue {
     {
       title: 'ΔΔG',
       value: 'ddG',
-      subtitle: 'Number of data points in a dataset.',
+      subtitle: 'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
       type: 'range',
       min: 0,
       max: 0,
@@ -88,7 +88,7 @@ export default class Browse extends Vue {
     {
       title: 'Temperature',
       value: 'T',
-      subtitle: 'Number of data points in a dataset.',
+      subtitle: 'Temperature of the experiment in Celsius.',
       type: 'range',
       min: 0,
       max: 0,
@@ -100,7 +100,7 @@ export default class Browse extends Vue {
     {
       title: 'pH',
       value: 'pH',
-      subtitle: 'Number of data points in a dataset.',
+      subtitle: 'pH of the experiment.',
       type: 'range',
       min: 0,
       max: 0,
