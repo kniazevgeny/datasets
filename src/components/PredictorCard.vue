@@ -30,6 +30,8 @@ v-card(flat, outlined, style='background: var(--v-accent)')
         span.pr-2 •
         span.pr-2 Algorithm: {{ algorithm_0 }}
         span.pr-2(v-if='algorithm_1.length') {{ algorithm_1 }}
+        span.pr-2 •
+        span.pr-2(v-if='stabilization_sign') Stabilization sign: {{ stabilization_sign > 0 ? '+' : '-' }}
       v-row.pt-2
         span.pr-2(v-if='typeof meta == "boolean"') Meta-predictor: {{ meta ? 'yes' : 'no' }}
         span.pr-2 •
@@ -88,6 +90,7 @@ import Component from 'vue-class-component'
     input: String,
     algorithm_0: String,
     algorithm_1: String,
+    stabilization_sign: Number,
     datasets: Object,
     meta: Boolean,
     cv: String,
@@ -115,6 +118,7 @@ export default class PredictorCard extends Vue {
   input!: string
   algorithm_0!: string
   algorithm_1!: string
+  stabilization_sign!: number
   datasets!: object
   meta!: boolean
   cv?: string
