@@ -159,6 +159,7 @@ v-layout(style='width: 100%')
           :input='card.input',
           :algorithm_0='card.algorithm_0',
           :algorithm_1='card.algorithm_1',
+          :stabilization_sign='card.stabilization_sign',
           :datasets='card.datasets',
           :meta='card.meta',
           :cv='card.cv',
@@ -203,7 +204,7 @@ export default class Predictors extends Vue {
   searchVisible: String = ''
   searchReal: String | null = null
 
-  select = { text: 'Performance' }
+  select = []
 
   isSortDescending = true
 
@@ -460,8 +461,8 @@ export default class Predictors extends Vue {
 
   mounted() {
     // set correct sidebar size (25 characters)
-    this.$vuetify.theme.themes['light'].sidebar_size = '30ch'
-    this.$vuetify.theme.themes['dark'].sidebar_size = '30ch'
+    this.$vuetify.theme.themes['light'].sidebar_size = '42ch'
+    this.$vuetify.theme.themes['dark'].sidebar_size = '42ch'
 
     document.title = 'Predictors | ' + this.$t('title')
 
@@ -509,8 +510,8 @@ export default class Predictors extends Vue {
       type: 'chip',
       items: [
         { label: 'Any', fieldToBe: undefined, description: undefined },
-        { label: '1D', fieldToBe: '1D', description: '' },
-        { label: '3D', fieldToBe: '3D', description: '' },
+        { label: 'Sequence', fieldToBe: 'sequence', description: '' },
+        { label: 'Structure', fieldToBe: 'structure', description: '' },
       ],
       selected: 0,
     },
@@ -529,7 +530,7 @@ export default class Predictors extends Vue {
       type: 'chip',
       items: [
         { label: 'Any', fieldToBe: undefined, description: undefined },
-        { label: 'Offline', fieldToBe: 'download', description: '' },
+        { label: 'Standalone', fieldToBe: 'download', description: '' },
         { label: 'Server', fieldToBe: 'server', description: '' },
       ],
       selected: 0,
@@ -547,24 +548,12 @@ export default class Predictors extends Vue {
       selected: 0,
     },
     {
-      title: 'Multiple-point mutations',
+      title: 'Prediction of multiple-point mutations',
       subtitle: '',
       value: 'multiple_point_mutations',
       type: 'chip',
       items: [
         { label: 'Both', fieldToBe: undefined, description: undefined },
-        { label: 'Yes', fieldToBe: true, description: '' },
-        { label: 'No', fieldToBe: false, description: '' },
-      ],
-      selected: 0,
-    },
-    {
-      title: 'Mutation in protein complexes',
-      subtitle: '',
-      value: 'complexes',
-      type: 'chip',
-      items: [
-        { label: 'Any', fieldToBe: undefined, description: undefined },
         { label: 'Yes', fieldToBe: true, description: '' },
         { label: 'No', fieldToBe: false, description: '' },
       ],
@@ -607,34 +596,6 @@ export default class Predictors extends Vue {
       selected: 0,
     },
     {
-      title: 'Reverse mutation check',
-      subtitle: '',
-      value: 'hrm_check',
-      type: 'chip',
-      items: [
-        { label: 'Any', fieldToBe: undefined, description: undefined },
-        { label: 'Yes', fieldToBe: true, description: '' },
-        { label: 'No', fieldToBe: false, description: '' },
-      ],
-      selected: 0,
-    },
-    {
-      title: 'Compared to predictors',
-      value: 'compared_tools',
-      subtitle: '',
-      type: 'autocomplete',
-      items: [],
-      selected: [],
-    },
-    {
-      title: 'Comparison metrics',
-      value: 'metrics',
-      subtitle: '',
-      type: 'autocomplete',
-      items: [],
-      selected: [],
-    },
-    {
       title: 'Author',
       value: 'author',
       subtitle: '',
@@ -671,8 +632,6 @@ export default class Predictors extends Vue {
     { text: 'Setting temperature', value: 'T', sortable: false },
     { text: 'Setting pH', value: 'ph', sortable: false },
 
-    { text: 'Preformance', value: '' },
-
     { text: 'Year', value: 'year' },
     {
       text: 'Reference',
@@ -685,146 +644,7 @@ export default class Predictors extends Vue {
     { text: 'Server', value: 'server', sortable: false, align: 'start' },
   ]
 
-  data: Predictor[] = [
-    // {
-    //   predictor: 'Rosetta',
-    //   input: '3D',
-    //   algorithm_0: 'energy function',
-    //   algorithm_1: 'EP',
-    //   datasets: {
-    //     'Rosetta-2156': 'test',
-    //     'Rosetta-1210': 'test',
-    //   },
-    //   meta: false,
-    //   cv: '',
-    //   multiple_point_mutations: false,
-    //   complexes: false,
-    //   hrm_dataset: false,
-    //   hrm_check: false,
-    //   compared_tools: '',
-    //   metrics: '',
-    //   T: false,
-    //   ph: true,
-    //   author: 'Kellog',
-    //   year: 2011,
-    //   doi: 'https://doi.org/10.1002/prot.22921',
-    //   reference:
-    //     'Kellogg, E. H., Leaver-Fay, A., & Baker, D. (2010). Role of conformational sampling in computing mutation-induced changes in protein structure and stability. Proteins: Structure, Function, and Bioinformatics, 79(3), 830–838. Portico. https://doi.org/10.1002/prot.22921',
-    //   download: '',
-    //   server: '',
-    // },
-    // {
-    //   predictor: 'I-Mutant-2.0',
-    //   input: '1D',
-    //   algorithm_0: 'ML',
-    //   algorithm_1: 'SVM',
-    //   datasets: {
-    //     'I-Mutant-2.0-2087': 'train',
-    //     'I-Mutant-2.0-1948': 'train',
-    //   },
-    //   meta: false,
-    //   cv: '',
-    //   multiple_point_mutations: false,
-    //   complexes: false,
-    //   hrm_dataset: false,
-    //   hrm_check: false,
-    //   compared_tools: '',
-    //   metrics: '',
-    //   T: true,
-    //   ph: true,
-    //   author: 'Capriotti',
-    //   year: 2005,
-    //   doi: 'https://doi.org/10.1093/nar/gki375',
-    //   reference:
-    //     'Capriotti, E., Fariselli, P., & Casadio, R. (2005). I-Mutant2.0: predicting stability changes upon mutation from the protein sequence or structure. Nucleic Acids Research, 33(Web Server), W306–W310. https://doi.org/10.1093/nar/gki375',
-    //   download: '',
-    //   server:
-    //     'http://gpcr2.biocomp.unibo.it/~emidio/I-Mutant2.0/I-Mutant2.0_Details.html',
-    // },
-    // {
-    //   predictor: 'I-Mutant-3.0',
-    //   input: '1D',
-    //   algorithm_0: 'ML',
-    //   algorithm_1: 'SVM',
-    //   datasets: {
-    //     'I-Mutant-3.0-DBSEQ': 'train',
-    //     'I-Mutant-3.0-DB3D': 'train',
-    //     'I-Mutant-3.0-NewDB': 'test',
-    //   },
-    //   meta: false,
-    //   cv: '',
-    //   multiple_point_mutations: false,
-    //   complexes: false,
-    //   hrm_dataset: true,
-    //   hrm_check: false,
-    //   compared_tools: '',
-    //   metrics: '',
-    //   T: true,
-    //   ph: true,
-    //   author: 'Capriotti',
-    //   year: 2008,
-    //   doi: 'https://dx.doi.org/10.1186%2F1471-2105-9-S2-S6',
-    //   reference:
-    //     'Capriotti, E., Fariselli, P., Rossi, I., & Casadio, R. (2008). A three-state prediction of single point mutations on protein stability changes. BMC Bioinformatics, 9(S2). https://doi.org/10.1186/1471-2105-9-s2-s6',
-    //   download: '',
-    //   server:
-    //     'http://gpcr2.biocomp.unibo.it/cgi/predictors/I-Mutant3.0/I-Mutant3.0.cgi',
-    // },
-    // {
-    //   predictor: 'PoPMuSiC',
-    //   input: '3D',
-    //   algorithm_0: 'energy function',
-    //   algorithm_1: 'SP',
-    //   datasets: {
-    //     'PoPMuSiC-S2298': 'train',
-    //     'PoPMuSiC-S350': 'test',
-    //   },
-    //   meta: false,
-    //   cv: '5-fold, 10-fold',
-    //   multiple_point_mutations: false,
-    //   complexes: false,
-    //   hrm_dataset: false,
-    //   hrm_check: false,
-    //   compared_tools: 'AUTO-MUTE,CUPSAT,Dmutant,Eris,I-Mutant-2.0,PoPMuSiC-1.0',
-    //   metrics: 'PCC,RMSE',
-    //   T: false,
-    //   ph: false,
-    //   author: 'Dehouck',
-    //   year: 2009,
-    //   doi: 'https://doi.org/10.1093/bioinformatics/btp445',
-    //   reference:
-    //     'Dehouck, Y., Grosfils, A., Folch, B., Gilis, D., Bogaerts, P., & Rooman, M. (2009). Fast and accurate predictions of protein stability changes upon mutations using statistical potentials and neural networks: PoPMuSiC-2.0. Bioinformatics, 25(19), 2537–2543. https://doi.org/10.1093/bioinformatics/btp445',
-    //   download: '',
-    //   server: 'http://dezyme.com/',
-    // },
-    // {
-    //   predictor: 'CUPSAT',
-    //   input: '3D',
-    //   algorithm_0: 'energy function',
-    //   algorithm_1: 'KB',
-    //   datasets: {
-    //     'CUPSAT-1538': 'test',
-    //     'CUPSAT-1603': 'test',
-    //   },
-    //   meta: false,
-    //   cv: 'Split-sample validation, jack-knife test, 3-, 4- and 5-fold',
-    //   multiple_point_mutations: false,
-    //   complexes: false,
-    //   hrm_dataset: false,
-    //   hrm_check: false,
-    //   compared_tools: '',
-    //   metrics: 'PCC, Accuracy',
-    //   T: false,
-    //   ph: false,
-    //   author: 'Parthiban',
-    //   year: 2006,
-    //   doi: 'https://doi.org/10.1093/nar/gkl190',
-    //   reference:
-    //     'Parthiban, V., Gromiha, M. M., & Schomburg, D. (2006). CUPSAT: prediction of protein stability upon point mutations. Nucleic Acids Research, 34(Web Server), W239–W242. https://doi.org/10.1093/nar/gkl190',
-    //   download: '',
-    //   server: 'http://cupsat.tu-bs.de/',
-    // },
-  ]
+  data: Predictor[] = []
 }
 </script>
 
