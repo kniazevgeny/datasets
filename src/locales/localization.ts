@@ -321,7 +321,7 @@ export const messages = {
         sortable: true,
       },
       { text: 'organism', value: 'organism', sortable: true, align: 'start' },
-      { text: 'uniprot_id', value: 'uniprot_id', sortable: true, align: 'start' },
+      { text: 'Uniprot ID', value: 'uniprot_id', sortable: true, align: 'start' },
       { text: 'gene', value: 'gene', sortable: true, align: 'start' },
     ],
     rowsToCompareInDatasets: [

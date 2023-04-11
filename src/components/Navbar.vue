@@ -31,7 +31,7 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       router-link.no-link-decoration(to='/proddg/predictors') predictors
   v-spacer()
   ThemeSwitcher.ml-6.mr-4
-  v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Visit our website
+  v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Ivankov Lab
 </template>
 <script lang="ts">
 import Vue from 'vue'
