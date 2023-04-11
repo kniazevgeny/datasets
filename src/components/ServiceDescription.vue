@@ -42,8 +42,8 @@ v-row
         v-for='(publication, p_id) in section.publications',
         :key='p_id'
       ) 
-        p.publication-title.mb-1.sf {{ publication.title }}
-        div 
+        p.publication-title.mb-1.sf(v-html='publication.title')
+        div(v-show='!publication.removeSpoiler')
           input(
             v-model='isPublicationOpen[p_id]',
             type='checkbox',
@@ -65,7 +65,7 @@ v-row
                 :href='publication.url',
                 target='_blank'
               ) {{ publication.url }}
-      span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
+      //- span(v-show='isPublicationOpen[0]') {{ isPublicationOpen }}
     div(v-if='section.type == "annual"')
       .year(v-for='(year, y_id) in getYearsForAnnual(section.data)')
         input(
