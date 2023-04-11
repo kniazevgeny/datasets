@@ -49,13 +49,13 @@ export const messages = {
             title: 'Dmitry Ivankov',
             subtitle: 'Superviser',
             url: 'https://faculty.skoltech.ru/people/dmitryivankov',
-            image: require('../assets/POE_0177.webp'),
+            image: require('../assets/POE_0177c.webp'),
           },
           {
             title: 'Natalia Sivitskaia',
             subtitle: 'PhD–1',
             url: 'https://crei.skoltech.ru/cls/people/nataliasivitskaia',
-            image: require('../assets/IMG_8017.webp'),
+            image: require('../assets/IMG_8017c.webp'),
           },
           {
             title: 'Marina Pak',
@@ -67,7 +67,7 @@ export const messages = {
             title: 'Egor Bulavko',
             subtitle: 'MSc–2',
             url: 'https://crei.skoltech.ru/cls/people/egorbulavko',
-            image: require('../assets/avatar.svg'),
+            image: require('../assets/egor.webp'),
           },
           {
             title: 'Maria Minkevich',
@@ -81,12 +81,25 @@ export const messages = {
             url: 'https://crei.skoltech.ru/cls/people/deniskhamitov',
             image: require('../assets/IMG_2648.webp'),
           },
+          {
+            title: 'Shah Zeb Khan',
+            subtitle: 'MSc–2',
+            url: 'https://crei.skoltech.ru/cls/people/shahzebkhan',
+            image: require('../assets/IMG_20221108_235543_749s.webp'),
+          },
         ],
       },
       {
         title: 'Publications',
         type: 'publications',
         publications: [
+          {
+            title:
+              'Pak, M. A., Markhieva, K. A., Novikova, M. S., Petrov, D. S., Vorobyev, I. S., Maksimova, E. S., Kondrashov, F. A., & Ivankov, D. N. (2023). Using AlphaFold to predict the impact of single mutations on protein stability and function. PLOS ONE, 18(3), e0282689.',
+            description:
+              'AlphaFold changed the field of structural biology by achieving three-dimensional (3D) structure prediction from protein sequence at experimental quality. The astounding success even led to claims that the protein folding problem is “solved”. However, protein folding problem is more than just structure prediction from sequence. Presently, it is unknown if the AlphaFold-triggered revolution could help to solve other problems related to protein folding. Here we assay the ability of AlphaFold to predict the impact of single mutations on protein stability (ΔΔG) and function. To study the question we extracted metrics from AlphaFold predictions before and after single mutation in a protein and correlated the predicted change with the experimentally known ΔΔG values. Additionally, we correlated the AlphaFold predictions on the impact of a single mutation on structure with a large scale dataset of single mutations in GFP with the experimentally assayed levels of fluorescence. We found a very weak or no correlation between AlphaFold output metrics and change of protein stability or fluorescence. Our results imply that AlphaFold cannot be immediately applied to other problems or applications in protein folding.',
+            url: 'https://doi.org/10.1371/journal.pone.0282689',
+          },
           {
             title:
               'Pak, M. A., Dovidchenko, N. V., Sharma, S. M., & Ivankov, D. N. (2023). New mega dataset combined with deep neural network makes a progress in predicting impact of mutation on protein stability.',
@@ -114,13 +127,6 @@ export const messages = {
             description:
               'The intricate genotype-phenotype relationship has been a long-standing issue in biology, important both from the fundamental and applied points of view. One of the major irregularities hindering progress in establishing these links is epistasis – the complex and elusive interaction between mutations. Despite the vast accumulated genetic data and progress in this area, epistasis is still far from being completely understood. Epistasis can be studied quantitatively in combinatorially complete datasets, which form hypercubes in protein sequence space, where connected sequences are one mutation away from each other. However, this might be insufficient to portray the full picture of epistatic interactions. To extend the repertoire of the methods for exploring epistasis, we propose here to consider hyperrectangles, where some edges connect sequences being two or more mutations away from each other. The present work formalizes the theoretical knowledge about these novel structures and compares the amount of epistasis identified in hypercubes and hyperrectangles constructed from experimental datasets. A new algorithm, CuboidME, was developed for calculating hyperrectangles, which were then compared to hypercubes. In the experimental datasets, there were four orders of magnitude more hyperrectangles than hypercubes for the same sample size. Subsequently, we showed that for the studied datasets there is an increase in epistasis measured by epistatic coefficients in hyperrectangles compared to hypercubes. For the same datasets, hyperrectangles could find more sign epistasis than using hypercubes alone. We also show that there is a trend for increase in epistasis with increasing number of mutations being considered in a hyperrectangle. The results indicate that hyperrectangles can be used to reveal more information on epistasis in a fitness landscape, especially if it is combinatorially incomplete.',
             url: 'https://doi.org/10.1101/2022.06.16.496391',
-          },
-          {
-            title:
-              'Pak, M. A., Markhieva, K. A., Novikova, M. S., Petrov, D. S., Vorobyev, I. S., Maksimova, E. S., Kondrashov, F. A., & Ivankov, D. N. (2021). Using AlphaFold to predict the impact of single mutations on protein stability and function. ',
-            description:
-              'AlphaFold changed the field of structural biology by achieving three-dimensional (3D) structure prediction from protein sequence at experimental quality. The astounding success even led to claims that the protein folding problem is “solved”. However, protein folding problem is more than just structure prediction from sequence. Presently, it is unknown if the AlphaFold-triggered revolution could help to solve other problems related to protein folding. Here we assay the ability of AlphaFold to predict the impact of single mutations on protein stability (ΔΔG) and function. To study the question we extracted metrics from AlphaFold predictions before and after single mutation in a protein and correlated the predicted change with the experimentally known ΔΔG values. Additionally, we correlated the AlphaFold predictions on the impact of a single mutation on structure with a large scale dataset of single mutations in GFP with the experimentally assayed levels of fluorescence. We found a very weak or no correlation between AlphaFold output metrics and change of protein stability or fluorescence. Our results imply that AlphaFold cannot be immediately applied to other problems or applications in protein folding.',
-            url: 'https://doi.org/10.1101/2021.09.19.460937',
           },
           {
             title:
@@ -196,21 +202,15 @@ export const messages = {
       },
       { 
         title: 'Teaching', 
-        type: 'blocks',
-        blocks: [
+        type: 'publications',
+        publications: [
           {
-            title: 'Introduction to Programming for Biologists',
-            url: 'http://files.skoltech.ru/data/edu/syllabuses/2020/MA030372.pdf?v=166oul',
-            description:
-            '',
-            image: '',
+            title: '<a target="_blank" href="https://files.skoltech.ru/data/edu/syllabuses/2020/MA030372.pdf?v=166oul">Introduction to Programming for Biologists</a>',
+            removeSpoiler: true
           },
           {
-            title: 'Structural Bioinformatics ',
-            url: 'http://files.skoltech.ru/data/edu/syllabuses/2020/MA060375.pdf?v=eo8ldx',
-            description:
-              '',
-            image: '',
+            title: '<a target="_blank" href="https://files.skoltech.ru/data/edu/syllabuses/2020/MA060375.pdf?v=eo8ldx">Structural Bioinformatics</a>',
+            removeSpoiler: true
           },
         ],
        },
