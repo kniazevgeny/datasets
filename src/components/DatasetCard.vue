@@ -116,7 +116,9 @@ export default class DatasetCard extends Vue {
   }
 
   get doiProcessed() {
-    return (this.doi as string).slice(16, )
+    if ((this.doi as string).includes('dx.doi'))
+      return decodeURIComponent((this.doi as string).slice(19))
+    return (this.doi as string).slice(16)
   }
 
   get authorProcessed() {
