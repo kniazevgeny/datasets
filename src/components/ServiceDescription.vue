@@ -232,10 +232,12 @@ p.paragraph {
   display: inline-flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  flex-grow: 0 1;
 }
 
 .blocks > .flex-row > .flex-column {
   min-width: 300px;
+  flex: 1 1 0;
 }
 .blocks > .flex-column > .flex-row > .v-card {
   min-width: 300px;
