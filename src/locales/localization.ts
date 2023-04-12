@@ -233,24 +233,24 @@ export const messages = {
             description:
               'Browse all ∆∆G data and filter mutations to develop your tool, or download popular training and testing sets.',
             url: 'proddg/browse',
-            image: '',
-            noimage: true,
+            image: require('../assets/01_1bni.webp'),
+            noimage: false,
           },
           {
             title: '∆∆G data for assessment',
             description:
             'Download popular validation datasets or compile your own. Use our utility to exclude data leakage in your dataset for unbiased assessment.',
             url: 'proddg/datasets',
-            image: '',
-            noimage: true,
+            image: require('../assets/02_datasets.webp'),
+            noimage: false,
           },
           {
             title: 'Find ∆∆G predictors ',
             description:
             'Check online and standalone ∆∆G predictors by algorithm, authors, antisymmetry and other specifications. ',
             url: 'proddg/predictors',
-            image: '',
-            noimage: true,
+            image: require('../assets/03_predictors.webp'),
+            noimage: false,
           },
         ],
       },
