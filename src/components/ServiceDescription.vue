@@ -24,7 +24,7 @@ v-row
               span(v-else)
                 //- a to external resources, router-link to internal 
                 a(v-if='block.url.includes("https")', :href='block.url') {{ block.title }}
-                router-link(v-else, :to='block.url') {{ block.title }}
+                router-link.no-link-decoration(v-else, :to='block.url') {{ block.title }}
             v-card-text.block-description {{ block.description }}
     #cards.d-flex(v-if='section.type == "cards"')
       v-card.ma-4.ml-0(
