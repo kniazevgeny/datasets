@@ -262,6 +262,13 @@ export const messages = {
           'Marina A. Pak, Evgeny V. Kniazev, Igor D. Abramkin, Dmitry N. Ivankov. (2023). ProDDG - database of ∆∆G datasets and predictors. Available at: https://ivankovlab.ru/proddg. ',
         ],
       },
+      {
+        title: 'Share your feedback',
+        type: 'paragraphs',
+        paragraphs: [
+          'If you\'ve found a mistake, want to share your experience or suggest ideas for service improvement, don\'t hesitate to write to <a href="mailto:marina.pak@skoltech.ru">marina.pak@skoltech.ru</a>.',
+        ],
+      },
     ],
     mutations_headers: [
       {

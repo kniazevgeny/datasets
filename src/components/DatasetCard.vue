@@ -36,10 +36,10 @@ v-card(flat, outlined, style='background: var(--v-accent)')
         span.pr-2 •
         span.pr-2(v-if='typeof year == "number"').text-left {{year}}
       v-row
-        span.pr-2(v-if='predictors.train.length' ).text-left Used for train:&nbsp;
+        span.pr-2(v-if='predictors.train.length' ).text-left Used for training:&nbsp;
         a.pr-2(v-if='predictors.train.length' v-for='train in predictors.train' :href='"https://ivankovlab.ru/proddg/predictor/" + train.predictor' target='_blank').text-left {{ train.predictor }}
       v-row
-        span.pr-2(v-if='predictors.test.length' ).text-left Used for test:&nbsp;
+        span.pr-2(v-if='predictors.test.length' ).text-left Used for testing:&nbsp;
         a.pr-2(v-if='predictors.test.length' v-for='test in predictors.test' :href='"https://ivankovlab.ru/proddg/predictor/" + test.predictor' target='_blank').text-left {{ test.predictor }}
       v-row
         a.pr-2(v-if='typeof doi == "string"', :href='doi', target="_blank").text-left {{ doiProcessed }}
