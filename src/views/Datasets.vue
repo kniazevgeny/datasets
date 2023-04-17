@@ -129,19 +129,21 @@ v-layout(style='width: 100%')
         )
         v-row.ma-1.mr-5.mt-3.justify-space-between.flex-nowrap.align-center
           v-btn.text-left(
-              v-if='dataVisible.length',
+              v-if='dataVisible.length && selected.filter((el) => el.isSelected == true).length',
+              @click='deselectAll()',
+              outlined,
+              color='text'
+            ) 
+              v-icon() mdi-minus-box-outline
+              span().font-weight-regular Deselect
+          v-btn.text-left(
+              v-if='dataVisible.length && !selected.filter((el) => el.isSelected == true).length',
               @click='selectVisible()',
               outlined,
               color='text'
             ) 
-              v-icon(
-                v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-              ) mdi-minus-box-outline
-              v-icon(v-else) mdi-checkbox-blank-outline
-              span(
-                v-if='selected.filter((el) => el.isSelected == true).length == dataVisible.filter((el) => el.fileName).length'
-              ).font-weight-regular Deselect
-              span(v-else).font-weight-regular Select all
+              v-icon() mdi-checkbox-blank-outline
+              span().font-weight-regular Select all
           //- Mirror filters in v-chips
           v-expand-transition
             v-card.mx-auto.float-left(flat, style='width: 100%; max-width: calc(100% - 340px);')
@@ -271,13 +273,18 @@ export default class Datasets extends Vue {
     this.comparisonSelected = this.comparisonSelected.reverse()
   }
   selectVisible() {
-    let toBe = false
-    if (
-      this.selected.filter((el) => el.isSelected == true).length !=
-      this.dataVisible.filter((el) => el.fileName).length
-    )
-      toBe = true
+    const toBe = true
     this.dataVisible.forEach((dataElement) => {
+      const i = this.selected.indexOf(
+        this.selected.filter((el) => el._id == dataElement._id)[0]
+      )
+      if (dataElement.fileName) this.selected[i].isSelected = toBe
+    })
+    this.updateComparisonSelected('')
+  }
+  deselectAll() {
+    const toBe = false
+    this.data.forEach((dataElement) => {
       const i = this.selected.indexOf(
         this.selected.filter((el) => el._id == dataElement._id)[0]
       )
