@@ -243,7 +243,7 @@ export default class Datasets extends Vue {
 
   selected: Selection[] = []
   comparisonSelected: Selection[] = []
-  getIsSelected(_id) {
+  getIsSelected(_id: string) {
     if (!this.selected.length) return false
     if (this.selected.filter((el) => el._id == _id).length)
       return this.selected.filter((el) => el._id == _id)[0].isSelected
