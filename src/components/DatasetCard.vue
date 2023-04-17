@@ -137,6 +137,7 @@ export default class DatasetCard extends Vue {
   }
 
   mounted() {
+    this.onSelectionChange()
   }
   
   closeDialog() {
