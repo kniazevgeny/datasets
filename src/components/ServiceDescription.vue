@@ -18,7 +18,7 @@ v-row
           :key='b_id'
         )
           v-card.block(flat, :class='block.noimage ? "noimage" : ""')
-            v-img.white--text.align-end(:src='block.image')
+            v-img.white--text.align-end(:src='block.image', contain, max-width='80vw', max-height='30ch')
             v-card-title.block-title
               span(v-if='!block.url') {{ block.title }}
               span(v-else)
@@ -233,27 +233,31 @@ p.paragraph {
   flex-direction: row;
   flex-wrap: nowrap;
   flex-grow: 0 1;
+  align-content: stretch;
 }
 
 .blocks > .flex-row > .flex-column {
   min-width: 300px;
   flex: 1 1 0;
 }
+.blocks > .flex-column > .flex-row:not(:last-child) {
+  padding-bottom: 10rem;
+}
 .blocks > .flex-column > .flex-row > .v-card {
   min-width: 300px;
 }
 
 .block {
-  height: 560px;
+  flex: 1 0 auto;
   background: linear-gradient(
     180deg,
     rgba(59, 61, 60, 0) 46.88%,
     rgba(59, 61, 60, 0.25) 92.19%
     ),
     var(--v-accent);
-    box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-  }
+  box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
 .block.noimage {
   height: auto !important;
   min-height: 300px;
