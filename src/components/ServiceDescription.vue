@@ -1,5 +1,5 @@
 <template lang="pug">
-v-col
+v-col.px-0
   .mt-11.mb-11(
     v-for='(section, s_id) in $t(this.itemsPath)',
     :class='s_id >= 2 ? "pt-11 pb-11" : "pt-3 pb-3"',
@@ -362,6 +362,13 @@ p.paragraph {
 
   color: var(--v-primaryThin) !important;
   text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 400px) {
+  #cards > .v-card > .v-image > .v-responsive__content > .v-card__title {
+    font-size: 14px;
+    line-height: 90%;
+  }
 }
 
 #cards > .v-card > .v-image > .v-responsive__content > .v-card__title > a {
