@@ -1,5 +1,5 @@
 <template lang="pug">
-v-row
+v-col
   .mt-11.mb-11(
     v-for='(section, s_id) in $t(this.itemsPath)',
     :class='s_id >= 2 ? "pt-11 pb-11" : "pt-3 pb-3"',
@@ -198,7 +198,6 @@ h2.section-title {
   font-size: min(4rem, 48px);
   line-height: 127%;
   text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
-  /* or 81px */
 }
 h5.section-title {
   font-size: min(2rem, 32px);
