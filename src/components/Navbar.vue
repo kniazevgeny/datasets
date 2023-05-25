@@ -65,7 +65,6 @@ export default class Navbar extends Vue {
   
   @Watch('$router')
   onRouteChange(to, from) {
-    console.log('route change detected')
     let routes: Array<String> = [
       '/proddg',
       '/proddg/browse',
