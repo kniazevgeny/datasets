@@ -198,20 +198,27 @@ export const messages = {
         title: 'Applications',
         type: 'blocks',
         blocks: [
-          {
-            title: 'Sequence number',
-            image: '',
-          },
-          {
-            title: 'Fitland',
-            image: '',
-          },
+          // {
+          //   title: 'Sequence number',
+          //   image: '',
+          // },
+          // {
+          //   title: 'Fitland',
+          //   image: '',
+          // },
           {
             title: 'ProDDG',
             description: '',
             url: 'proddg',
-            // image: require('../assets/ivankovlab-2-m.webp'),
+            image: require('../assets/proddg-light.webp'),
           },
+          {
+            title: 'Mega assessment of ΔΔG predictors',
+            description: '',
+            url: 'https://ivankovlab.ru/megaddg_plots.html',
+            image: require('../assets/newplot.webp'),
+          },
+
         ],
       },
       { 
@@ -390,9 +397,7 @@ export const messages = {
       { text: 'gene', value: 'gene', sortable: true, align: 'start' },
     ],
     rowsToCompareInDatasets: [
-      'origin',
       'size',
-      'symmetrized',
       'mutations',
       'proteins',
       'year'
