@@ -10,6 +10,16 @@ v-row
         v-for='paragraph in section.paragraphs',
         v-html='paragraph'
       )
+      v-btn.first-action-btn.no-scale(
+        v-if='section.button',
+        @click='$router.push(section.button.to)',
+        text,
+        x-large,
+        dark,
+        depressed
+        )
+          span.sf.font-weight-regular {{ section.button.text }}
+          v-icon.pl-2 mdi-arrow-right-circle
     .blocks(v-if='section.type == "blocks"') 
       .d-flex(dense, :class='$vuetify.breakpoint.mobile ? "flex-column" : "flex-row"')
         .d-flex.pr-10.justify-space-between(
@@ -461,5 +471,26 @@ p.paragraph {
 
 .no-link-decaration:hover > * {
   text-decoration: none;
+}
+
+.first-action-btn {
+    padding: 12px 24px;
+    gap: 8px;
+
+    width: 300px;
+    height: 56px;
+
+    /* theme/primary */
+    background: var(--v-primary);
+    box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.first-action-btn > .v-btn__content > span {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px !important;
+    line-height: 32px;
 }
 </style>
