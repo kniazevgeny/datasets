@@ -18,6 +18,8 @@ import ServiceDescription from '@/components/ServiceDescription.vue'
   }
 })
 export default class AboutProDDG extends Vue {
-
+  mounted() {
+    document.title = 'About | ' + this.$t('title')
+  }
 }
 </script>
