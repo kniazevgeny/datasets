@@ -1,7 +1,8 @@
 <template lang="pug">
 v-row
-  .pt-11.mt-11.pb-11.mb-11(
+  .mt-11.mb-11(
     v-for='(section, s_id) in $t(this.itemsPath)',
+    :class='s_id >= 2 ? "pt-11 pb-11" : "pt-3 pb-3"',
     :key='s_id'
   )
     h2.sf.section-title.pb-10 {{ section.title }}
@@ -49,6 +50,7 @@ v-row
           v-card-subtitle.ml-sm-2.ml-xs-0.mb-sm-2.mb-xs-0.sf {{ card.subtitle }}
     div(v-if='section.type == "publications"')
       .publication.mb-8(
+        v-if='section.publications'
         v-for='(publication, p_id) in section.publications',
         :key='p_id'
       ) 
