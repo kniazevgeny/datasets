@@ -29,14 +29,21 @@ v-col.px-0
           :key='b_id'
         )
           v-card.block(flat, :class='block.noimage ? "noimage" : ""')
-            v-img.white--text.align-end(:src='block.image', cover, max-width='80vw', max-height='30ch')
-            v-card-title.block-title
-              span(v-if='!block.url') {{ block.title }}
-              span(v-else)
-                //- a to external resources, router-link to internal 
-                a(v-if='block.url.includes("https")', :href='block.url') {{ block.title }}
-                router-link(v-else, :to='block.url') {{ block.title }}
-            v-card-text.block-description {{ block.description }}
+            div(v-if='!block.url')
+              v-img.white--text.align-end(:src='block.image', cover, max-width='80vw', max-height='30ch')
+              v-card-title.block-title
+                span {{ block.title }}
+              v-card-text.block-description {{ block.description }}
+            a.no-underline.no-link-decoration(v-else-if='block.url.includes("https")' :href='block.url')
+              v-img.white--text.align-end(:src='block.image', cover, max-width='80vw', max-height='30ch')
+              v-card-title.block-title
+                a(:href='block.url') {{ block.title }}
+              v-card-text.block-description {{ block.description }}
+            router-link.no-underline.no-link-decoration(v-else :to='block.url')
+              v-img.white--text.align-end(:src='block.image', cover, max-width='80vw', max-height='30ch')
+              v-card-title.block-title
+                router-link(:to='block.url') {{ block.title }}
+              v-card-text.block-description {{ block.description }}
     #cards.d-flex(v-if='section.type == "cards"')
       v-card.ma-4.ml-0(
         flat,
@@ -270,8 +277,8 @@ p.paragraph {
   flex: 1 0 auto;
   background: linear-gradient(
     180deg,
-    rgba(59, 61, 60, 0) 66.88%,
-    rgba(59, 61, 60, 0.15) 92.19%
+    rgba(59, 61, 60, 0) 80%,
+    rgba(59, 61, 60, 0.1) 92.19%
     ),
     var(--v-accent);
   box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.15);
@@ -286,7 +293,7 @@ p.paragraph {
   transition: all ease-in-out 0.4s;
   background: linear-gradient(
       180deg,
-      rgba(149, 203, 206, 0) 66.88%,
+      rgba(149, 203, 206, 0) 80%,
       rgba(149, 203, 206, 0.25) 92.19%
     ),
     var(--v-accent);
