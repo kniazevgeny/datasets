@@ -20,6 +20,25 @@ v-card(flat, outlined, style='background: var(--v-accent)')
       @click='onCardSelected'
     )
     a(:href='`/proddg/predictor/${title}`', target='_blank') {{ title }}
+    v-spacer     
+    v-btn(
+      v-if='download',
+      color='primary',
+      text,
+      :href='download'
+      target='_blank'
+      ).no-link-decoration
+      span Download
+      v-icon.ml-1 mdi-download-outline
+    v-btn(
+      v-if='server',
+      color='primary',
+      text,
+      :href='server'
+      target='_blank'
+      ).no-link-decoration
+      span Server
+      v-icon.ml-1 mdi-web
   //- v-card-title(v-else)
     //- a.external-link(:href='externalLink') {{ title }}
     v-icon(small) mdi-open-in-new
