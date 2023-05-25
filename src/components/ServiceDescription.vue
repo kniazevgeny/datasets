@@ -181,6 +181,28 @@ p.paragraph > a.no-link-decoration {
   /* override default width:768px; */
   width: 100% !important;
 }
+.section-title {
+  font-style: normal;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+
+  /* theme/text */
+  color: var(--v-text);
+  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
+}
+h2.section-title {
+  font-size: min(4rem, 48px);
+  line-height: 127%;
+  /* or 81px */
+}
+h5.section-title {
+  font-size: min(2rem, 32px);
+  line-height: 127%;
+  /* or 81px */
+}
 </style>
 <style scoped>
 * {
@@ -203,21 +225,6 @@ p.paragraph > a.no-link-decoration {
 }
 .publication-description {
   max-height: 100%;
-}
-.section-title {
-  font-style: normal;
-  font-weight: 800;
-  font-size: min(4rem, 48px);
-  line-height: 127%;
-  /* or 81px */
-
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.02em;
-
-  /* theme/text */
-  color: var(--v-text);
-  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 p.paragraph {

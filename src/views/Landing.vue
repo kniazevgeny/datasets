@@ -121,7 +121,7 @@ export default class Landing extends Vue {
     line-height: 32px;
 }
 
-.section-title {
+.section-title.h2 {
   font-style: normal;
   font-weight: 800;
   font-size: min(4rem, 48px);
