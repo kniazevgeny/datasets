@@ -9,6 +9,7 @@ import store from '@/store'
 import Landing from '@/views/Landing.vue'
 import PredictorOverview from '@/views/PredictorOverview.vue'
 import ProDDG from '@/components/ProDDG.vue'
+import AboutProDDG from '@/views/AboutProDDG.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ const router = new Router({
           path: '/',
           name: 'home',
           component: Home,
+        },
+        {
+          path: 'about',
+          name: 'about-proddg',
+          component: AboutProDDG,
         },
         {
           path: 'browse',

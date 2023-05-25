@@ -35,7 +35,7 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       rounded,
       @click='$router.push(`/proddg/about?type=click&btn_id=navbar_about&timestamp=${Date.now()}`)'
     ) 
-      router-link.no-link-decoration(to='/proddg/about') about
+      router-link.no-link-decoration(to='/proddg/about' rel='help') about
   v-spacer()
   ThemeSwitcher.ml-6.mr-4
   v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Ivankov Lab

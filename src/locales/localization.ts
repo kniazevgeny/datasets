@@ -223,6 +223,10 @@ export const messages = {
           'ProDDG is a web-service for developers, assessors and users of tools for predicting the effect of protein mutations. ProDDG provides all datasets on protein stability changes upon mutations (∆∆G) that were used for training, testing, and assessment of popular ∆∆G predictors.',
           'ProDDG allows you to access and analyze ∆∆G data, compile leakage-free datasets for evaluating predictors, and discover the latest and most accurate ∆∆G predictors.',
         ],
+        button: {
+          text: 'Learn more about service',
+          to: 'proddg/about'
+        }
       },
       {
         title: 'Features',
@@ -268,6 +272,46 @@ export const messages = {
         paragraphs: [
           'If you\'ve found a mistake, want to share your experience or suggest ideas for service improvement, don\'t hesitate to write to <a href="mailto:marina.pak@skoltech.ru">marina.pak@skoltech.ru</a>.',
         ],
+      },
+    ],
+    proddgAbout: [
+      {
+        title: 'About ProDDG',
+        type: 'paragraphs',
+        paragraphs: []
+      },
+      {
+        title: 'What can I do with ProDDG?',
+        type: 'paragraphs',
+        paragraphs: [
+          'The aim of ProDDG is to provide ΔΔG datasets for development and assessment of tools for mutation effect prediction and to aggregate the list of popular ΔΔG predictors. ΔΔG datasets from original studies were checked for errors in mutation position in the sequence and the PDB structure and supplied with data on studied protein, wild-type and mutated sequence (see more details below). Thus, ProDDG provides ready-to-use ΔΔG datasets. ',
+          '<br><h5 class="sf section-title">01: Search, filter and download ΔΔG data</h5>',
+          'Looking for ΔΔG data? Check out more than 600K mutations in more than 800 proteins in <a href="browse">Browse mutations</a>. Apply filters to data in the Filters sidebar and use the search field. Download data through Manage filtered button.',
+          '<br><h5 class="sf section-title">02: Download ΔΔG datasets</h5>',
+          'In <a href="datasets">Datasets</a> you can download popular ΔΔG dataset for training, such as <a href="dataset/PoPMuSiC-S2648">S2648</a>, or assessment, such as <a href="dataset/Myoglobin">Myoglobin</a>, <a href="dataset/Ssym">Ssym</a>, <a href="dataset/p53">p53</a>, <a href="dataset/S669">S669</a>. ProDDG also features <a href="dataset/MegaDataset">Mega dataset</a> of xx mutations, the largest dataset of ΔΔG data so far.',
+          '<br><h5 class="sf section-title">03: Manage homology reduction between datasets</h5>',
+          'For unbiased assessment of predictor’s performance it is crucial to ensure that testing data is dissimilar to the data used for predictor training. You can do that using the utility in ProDDG for finding overlapping data between two datasets at the given threshold of protein sequence identity identified by protein BLAST. To access the utility, select two datasets in the <a href="datasets">Datasets</a> tab. It outputs mutations in proteins from the second dataset that are similar to the proteins from the first dataset at most by the specified sequence identity cutoff.',
+          '<br><h5 class="sf section-title">04: Find ΔΔG predictors</h5>',
+          'Check out the most popular <a href="predictors">ΔΔG predictors</a>. Select the predictor based on the type of input data, algorithm, availability as a web-server or standalone, authors, year, development features, and other parameters. All predictors are cross-linked with the datasets used for their training and testing which is very helpful for independent assessment of predictors.',
+        ]
+      },
+      {
+        title: 'What ProDDG is not?',
+        type: 'paragraphs',
+        paragraphs: [
+          'ProDDG does not aim to create a database of curated and validated ΔΔG data. We did not verify the ΔΔG data with the original source of the experiment. Unfortunately, most of the datasets do not have references to the source experiments anyway. Thus, it is a user\'s choice to trust or not to trust the ΔΔG value in a dataset. ',
+        ]
+      },
+      {
+        title: 'Description of the datasets in ProDDG',
+        type: 'paragraphs',
+        paragraphs: [
+          'All ΔΔG datasets in ProDDG were processed to have a unified format.',
+          'ΔΔG values are the folding free energy change of folding (negative values denote stabilization). ',
+          'All datasets obligatorily contain the following data: PDB, Chain, Protein, Gene, Uniprot ID, Uniprot, Organism, Mutation, ΔΔG, Wild-type sequence, Mutant sequence. Wild-type sequence is always provided, there is not a single entry without it, while other protein data may be absent (e.g. if there is no experimental structure available, PDB and Chain will be missing or if the protein is designed de novo, there will be no Uniprot data). If not provided in the original dataset, the wild-type sequence was retrieved from the SEQRES record of PDB structure. Additionally, some datasets may contain information about mutant structures, experimental conditions (pH, T), references, notes, and other information specific to the given dataset. Notes contain comments that were provided with the original dataset. If the entry in the original dataset contains erroneous data it will be stated in the Notes.',
+          'Mutations have a standard format: <original amino acid><position><new amino acid>. Position numbering matches that in the wild-type sequence. If applicable, Mutation PDB is provided with the numbering corresponding to the stated PDB structure.',
+          'More technical details on all columns in the datasets, their description, and how data was retrieved is provided on github.',
+        ]
       },
     ],
     mutations_headers: [
