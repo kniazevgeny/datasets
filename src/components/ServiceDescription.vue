@@ -193,16 +193,17 @@ p.paragraph > a.no-link-decoration {
 
   /* theme/text */
   color: var(--v-text);
-  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 h2.section-title {
   font-size: min(4rem, 48px);
   line-height: 127%;
+  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
   /* or 81px */
 }
 h5.section-title {
   font-size: min(2rem, 32px);
   line-height: 127%;
+  text-shadow: -2px 2px 4px rgba(0, 0, 0, 0.25);
   /* or 81px */
 }
 </style>
