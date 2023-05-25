@@ -29,6 +29,13 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/predictors') predictors
+    v-btn.px-3(
+      text,
+      min-height=36,
+      rounded,
+      @click='$router.push(`/proddg/about?type=click&btn_id=navbar_about&timestamp=${Date.now()}`)'
+    ) 
+      router-link.no-link-decoration(to='/proddg/about') about
   v-spacer()
   ThemeSwitcher.ml-6.mr-4
   v-btn#visit-our-website.no-link-decaration(dark color='primary' to='/') Ivankov Lab
@@ -50,15 +57,21 @@ export default class Navbar extends Vue {
 
   mounted() {
     this.onRouteChange({}, {})
-  }
 
+    this.$root.$on('route-update', () => {
+      this.onRouteChange({}, {})
+    })
+  }
+  
   @Watch('$router')
   onRouteChange(to, from) {
+    console.log('route change detected')
     let routes: Array<String> = [
       '/proddg',
       '/proddg/browse',
       '/proddg/datasets',
       '/proddg/predictors',
+      '/proddg/about',
     ]
     let path = this.$router.currentRoute.path
     if (path[path.length - 1] === '/') path = path.slice(0, -1)

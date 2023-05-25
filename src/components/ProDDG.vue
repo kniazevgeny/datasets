@@ -18,11 +18,13 @@ export default class ProDDG extends Vue {
 
   @Watch('$route')
   onRouteChange(to, from) {
+    this.$root.$emit('route-update')
     let routes: Array<String> = [
       '/proddg', // for animation to work correctly
       '/proddg/browse',
       '/proddg/datasets',
       '/proddg/predictors',
+      '/proddg/about',
     ]
     let toPath = to.path
     let fromPath = from.path
