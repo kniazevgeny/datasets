@@ -151,7 +151,7 @@ export default class ComparisonCard extends Vue {
     ).data
     this.all_overlap = response.all_overlap
     this.no_overlap = response.no_overlap
-    this.percent_of_overlapping = (parseFloat(response.percent_of_overlapping) * 100).toFixed(0)
+    this.percent_of_overlapping = (parseFloat(response.percent_of_overlapping) * 100).toFixed(1)
     if (typeof response.overlapping_proteins != typeof undefined)
       this.overlappingProteinsLength = response.overlapping_proteins.length
     if (response.dataset1_data_no_overlap_hashes.length)
