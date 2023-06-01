@@ -8,7 +8,7 @@ v-col.px-0
     h2.sf.section-title.pb-10 {{ section.title }}
     div(v-if='section.type == "paragraphs"') 
       .sf(v-for='(paragraph, p_id) in section.paragraphs')
-        .d-flex(v-if='typeof paragraph == typeof {}')
+        div(v-if='typeof paragraph == typeof {}' style="max-width: 875px")
           v-lazy.d-flex.justify-center(
             v-if='paragraph.type == "video"',
             :options='{threshold: 0.9}'
