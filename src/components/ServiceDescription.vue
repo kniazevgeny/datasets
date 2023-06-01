@@ -7,10 +7,12 @@ v-col.px-0
   )
     h2.sf.section-title.pb-10 {{ section.title }}
     div(v-if='section.type == "paragraphs"') 
-      p.sf.paragraph(
-        v-for='paragraph in section.paragraphs',
-        v-html='paragraph'
-      )
+      .sf(v-for='paragraph in section.paragraphs')
+        .d-flex.justify-center(v-if='typeof paragraph == typeof {}')
+          video.explainer(
+            v-if='paragraph.type == "video"', :src='paragraph.video'
+            controls autoplay muted)
+        p.paragraph(v-else, v-html='paragraph')
       v-btn.first-action-btn.no-scale(
         v-if='section.button',
         @click='$router.push(section.button.to)',
@@ -515,5 +517,10 @@ p.paragraph {
     font-weight: 500;
     font-size: 20px !important;
     line-height: 32px;
+}
+
+.explainer {  
+  width: 80%;
+  max-width: 960px;
 }
 </style>

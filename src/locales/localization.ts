@@ -308,12 +308,24 @@ export const messages = {
           'The aim of ProDDG is to provide ΔΔG datasets for development and assessment of tools for mutation effect prediction and to aggregate the list of popular ΔΔG predictors. ΔΔG datasets from original studies were checked for errors in mutation position in the sequence and the PDB structure and supplied with data on studied protein, wild-type and mutated sequence (see more details below). Thus, ProDDG provides ready-to-use ΔΔG datasets. ',
           '<br><h5 class="sf section-title">01: Search, filter and download ΔΔG data</h5>',
           'Looking for ΔΔG data? Check out more than 600K mutations in more than 800 proteins in <a href="browse">Browse mutations</a>. Apply filters to data in the Filters sidebar and use the search field. Download data through Manage filtered button.',
+          {
+            type: "video",
+            video: require('@/assets/explainers/01_720.mp4')
+          },
           '<br><h5 class="sf section-title">02: Download ΔΔG datasets</h5>',
           'In <a href="datasets">Datasets</a> you can download popular ΔΔG dataset for training, such as <a href="dataset/PoPMuSiC-S2648">S2648</a>, or assessment, such as <a href="dataset/Myoglobin">Myoglobin</a>, <a href="dataset/Ssym">Ssym</a>, <a href="dataset/p53">p53</a>, <a href="dataset/S669">S669</a>. ProDDG also features <a href="dataset/MegaDataset">Mega dataset</a> of 584 755 mutations, the largest dataset of ΔΔG data so far.',
+          {
+            type: "video",
+            video: require('@/assets/explainers/02_720.mp4')
+          },
           '<br><h5 class="sf section-title">03: Manage homology reduction between datasets</h5>',
           'For unbiased assessment of predictor’s performance it is crucial to ensure that testing data is dissimilar to the data used for predictor training. You can do that using the utility in ProDDG for finding overlapping data between two datasets at the given threshold of protein sequence identity identified by protein BLAST. To access the utility, select two datasets in the <a href="datasets">Datasets</a> tab. It outputs mutations in proteins from the second dataset that are similar to the proteins from the first dataset at most by the specified sequence identity cutoff.',
           '<br><h5 class="sf section-title">04: Find ΔΔG predictors</h5>',
           'Check out the most popular <a href="predictors">ΔΔG predictors</a>. Select the predictor based on the type of input data, algorithm, availability as a web-server or standalone, authors, year, development features, and other parameters. All predictors are cross-linked with the datasets used for their training and testing which is very helpful for independent assessment of predictors.',
+          {
+            type: "video",
+            video: require('@/assets/explainers/04_720.mp4')
+          },
         ]
       },
       {
