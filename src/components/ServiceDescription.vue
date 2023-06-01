@@ -7,11 +7,17 @@ v-col.px-0
   )
     h2.sf.section-title.pb-10 {{ section.title }}
     div(v-if='section.type == "paragraphs"') 
-      .sf(v-for='paragraph in section.paragraphs')
-        .d-flex.justify-center(v-if='typeof paragraph == typeof {}')
-          video.explainer(
-            v-if='paragraph.type == "video"', :src='paragraph.video'
-            controls autoplay muted)
+      .sf(v-for='(paragraph, p_id) in section.paragraphs')
+        .d-flex(v-if='typeof paragraph == typeof {}')
+          v-lazy.d-flex.justify-center(
+            v-if='paragraph.type == "video"',
+            :options='{threshold: 0.9}'
+            min-height="400"
+            transition="fade-transition"
+            )
+            video.explainer(
+              :src='paragraph.video'
+              controls :autoplay='paragraph.autoplay' muted)
         p.paragraph(v-else, v-html='paragraph')
       v-btn.first-action-btn.no-scale(
         v-if='section.button',
@@ -520,7 +526,10 @@ p.paragraph {
 }
 
 .explainer {  
-  width: 80%;
+  width: 100%;
   max-width: 960px;
+  min-height: 400px;
+  max-height: 50vh;
 }
+
 </style>
