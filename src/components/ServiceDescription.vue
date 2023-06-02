@@ -18,6 +18,7 @@ v-col.px-0
             video.explainer(
               :src='paragraph.video'
               controls :autoplay='paragraph.autoplay' muted)
+          p.paragraph.text--center.paragraph-small.pt-2 {{ paragraph.title }}
         p.paragraph(v-else, v-html='paragraph')
       v-btn.first-action-btn.no-scale(
         v-if='section.button',
@@ -251,13 +252,18 @@ p.paragraph {
   line-height: 32px;
   max-width: 875px;
   /* or 160% */
-
+  
   align-items: center;
-
+  
   /* theme/text */
   color: var(--v-text) !important;
-
+  
   filter: drop-shadow(-2px 2px 8px rgba(0, 0, 0, 0.25));
+}
+
+p.paragraph.paragraph-small {
+  font-size: 16px;
+  line-height: 26px;
 }
 
 .blocks > .flex-row {
