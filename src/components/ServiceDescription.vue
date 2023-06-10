@@ -458,7 +458,7 @@ p.paragraph.paragraph-small {
 .publication > div > div > a {
   font-size: 16px;
   text-decoration: none;
-  color: var(--v-primary) !important;
+  color: var(--v-primaryThin) !important;
 }
 
 .year > label > span {
