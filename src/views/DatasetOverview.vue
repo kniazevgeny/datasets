@@ -38,7 +38,7 @@ v-layout(style='width: 100%')
       v-btn.ml-2(
         :href='`https://api.ivankovlab.ru/files/${dataset.fileName}`',
         color='primary'
-        @click='download()'
+        @click.prevent='download()'
         :disabled='!dataset.available'
       )
         span.text--text.no-link-decoration Download dataset
@@ -511,9 +511,12 @@ export default class Datasets extends Vue {
 
   setTitle() {
     document.title = this.dataset.name
+      ;(document.querySelector(
+        'meta[name="description"]'
+      ) as HTMLElement).setAttribute('content', 'Dataset overview')
   }
 
-  mounted() {
+  created(): void {
     // get dataset id
     if (typeof this.name == typeof undefined) {
       if (typeof this.datasetName == typeof undefined)

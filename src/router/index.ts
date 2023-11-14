@@ -85,19 +85,22 @@ router.beforeEach((to, from, next) => {
       },
       { root: true }
     )
-    // Del analytical query
-    queryToAction.forEach((element) => {
-      if (to.query[element] != 'undefined') delete to.query[element]
-    })
-    // Dunno why this throws an error
-    // May be solved in vue3 router
-    next({
-      path: to.path,
-      query: to.query,
-    })
-    return
   }
   next()
+})
+
+router.afterEach(() => {
+  // Del analytical query
+  let searchParams = new URLSearchParams(window.location.search);
+  searchParams.delete('type');
+  searchParams.delete('timestamp');
+  searchParams.delete('btn_id');
+  searchParams.delete('page_href');
+  if (history.replaceState) {
+    let searchString = searchParams.toString().length > 0 ? '?' + searchParams.toString() : '';
+    let newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname +  searchString + window.location.hash;
+    history.replaceState(null, '', newUrl);
+  }
 })
 
 export default router

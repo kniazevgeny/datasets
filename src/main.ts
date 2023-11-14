@@ -12,7 +12,7 @@ Vue.use(VueWorker)
 
 loadFonts()
 
-Vue.config.productionTip = true
+Vue.config.productionTip = false
 
 new Vue({
   router,

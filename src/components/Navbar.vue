@@ -5,35 +5,35 @@ v-app-bar.ml-4.mr-4(color='background', flat, height=60)
       icon,
       height=36,
       rounded,
-      @click='$router.push(`/proddg?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
+      @click.prevent='$router.push(`/proddg?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
       v-icon(color='text') mdi-home-outline
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
-      @click='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
+      @click.prevent='$router.push(`/proddg/browse?type=click&btn_id=navbar_browse&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/browse') browse mutations
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
-      @click='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)'
+      @click.prevent='$router.push(`/proddg/datasets?type=click&btn_id=navbar_datasets&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/datasets') datasets
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
-      @click='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
+      @click.prevent='$router.push(`/proddg/predictors?type=click&btn_id=navbar_predictors&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/predictors') predictors
     v-btn.px-3(
       text,
       min-height=36,
       rounded,
-      @click='$router.push(`/proddg/about?type=click&btn_id=navbar_about&timestamp=${Date.now()}`)'
+      @click.prevent='$router.push(`/proddg/about?type=click&btn_id=navbar_about&timestamp=${Date.now()}`)'
     ) 
       router-link.no-link-decoration(to='/proddg/about' rel='help') about
   v-spacer()

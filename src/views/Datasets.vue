@@ -14,8 +14,8 @@ v-layout(style='width: 100%')
       .text-h5.font-weight-bold(style='color: var(--v-text)') Filters
     v-list.pa-4(
       color='transparent',
-      v-for='filter in filters',
-      :key='filter.title'
+      v-for='(filter, filter_i) in filters',
+      :key='filter.title + filter_i'
     )
       v-list-item-title.font-weight-bold {{ filter.title }}
       small.v-text.text--darken-2 {{ filter.subtitle }}
@@ -72,7 +72,7 @@ v-layout(style='width: 100%')
             v-tooltip(
               bottom,
               v-for='(item, chip_id) in filter.items',
-              :key='item.label',
+              :key='item.label + chip_id',
               :disabled='typeof item.description == typeof undefined',
               max-width='275'
             )
@@ -181,8 +181,8 @@ v-layout(style='width: 100%')
       v-flex(xs12, sm12, md6, lg7).mr-6
         span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
         DatasetCard.mb-2(
-          v-for='card in dataVisible',
-          :key='card._id',
+          v-for='(card, card_i) in dataVisible',
+          :key='card._id + card_i',
           :showSkeleton='card.showSkeleton',
           :name='card.name',
           :_id='card._id',

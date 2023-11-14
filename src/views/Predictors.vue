@@ -14,8 +14,8 @@ v-layout(style='width: 100%')
       .text-h5.font-weight-bold(style='color: var(--v-text)') Filters
     v-list.pa-4(
       color='transparent',
-      v-for='filter in filters',
-      :key='filter.title'
+      v-for='(filter, filter_i) in filters',
+      :key='filter.title + filter_i'
     )
       v-list-item-title.mb-n1.font-weight-bold {{ filter.title }}
       small.v-text.text--darken-2 {{ filter.subtitle }}
@@ -72,7 +72,7 @@ v-layout(style='width: 100%')
             v-tooltip(
               bottom,
               v-for='(item, chip_id) in filter.items',
-              :key='item.label',
+              :key='item.label + chip_id',
               :disabled='typeof item.description == typeof undefined',
               max-width='275'
             )
@@ -151,8 +151,8 @@ v-layout(style='width: 100%')
         span(v-if='isDataLoaded && !dataVisible.length') Not found. Try to change search request or filters
         //- id should be id, not name
         PredictorCard.mb-2(
-          v-for='card in dataVisible',
-          :key='card.predictor',
+          v-for='(card, card_i) in dataVisible',
+          :key='card.predictor + card_i',
           :showSkeleton='card.showSkeleton',
           :title='card.predictor',
           :_id='card.predictor',
@@ -354,6 +354,7 @@ export default class Predictors extends Vue {
         // process download/server case
         if (
           current == 'download' &&
+          'items' in Object.keys(currentFilter[0]) && 
           currentFilter[0].items[currentFilter[0].selected as number]
             .fieldToBe == 'download' &&
           item['download'].length
@@ -361,13 +362,14 @@ export default class Predictors extends Vue {
           return true
         if (
           current == 'download' &&
+          'items' in Object.keys(currentFilter[0]) && 
           currentFilter[0].items[currentFilter[0].selected as number]
             .fieldToBe == 'server' &&
           item['server'].length
         )
           return true
         // general
-        if (
+        if ('items' in Object.keys(currentFilter[0]) && 
           item[current] !=
           currentFilter[0].items[currentFilter[0].selected as number].fieldToBe
         )
@@ -487,6 +489,7 @@ export default class Predictors extends Vue {
         // .split(',') and => set => values
 
         // Creates set of values (authors) or multiple values (of comma separated string)
+        if (this.filters.findIndex((el) => el.value == fieldName) == -1) return;
         // @ts-ignore
         this.filters[
           this.filters.findIndex((el) => el.value == fieldName)

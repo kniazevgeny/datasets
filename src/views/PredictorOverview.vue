@@ -168,6 +168,9 @@ export default class PredictorOverview extends Vue {
 
   setTitle() {
     document.title = (this.predictorByName as Predictor).predictor as string
+      ;(document.querySelector(
+        'meta[name="description"]'
+      ) as HTMLElement).setAttribute('content', 'Predictor overview')
   }
 
   mounted() {
