@@ -34,7 +34,7 @@ v-row.pt-12
       br
       span 
         span For directions on how to reach us, please see&nbsp;
-        a(href='https://www.skoltech.ru/en/about/contacts/' target="_blank") here. 
+        a(href='https://www.skoltech.ru/en/about/contacts/', target='_blank') here.
     //- router-link(to='/datasets') Datasets project
   v-flex(xs1)
 </template>
@@ -49,76 +49,82 @@ import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 @Component({
   components: {
     ThemeSwitcher,
-    ServiceDescription
+    ServiceDescription,
   },
 })
 export default class Landing extends Vue {
-  mounted() {
-    document.title = this.$t('laboratoryName').toString()
+  created() {
+    document.title = this.$t('laboratoryName') as string
+    ;(document.querySelector(
+      'meta[name="description"]'
+    ) as HTMLElement).setAttribute(
+      'content',
+      this.$t('laboratorySlogan') as string
+    )
   }
 }
 </script>
 <style>
 #laboratory-name {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 127%;
-    /* identical to box height, or 51px */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 127%;
+  /* identical to box height, or 51px */
 
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.02em;
 
-    color: var(--v-text);
+  color: var(--v-text);
 }
 
 #laboratory-slogan {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-content: center;
-    align-self: center;
-    /* align-items: center; */
-    height: 70vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  align-self: center;
+  /* align-items: center; */
+  height: 70vh;
 }
 
 #laboratory-slogan > h2 {
-    white-space: pre-line;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 115%;
-    /* or 74px */
+  white-space: pre-line;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 115%;
+  /* or 74px */
 
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.02em;
 
-    color: var(--v-text);
+  color: var(--v-text);
 
-    text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
+  text-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 #contact {
-    padding: 12px 24px;
-    gap: 8px;
+  padding: 12px 24px;
+  gap: 8px;
 
-    width: 300px;
-    height: 56px;
+  width: 300px;
+  height: 56px;
 
-    /* theme/primary */
-    background: var(--v-primary);
-    box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
+  /* theme/primary */
+  background: var(--v-primary);
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
 }
 
 #contact > .v-btn__content > span {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px !important;
-    line-height: 32px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px !important;
+  line-height: 32px;
 }
 
 .section-title.h2 {

@@ -1,7 +1,10 @@
 export const messages = {
   ru: {
-    title: 'название',
+    title: 'ProDDG',
     notFound: 'Страница не найдена',
+    laboratoryName: 'Ivankov Lab',
+    laboratorySlogan:
+      'Protein bioinformatics and evolution.',
   },
   en: {
     title: 'ProDDG',

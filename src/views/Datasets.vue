@@ -523,12 +523,15 @@ export default class Datasets extends Vue {
       return filter.selected.join(', ')
   }
 
-  mounted() {
+  created(): void {
     // set correct sidebar size (42 characters)
     this.$vuetify.theme.themes['light'].sidebar_size = '35ch'
     this.$vuetify.theme.themes['dark'].sidebar_size = '35ch'
 
-    document.title = 'Datasets | ' + this.$t('title')
+    document.title = ('Datasets | ' + this.$t('title')) as string
+    ;(document.querySelector(
+      'meta[name="description"]'
+    ) as HTMLElement).setAttribute('content', 'Explore datasets')
 
     getDatasets().then((response) => {
       this.data = response

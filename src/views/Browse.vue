@@ -33,7 +33,9 @@ export default class Browse extends Vue {
   }
 
   getGradient(min, max, range, step) {
-    let color = this.$vuetify.theme.themes[this.$vuetify.theme.dark ? 'dark' : 'light']['primary']
+    let color = this.$vuetify.theme.themes[
+      this.$vuetify.theme.dark ? 'dark' : 'light'
+    ]['primary']
     let colorDisabled = '#d9ebe9'
     if (isNaN(range[0]) || typeof range[0] === 'string') return [colorDisabled]
     let gradient: Array<String> = []
@@ -55,8 +57,11 @@ export default class Browse extends Vue {
     })
   }
 
-  mounted() {
-    document.title = 'Browse Mutations | ' + this.$t('title')
+  created() {
+    document.title = ('Browse Mutations | ' + this.$t('title')) as string
+    ;(document.querySelector(
+      'meta[name="description"]'
+    ) as HTMLElement).setAttribute('content', 'Browse 600k+ mutations')
 
     this.getMutationsByFilters(this.filters)
   }
@@ -76,7 +81,8 @@ export default class Browse extends Vue {
     {
       title: 'ΔΔG',
       value: 'ddG',
-      subtitle: 'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
+      subtitle:
+        'Free energy change of folding, kcal/mol. Negative values denote stabilization.',
       type: 'range',
       min: 0,
       max: 0,

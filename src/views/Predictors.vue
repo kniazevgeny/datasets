@@ -459,12 +459,18 @@ export default class Predictors extends Vue {
     if (filter.type === 'autocomplete') return filter.selected.join(', ')
   }
 
-  mounted() {
+  created(): void {
     // set correct sidebar size (25 characters)
     this.$vuetify.theme.themes['light'].sidebar_size = '42ch'
     this.$vuetify.theme.themes['dark'].sidebar_size = '42ch'
 
     document.title = 'Predictors | ' + this.$t('title')
+    ;(document.querySelector(
+      'meta[name="description"]'
+    ) as HTMLElement).setAttribute(
+      'content',
+      'Predictors | ' + this.$t('title') as string
+    )
 
     getPredictors().then((response) => {
       this.data = response
