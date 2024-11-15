@@ -15,13 +15,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Setup Yarn for build
-        uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install # will run `yarn install` command
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: build # will run `yarn build` command
+          cache: 'yarn' # Enable Yarn caching
+      - name: Install deps
+        run: yarn install # will run `yarn install` command
+      - name: Build the project
+        run: yarn build # will run `yarn build` command
       - name: Run deploy script
         run: |
           git config user.name "kniazevgeny" && git config user.email "eugene.kniazev@gmail.com"
